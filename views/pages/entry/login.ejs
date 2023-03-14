@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../../partials/head', {title: data.title}) %>
+  <link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+<body>
+  <div id='bg' class='w-100 h-100'>
+
+<% if (data.renderCode == 1) { -%>
+      <div id='form-cont' style='--h:50'><div>
+      <h3 class='w-100 text-center'>Login</h3>
+<% } else if (data.renderCode == 2) { -%>
+      <div id='form-cont' style='--h:38'><div>
+      <h3 class='w-100 text-center'>Login (staffs only)</h3>
+<% } else { -%>
+      <div id='form-cont' style='--h:64'><div>
+      <h3 class='w-100 text-center'>Login (testing site)</h3>
+<% } -%>
+
+<% if (data.renderCode != 0) { -%>
+        <br>
+<% } else { -%>
+        <h6 class='w-100 text-center text-muted font-weight-light'>as</h6>
+        <div id='navigator' class='w-100'>
+          <div class='w-100'>
+            <span id='spU' class='active'>User</span><!-- 
+             --><span id='spA'>Admin</span>
+          </div>
+          <hr id='base'>
+          <script>
+            $("#spA").hover(e => {
+              if ($("#spA").hasClass('active'))
+                return;
+              $("#base").css('transform', 'translateX(100%)')
+            }, e => {
+              if ($("#spA").hasClass('active'))
+                return;
+              $("#base").css('transform', 'none')
+            })
+
+            $("#spU").hover(e => {
+              $("#base.trigger").css('transform', 'none')
+            }, e => {
+              $("#base.trigger").css('transform', 'translateX(100%)')
+            })
+          </script>
+        </div>
+        <script>
+          function switchTo(id) {
+            if ($(id).hasClass('active'))
+              return false;
+            d3.select("#navigator")
+              .selectAll('span')
+              .classed('active', false)
+            $(id).addClass('active')
+            d3.select("#base")
+              .classed("trigger", !d3.select("#base").classed('trigger'))
+            return true;
+          }
+
+          $("#spA").click(e => {
+            if (!switchTo("#spA"))
+              return;
+            $("#admin-form").slideDown(300)
+            $("#user-form").slideUp(300)
+          })
+
+          $("#spU").click(e => {
+            if (!switchTo("#spU"))
+              return;
+            $("#admin-form").slideUp(300)
+            $("#user-form").slideDown(300)
+          })
+        </script>
+<% } -%>
+
+      <div id='outer-form'>
+        <div>
+
+<% if (data.renderCode != 2) { -%>
+          <form action='/login-user' id='user-form' method="post" accept-charset="utf-8">
+            <div class='input-box'>
+              <input type="text" name="username" value="<%= data.username %>" required><br>
+              <label for="username">Username</label>
+            </div><br>
+            <div class='input-box'>
+              <input type="password" name="password" value="<%= data.password %>" required><br>
+              <label for="password">Password</label>
+            </div>
+            <div id='other-action'>
+              <p><a href="#">Forgot password?</a></p>
+              <p>Don't have account? <a href='/registration'>Create one</a></p>
+            </div>
+          </form>
+<% } if (data.renderCode != 1) { -%>
+          <form action="/login-admin" id='admin-form' method="post" accept-charset="utf-8">
+            <div class='input-box'>
+              <input type="text" name="username" value="<%= data.username %>" required><br>
+              <label for="username">Username</label>
+            </div><br>
+            <div class='input-box'>
+              <input type="password" name="password" value="<%= data.password %>" required><br>
+              <label for="password">Password</label>
+            </div>
+          </form>
+<% } -%>
+
+<% if (data.renderCode == 0) { -%>
+          <script>
+            $("#admin-form").hide()
+          </script>
+<% } -%>
+        </div>
+        <input type="button" value="Log in" onclick="submitForm()">
+        <p id='errorDisplay'><%= data.error %></p>
+      </div>
+    </div></div>
+  </div>
+
+<% if (data.renderCode == 1) { -%>
+  <script>
+    function submitForm() {
+      $("#user-form").submit()
+    }
+  </script>
+<% } else if (data.renderCode == 2) { -%>
+  <script>
+    function submitForm() {
+      $("#admin-form").submit()
+    }
+  </script>
+<% } else { -%>
+  <script>
+    function submitForm() {
+      if ($("#spA").hasClass('active'))
+        $("#admin-form").submit()
+      else
+        $("#user-form").submit()
+    }
+  </script>
+<% } -%>
+
+<% if (data.renderCode == 2) { -%>
+  <div id='warning'>This page is served only for staffs of the library. If you have no privileges, please&nbsp<a href='/login'>leave</a>&nbspthe page immediately.</div>
+  <style type="text/css" media="screen">
+    #warning {
+      position: absolute;
+      display: flex;
+      width: 100%;
+      height: 2.5em;
+      left: 0;
+      bottom: 0;
+      font-weight: bold;
+      background: rgba(255, 128, 128, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    #warning a {
+      color: black;
+    }
+  </style>
+<% } -%>
+</body>
+</html>
