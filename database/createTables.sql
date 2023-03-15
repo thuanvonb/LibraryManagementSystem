@@ -1,3 +1,5 @@
+create database se104;
+
 use se104;
 
 create table WebUser (
