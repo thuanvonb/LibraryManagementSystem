@@ -70,7 +70,7 @@ class Table {
 
   addForeignKey(attrF, tableT, attrT, name) {
     if (!this.hasColumn(attrF))
-      throw "Unknown column name"
+      throw "Unknown column name in table " + this.name
     this.foreigns[attrF] = {tableT, attrT, name}
   }
 

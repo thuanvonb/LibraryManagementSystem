@@ -1,4 +1,4 @@
-create database se104;
+-- create database se104;
 
 use se104;
 
@@ -23,7 +23,9 @@ create table Staff (
   employmentDate datetime,
   username varchar(30),
   pwd varchar(100),
-  salt varchar(30)
+  salt varchar(30),
+  permission int
+  -- mask: 1 - services; 2 - parameter update; 4 - user control; 8 - staff control; 16 - full control
 );
 
 create table CardInfo (
@@ -46,47 +48,52 @@ create table ReaderCard (
   staffId char(6) references Staff(staffId)
 );
 
-create table Genre (
-  genreId int primary key auto_increment,
-  gName varchar(20)
-);
-
 create table Author (
   authorId int primary key auto_increment,
-  aName varchar(50)
+  aName varchar(50) character set utf8mb4
+);
+
+create table Genre (
+  genreId int primary key auto_increment,
+  gName varchar(30) character set utf8mb4
 );
 
 create table Publisher (
   publisherId int primary key auto_increment,
-  pName varchar(40)
+  pName varchar(40) character set utf8mb4
 );
 
-create table Book (
-  bookId int primary key auto_increment,
-  publisherId int references Publisher(publisherId),
+create table BookTitle (
+  titleId int primary key auto_increment,
+  bName varchar(50) character set utf8mb4,
+  genreId int references Genre(genreId),
+  authorId int references Author(authorId),
+  publisherId int references Publisher(publisherId)
+);
+
+create table BooksPublish (
+  bpId int primary key auto_increment,
+  titleId int references BookTitle(titleId),
+  publishment int,
   publishYear int,
-  price decimal(10, 2),
-  totalAmount int
+  totalAmount int,
+  price decimal(10, 2)
 );
 
 create table BookImport (
   importId int primary key auto_increment,
-  bookId int references Book(bookId),
+  bpId int references BooksPublish(bpId),
   amount int,
   staffId char(6) references Staff(staffId),
   importDate datetime
 );
 
-create table BookAuthor (
-  bookId int references Book(bookId),
-  authorId int references Author(authorId),
-  primary key (bookId, authorId)
-);
-
-create table BookGenre (
-  bookId int references Book(bookId),
-  genreId int references Genre(genreId),
-  primary key (bookId, genreId)
+create table Book (
+  bookId int primary key auto_increment,
+  importId int references BookImport(importId),
+  bpId int references BookPublish(bpId),
+  available bit,
+  stateDesc varchar(100) character set utf8mb4
 );
 
 create table Borrowing (

@@ -19,4 +19,4 @@
 ### Instructions:
   1. Open the terminal and go to the `database` folder.
   2. Run `node gimmePwd.js yourpassword` to get the hashed version of your password. (Please note that your password need to have at least 8 characters)
-  3. Add one row to `Staff` table using the hashed password, alongside with your username, staff identity number and name. Other fields are optional and would (supposedly) have no impact on the web.
+  3. Add one row to `Staff` table using the hashed password, alongside with your username, staff identity number and name. Permission field is set to 31. Other fields are optional and would (supposedly) have no impact on the web.

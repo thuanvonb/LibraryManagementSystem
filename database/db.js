@@ -17,6 +17,16 @@ function connect() {
   })
 }
 
+function adminPermissionExtract(p) {
+  let full = (p >> 4) % 2
+  return {
+    services: (p % 2) | full,
+    libControl: ((p >> 1) % 2) | full,
+    report: ((p >> 2) % 2) | full,
+    staffControl: ((p >> 3) % 2) | full
+  }
+}
+
 function userAuthenticate(username, password, errCb) {
 
 }
@@ -36,7 +46,9 @@ function adminAuthenticate(username, password) {
         msg: "Authentication succeeded", 
         data: {
           staffId: q.data[0].staffid,
-          sName: q.data[0].sname
+          sName: q.data[0].sname,
+          permission: adminPermissionExtract(q.data[0].permission),
+          isAdmin: true
         }
       });
     })
