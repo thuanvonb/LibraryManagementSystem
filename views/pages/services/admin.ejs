@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../../partials/head', {title: "Library Management System (Staff side)"}) %>
+  <%- include('../../partials/theme', {themeName: "light-greenish"})%>
+  <link rel="stylesheet" type="text/css" href="css/services/main.css">
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+  <table class='w-100 h-100'>
+    <tr>
+      <td id='navigation' class='active'>
+        <div class="w-100 h-100">
+          <div id='account'>
+            <div style='display: flex;'><box-icon name='user' color='#ffffff'></box-icon></div>
+            <div id='accountName'><%= who %></div>
+            <div id='accountOption'>
+              <ul>
+                <li><box-icon name='cog' color='#ffffff'></box-icon><span>Account setting</span></li>
+                <li>
+                  <box-icon name='log-out' color='#ffffff'></box-icon>
+                  <span>Logout</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div id='services'>
+            <div class="category item active">
+              <div class="cat_header">
+                <div><box-icon type='solid' name='home' color='#ffffff'></box-icon></div>
+                <div>Home</div>
+              </div>
+            </div>
+<% if (permission.services) { -%>
+            <br>
+            <div class="category">
+              <div class='cat_header dropdown'>
+                <div><box-icon type='solid' name='book' color='#ffffff'></box-icon></div>
+                <div>Services</div>
+                <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#ffffff'></box-icon></div>
+              </div>
+              <ul>
+                <li class='item'>Issue a new card</li>
+                <li class='item'>Renew a library card</li>
+                <li class='item'>Lend books</li>
+                <li class='item'>Receive books</li>
+                <li class='item'>Issue an overdue invoice</li>
+              </ul>
+            </div>
+<% } -%>
+<% if (permission.libControl) { -%>
+            <br>
+            <div class="category">
+              <div class="cat_header dropdown">
+                <div><box-icon name='library' color='#ffffff'></box-icon></div>
+                <div>Library management</div>
+                <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#ffffff'></box-icon></div>
+              </div>
+              <ul>
+                <li class='item'>Add new books</li>
+                <li class='item'>Browse books</li>
+                <li class='item'>Update parameters</li>
+              </ul>
+            </div>
+<% } -%>
+<% if (permission.report) { -%>
+            <br>
+            <div class="category">
+              <div class="cat_header dropdown">
+                <div><box-icon name='report' type='solid' color='#ffffff'></box-icon></div>
+                <div>Reporting</div>
+                <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#ffffff'></box-icon></div>
+              </div>
+              <ul>
+                <li class='item'>Book rental activity</li>
+                <li class='item'>Overdued books</li>
+              </ul>
+            </div>
+<% } -%>
+<% if (permission.staffControl) { -%>
+            <br>
+            <div class="category item">
+              <div class='cat_header'>
+                <div><box-icon name='id-card' color='#ffffff'></box-icon></div>
+                <div>Staffs management</div>
+              </div>
+<% } -%>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td id='mainContent'></td>
+    </tr>
+  </table>
+
+  <script src='js/services/main.js'></script>
+</body>
+</html>

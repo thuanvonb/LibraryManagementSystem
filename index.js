@@ -20,6 +20,7 @@ db.connect().then(
 
 const entryRouter = require('./routes/entryRouter.js')
 const authRouter = require('./routes/authRouter.js')(db)
+const adminServiceRouter = require('./routes/admin-servicesR.js')(db)
 
 const passport = require('passport')
 
@@ -31,23 +32,32 @@ app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use(session({
+let sessionMdw = session({
+  // name: 'libmanager',
   secret: 'casio',
   resave: false,
   saveUninitialized: false
-}))
+})
+
+const adminNamespace = io.of('/admin')
+
+adminNamespace.use((socket, next) => sessionMdw(socket.request, socket.request.res || {}, next))
+
+adminNamespace.on('connection', socket => {
+  if (!socket.request.session.passport) {
+    socket.disconnect();
+    return;
+  }
+  // console.log(socket.request.session.passport.user)
+})
+
+app.use(sessionMdw)
 app.use(passport.authenticate('session'));
 
 app.use('/', entryRouter)
 app.use('/', authRouter)
+app.use('/', adminServiceRouter)
 
-app.get('/admin', (req, res) => {
-  if (!req.isAuthenticated()) {
-    res.redirect('/login')
-    return;
-  }
-  res.send('hi')
-})
-
-app.listen(port);
-console.log(`Server is running on 127.0.0.1:${port}`);
+server.listen(port, () => {
+  console.log(`Server is running on 127.0.0.1:${port}`);
+});

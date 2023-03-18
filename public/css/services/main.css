@@ -1,0 +1,165 @@
+html, body {
+  height: 100%;
+}
+
+table td {
+/*  border: black 1px solid;*/
+padding: 0px;
+}
+
+#navigation {
+  width: 0%;
+  background: var(--sec);
+  color: var(--fc-sec);
+  transition: 0.3s;
+}
+
+#navigation.active {
+  width: 23%;
+}
+
+#navigation>div {
+  position: relative;
+  z-index: 1;
+  box-shadow: 2px 0px 5px grey;
+  padding-top: 5%;
+}
+
+#account {
+  position: relative;
+  display: flex;
+  height: 3em;
+  align-items: center;
+  padding: 0px 5%;
+  width: 100%;
+  font-weight: bold;
+  margin-bottom: 2em;
+}
+
+#accountOption {
+  position: absolute;
+  display: none;
+  top: 100%;
+  z-index: 3;
+  right: 5%;
+  background: var(--sec);
+  box-shadow: 3px 3px 5px black;
+  width: 60%;
+}
+
+#account:hover #accountOption {
+  display: block;
+}
+
+#accountOption ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+#accountOption li {
+  display: flex;
+  height: 2em;
+  align-items: center;
+}
+
+#accountOption li:hover {
+  background: var(--sec-light);
+}
+
+#accountOption li box-icon {
+  width: 2em;
+}
+
+br {
+  content: " ";
+  display: block;
+  margin: 0.5em 0;
+}
+
+#account>div {
+  flex-grow: 1;
+}
+
+#accountName {
+  text-align: right;
+  padding-right: 5%;
+}
+
+#account:hover {
+  background: var(--sec-light);
+  cursor: pointer;
+}
+
+#services {
+  padding: 0 5%;
+}
+
+.category {
+  width: 100%;
+  border-radius: 2vh;
+  contain: paint;
+}
+
+.cat_header {
+  display: grid;
+  grid-template-columns: 3em auto 2em;
+  grid-template-rows: 3em auto;
+  border-radius: 2vh;
+}
+
+.cat_header>div:nth-of-type(1) {
+  justify-content: center;
+}
+
+.category .dropBtn>box-icon {
+  transition: 0.3s;
+}
+
+.category:hover {
+  background: var(--sec-light);
+  cursor: pointer;
+}
+
+.cat_header>div {
+  display: flex;
+  align-items: center;
+}
+
+.category.expand, .category.active {
+  background: var(--sec-light);
+}
+
+.category.active > .cat_header {
+  font-weight: bold;
+}
+
+.category.expand .dropBtn>box-icon {
+  transform: rotate(90deg);
+}
+
+.category ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+  display: none;
+}
+
+.category ul li {
+  height: 2em;
+  display: flex;
+  align-items: center;
+  padding: 0 10%;
+}
+
+.category ul li:hover {
+  background: var(--acc);
+  color: var(--fc-acc);
+  cursor: pointer;
+}
+
+.category ul li.active {
+  background: var(--acc);
+  color: var(--fc-acc);
+  font-weight: bold;
+}
