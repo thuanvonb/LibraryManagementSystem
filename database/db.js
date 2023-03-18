@@ -2,7 +2,7 @@ const sql = require('mysql2')
 const {hashPassword, passwordCompare} = require('../security/passwordHashing.js')
 const db = require('./database_init.js')
 
-const connection = { host: 'localhost', user: 'username', password: 'password', database: 'se104'}
+const connection = { host: 'localhost', user: 'root', password: 'Pokiwaraz1', database: 'se104'}
 
 let con = sql.createConnection(connection)
 
