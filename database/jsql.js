@@ -41,6 +41,7 @@ class Table {
     this.foreigns = {}
     this.grouped = undefined;
     this.groups = {};
+    this.primaryAuto = false;
   }
 
   isEmpty() {
@@ -72,6 +73,10 @@ class Table {
     if (!this.hasColumn(attrF))
       throw "Unknown column name in table " + this.name
     this.foreigns[attrF] = {tableT, attrT, name}
+  }
+
+  autoPrimary() {
+    this.primaryAuto = true;
   }
 
   fromSQL(data) {
@@ -407,7 +412,16 @@ class Table {
     return Table.fromData(this.data.filter(d => !Table.#contain(d, cols, otherQuery(d))))
   }
 
-  insert() {
+  insert(data, errorHandle) {
+    let data2 = {}
+    for (let field in data)
+      data2[field.toLowerCase()] = data[field];
+    this.columns.forEach(col => {
+      if (!(col in data2))
+        data2[col] = null;
+    })
+    if (this.primary.some(pk => data2[pk] == null))
+      return errorHandle("Primary key attributes cannot be null")
 
   }
 

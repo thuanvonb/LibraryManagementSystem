@@ -7,6 +7,7 @@ class Database {
     })
 
     this.database = null
+    this.parameters = null;
   }
 
   linkDatabase(databaseConnection) {
@@ -24,6 +25,12 @@ class Database {
           return errHdl(err);
         table.fromSQL(res)
       })
+    })
+
+    this.database.query('select * from Parameters', (err, res) => {
+      if (err)
+        return errHdl(err)
+      this.parameters = res[0]
     })
 
     // this.refactor();

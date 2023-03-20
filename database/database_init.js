@@ -17,7 +17,7 @@ let BookTitle = new Table("BookTitle", ['titleId', 'bName', 'genreId', 'authorId
 let BooksPublish = new Table("BookPublish", ['bpId', 'titleId', 'publishment', 'publishYear', 'totalAmount', 'price'])
 
 let BookImport = new Table("BookImport", ['importId', 'bpId', 'amount', 'staffId', 'importDate'])
-let Book = new Table("Book", ['bookId', 'importId', 'bpId', 'available', 'stateDesc'])
+let Book = new Table("Book", ['bookId', 'importId', 'available', 'stateDesc'])
 
 let Borrowing = new Table("Borrowing", ['borrowId', 'cardId', 'borrowDate', 'dueDate', 'staffId'])
 let BorrowingContents = new Table("BorrowingContents", ['borrowId', 'bookId'])
@@ -54,7 +54,6 @@ BooksPublish      .addForeignKey('titleId', BookTitle, 'titleId', 'title')
 BookImport        .addForeignKey('bpId', BooksPublish, 'bpId', 'bp')
 BookImport        .addForeignKey('staffId', Staff, 'staffId', 'staff')
 Book              .addForeignKey('importId', BookImport, 'importId', 'import')
-Book              .addForeignKey('bpId', BooksPublish, 'bpId', 'bp')
 Borrowing         .addForeignKey('cardId', ReaderCard, 'cardId', 'card')
 Borrowing         .addForeignKey('staffId', Staff, 'staffId', 'staff')
 BorrowingContents .addForeignKey('bookId', Book, 'bookId', 'book')
@@ -66,6 +65,19 @@ ReturningContents .addForeignKey('returnId', Returning, 'returnId', 'return')
 ReturningContents .addForeignKey('borrowId', Borrowing, 'borrowId', 'borrow')
 FineInvoice       .addForeignKey('cardId', ReaderCard, 'cardId', 'card')
 FineInvoice       .addForeignKey('staffId', Staff, 'staffId', 'staff')
+
+CardInfo          .autoPrimary()
+Author            .autoPrimary()
+Publisher         .autoPrimary()
+Genre             .autoPrimary()
+BookTitle         .autoPrimary()
+BooksPublish      .autoPrimary()
+BookImport        .autoPrimary()
+Book              .autoPrimary()
+Borrowing         .autoPrimary()
+Returning         .autoPrimary()
+FineInvoice       .autoPrimary()
+
 
 
 let db = new Database('se104', [WebUser, Staff, CardInfo, ReaderCard, Publisher, Genre, Author, BookTitle, BooksPublish, BookImport, Book, Borrowing, BorrowingContents, Returning, ReturningContents, FineInvoice])

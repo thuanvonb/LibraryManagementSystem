@@ -1,0 +1,1 @@
+insert into Parameters values (18, 55, 180, 8, 5, 4, 1000);

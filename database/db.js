@@ -1,4 +1,4 @@
-const moment = require('momentjs')
+const moment = require('moment')
 const sql = require('mysql2')
 const {hashPassword, passwordCompare} = require('../security/passwordHashing.js')
 const db = require('./database_init.js')

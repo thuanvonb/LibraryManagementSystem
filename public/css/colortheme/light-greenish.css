@@ -1,7 +1,7 @@
 :root {
   --dom: rgb(255, 255, 255);
-  --sec: rgb(13, 62, 24);
-  --sec-light: rgb(28, 102, 44);
+  --sec: rgb(10, 20, 15);
+  --sec-light: rgb(9, 100, 28);
   --acc: hsl(120, 100%, 85%);
   --fc-dom: black;
   --fc-sec: white;

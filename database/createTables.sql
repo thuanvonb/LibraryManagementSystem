@@ -25,7 +25,7 @@ create table Staff (
   pwd varchar(100),
   salt varchar(30),
   permission int
-  -- mask: 1 - services; 2 - parameter update; 4 - user control; 8 - staff control; 16 - full control
+  -- mask: 1 - services; 2 - parameter update; 4 - report; 8 - staff control; 16 - full control
 );
 
 create table CardInfo (
@@ -91,7 +91,6 @@ create table BookImport (
 create table Book (
   bookId int primary key auto_increment,
   importId int references BookImport(importId),
-  bpId int references BookPublish(bpId),
   available bit,
   stateDesc varchar(100) character set utf8mb4
 );
