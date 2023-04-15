@@ -1,6 +1,7 @@
 const db = require('../database/db.js')
 const requestInput = require('../requests/requestIn.js')
-const {encodeToCode128} = require('../control/utils.js')
+const {encodeToCode128, socketUser} = require('../control/utils.js')
+const csr_support = require('./csr.js')
 
 function getNewCardId() {
   while (true) {
@@ -9,8 +10,6 @@ function getNewCardId() {
       return t;
   }
 }
-
-const socketUser = socket => socket.request.session.passport.user
 
 const sk_getNewCard = socket => data => {
   let id = getNewCardId()
@@ -67,6 +66,7 @@ function adminServices(socket) {
   socket.on('getNewCardId', sk_getNewCard(socket))
   socket.on('issueCard', sk_issueCard(socket))
   socket.on('getReaderData', sk_getReaderData(socket))
+  socket.on('renderData', csr_support.sk_getAdminRenderData(socket))
 }
 
 module.exports = adminServices

@@ -82,6 +82,9 @@ socket.on('issueCard_accepted', userInfo => {
 socket.on('getReaderData_accepted', readerInfo => {
   let defaultInsert = insertIntoTable(d3.select('#reader-table').select('table').select('tbody'), [{value: ""}])
   readerInfo.forEach(defaultInsert)
-})
+});
 
-socket.on('connect', d => socket.emit('getReaderData'))
+(['cardId', 'issueCard_rejected', 'issueCard_accepted', 'getReaderData_accepted']).forEach(socket => socketCleanUp.push(socket))
+
+socket.emit('getReaderData')
+console.log('load')

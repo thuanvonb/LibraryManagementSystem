@@ -6,7 +6,7 @@ const database = require('./../database/db.js')
 
 let router = express.Router()
 
-router.post('/login-user', (req, res) => {
+router.post('/login-user', (req, res, next) => {
   auth.authenticate('user_local', (err, user, info) => {
     if (err)
       return next(err)
