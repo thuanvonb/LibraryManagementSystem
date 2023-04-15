@@ -34,6 +34,9 @@ function encodeToCode128(text, codeABC = "B") {
   return startCode + text + check + stop;
 }
 
+const socketUser = socket => socket.request.session.passport.user
+
 
 exports.between = between
 exports.encodeToCode128 = encodeToCode128
+exports.socketUser = socketUser
