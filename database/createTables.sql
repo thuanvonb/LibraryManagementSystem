@@ -31,7 +31,7 @@ create table Staff (
 create table CardInfo (
   infoId int primary key auto_increment,
   rName varchar(50) character set utf8mb4,
-  addr varchar(50) character set utf8mb4,
+  addr varchar(100) character set utf8mb4,
   birthday datetime,
   email varchar(30),
   identityNum varchar(15)
@@ -40,7 +40,7 @@ create table CardInfo (
 create table ReaderCard (
   cardId char(8) primary key,
   infoId int references CardInfo(infoId),
-  readerType int,
+  readerType varchar(10),
   issueDate datetime,
   validUntil datetime,
   debt decimal(10, 2) default 0,

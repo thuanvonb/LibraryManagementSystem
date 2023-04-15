@@ -1,16 +1,34 @@
 const express = require('express')
 
-const authF = require('../security/auth.js')
+const auth = require('../security/auth.js')
+const registration = require('../security/registration.js')
+const database = require('./../database/db.js')
 
 let router = express.Router()
-let database = null;
 
 router.post('/login-user', (req, res) => {
-  console.log(req)
+  auth.authenticate('user_local', (err, user, info) => {
+    if (err)
+      return next(err)
+
+    if (!user) {
+      req.session.error = info.msg
+      req.session._username = req.body.username
+      req.session._password = req.body.password
+      res.redirect('/login')
+      return;
+    }
+
+    req.login(user, err => {
+      if (err)
+        return next(err);
+      res.redirect('/')
+    })
+  })(req, res, next)
 })
 
 router.post('/login-admin', (req, res, next) => {
-  authF(database).authenticate('admin_local', (err, user, info) => {
+  auth.authenticate('admin_local', (err, user, info) => {
     if (err)
       return next(err)
 
@@ -30,8 +48,17 @@ router.post('/login-admin', (req, res, next) => {
   })(req, res, next)
 })
 
+router.post('/register', (req, res, next) => {
+  let [user, pwd] = registration.userRegistration(req.body)
+  console.log(user)
+  database.insert('WebUser', user).then(msg => {
+    console.log(msg)
+    res.redirect('/login')
+  }, err => {
+    console.log(err)
+    res.redirect('/registration')
+  })
+})
 
-module.exports = function(db) {
-  database = db;
-  return router;
-}
+
+module.exports = router;

@@ -4,6 +4,7 @@
   <%- include('../../partials/head', {title: "Library Management System (Staff side)"}) %>
   <%- include('../../partials/theme', {themeName: "light-greenish"})%>
   <link rel="stylesheet" type="text/css" href="css/services/main.css">
+  <link rel="stylesheet" type="text/css" href="css/services/admin-content.css">
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
@@ -40,8 +41,7 @@
                 <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#ffffff'></box-icon></div>
               </div>
               <ul>
-                <li class='item'>Issue a new card</li>
-                <li class='item'>Renew a library card</li>
+                <li class='item'>Library cards</li>
                 <li class='item'>Lend books</li>
                 <li class='item'>Receive books</li>
                 <li class='item'>Issue an overdue invoice</li>
@@ -89,10 +89,93 @@
           </div>
         </div>
       </td>
-      <td id='mainContent'></td>
+      <td id='mainContent'>
+        <div>
+          <div id='reader-info' style='display: none;'>
+            <div id='reader-form'>
+              <div>
+                <form id='issueForm' accept-charset="utf-8" class='w-100'>
+                  <label for="rName">Name</label>
+                  <input type="text" name="rName" placeholder="Reader Name" required><br>
+                  <label for="email">Email</label>
+                  <input type="email" name="email" placeholder="Reader email" required><br>
+                  <label for="identityNum">Identity number</label>
+                  <input type="text" name="identityNum" placeholder="Identity number" pattern="\d{9,12}" required><br>
+                  <label for="addr">Address</label>
+                  <input type="text" name="addr" placeholder="Address" required><br>
+                  <label for="birthday">Day of birth</label>
+                  <input type="date" name="birthday" required><br>
+                  <label for="readerType">Card type</label>
+                  <select name="readerType">
+                    <option value="Normal">Normal</option>
+                    <option value="Student">Student</option>
+                  </select>
+                  <label for="oldId">Old card id</label>
+                  <input type="text" name="oldId" value="" placeholder="Previous card used" pattern='\d{8}' disabled>
+                </form>
+              </div>
+            </div>
+            <div id='card-service'>
+              <div id='card-info'>
+                <div>
+                  <img src='assets/icon.svg'>
+                  <div id='info-fields'>
+                    <div style='--fid: 0;'><span>Name:</span> <span class='cardAttr' name='rName'></span></div>
+                    <div style='--fid: 1;'><span>Day of birth:</span> <span class='cardAttr' name='birthday'></span></div>
+                    <div style='--fid: 2;'><span>Card type:</span> <span class='cardAttr' name='readerType'></span></div>
+                    <div style='--fid: 3;'><span>Address:</span> <span class='cardAttr' name='addr'></span></div>
+                  </div>
+                  <span id='issueDate'>Issued on: <span class='cardAttr' name='issueDate'></span></span>
+                  <span id='validDate'>Valid until: <span class='cardAttr' name='validDate'></span></span>
+                  <span id='barcode'></span>
+                  <span id='cardId'>Library card no.: <span class='cardAttr' name='cardId'></span></span>
+                </div>
+              </div>
+              <div>
+                <button id='issueCardBtn'>Issue card</button>
+                <button id='prolongCardBtn'>Prolong validity</button>
+              </div>
+            </div>
+          </div>
+          <div id='reader-table' class='expand'>
+            <div>
+              <div class='filter'>
+                <span>Filter:</span>
+                <input type="text" placeholder="filter value">
+                <select>
+                  <option>Card id</option>
+                  <option>Reader name</option>
+                </select>
+              </div>
+              <div class='action'>
+                <button name='issueAction'>+ Issue new card</button>
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr style='--t-size:20'>
+                  <th style="--r-size: 2;">Card Id</th>
+                  <th style="--r-size: 7;">Reader Name</th>
+                  <th style="--r-size: 2;">Card Type</th>
+                  <th style="--r-size: 3;">Issue Date</th>
+                  <th style="--r-size: 3;">Valid Until</th>
+                  <th style="--r-size: 3;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </td>
     </tr>
   </table>
 
+  <div id='popup'>
+    <span>Message</span>
+    <div></div>
+  </div>
   <script src='js/services/main.js'></script>
+  <!-- <script src='js/services/admin_socket.js'></script> -->
 </body>
 </html>

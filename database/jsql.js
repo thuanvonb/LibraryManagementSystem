@@ -1,3 +1,5 @@
+const moment = require("moment")
+
 class Agg {
   static startMin = Math.min()
   static startMax = Math.max()
@@ -42,6 +44,7 @@ class Table {
     this.grouped = undefined;
     this.groups = {};
     this.primaryAuto = false;
+    this.pending = undefined;
   }
 
   isEmpty() {
@@ -72,7 +75,7 @@ class Table {
   addForeignKey(attrF, tableT, attrT, name) {
     if (!this.hasColumn(attrF))
       throw "Unknown column name in table " + this.name
-    this.foreigns[attrF] = {tableT, attrT, name}
+    this.foreigns[attrF.toLowerCase()] = {tableT, attrT: attrT.toLowerCase(), name: name.toLowerCase()}
   }
 
   autoPrimary() {
@@ -85,7 +88,10 @@ class Table {
       for (let at in d) {
         if (!this.columns.includes(at.toLowerCase()))
           continue;
-        m[at.toLowerCase()] = d[at]
+        if (d[at] instanceof Date)
+          m[at.toLowerCase()] = moment(d[at])
+        else
+          m[at.toLowerCase()] = d[at]
       }
       this.data.push(m)
     })
@@ -412,7 +418,26 @@ class Table {
     return Table.fromData(this.data.filter(d => !Table.#contain(d, cols, otherQuery(d))))
   }
 
-  insert(data, errorHandle) {
+  respond(actionType) {
+    if (!this.pending)
+      return;
+    let output = undefined
+    if (actionType == 'I') {
+      this.data.push(this.pending)
+      output = this.pending;
+    }
+    if (actionType == 'U') {
+
+    }
+    if (actionType == 'D') {
+
+    }
+
+    this.pending = undefined
+    return output;
+  }
+
+  insert(data, errHdl) {
     let data2 = {}
     for (let field in data)
       data2[field.toLowerCase()] = data[field];
@@ -420,9 +445,54 @@ class Table {
       if (!(col in data2))
         data2[col] = null;
     })
-    if (this.primary.some(pk => data2[pk] == null))
-      return errorHandle("Primary key attributes cannot be null")
+    
+    if (this.primary.length > 0) {
+      if (this.primaryAuto)
+        this.primary.forEach(pk => data2[pk] = null)
+      else {
+        if (this.primary.some(pk => data2[pk] == null))
+          return errHdl("Primary key's attributes cannot be null")
+        if (this.where(d => this.primary.every(pk => (d[pk] == data2[pk]))).isNotEmpty())
+          return errHdl("Primary key has to be unique")
+      }
+    }
 
+    let columns = []
+    let dataQ = []
+    for (let col in data2) {
+      columns.push(col)
+      let d = data2[col]
+      if (moment.isMoment(d))
+        dataQ.push(`'${d.format('YYYY-MM-DD hh:mm:ss')}'`)
+      else if (typeof d == 'string')
+        dataQ.push(`'${d}'`)
+      else
+        dataQ.push(d ?? 'null')
+    } 
+
+    let query = `insert into ${this.name} (${columns.join(',')}) values (${dataQ.join(',')})`
+
+    console.log(data2, this.foreigns)
+
+    if (this.primaryAuto) {
+      let pk = this.primary[0]
+      data2[pk] = this.aggregation([Agg.max(pk), 0, 'maxC']).data[0].maxC + 1
+    }
+    for (let fk in this.foreigns) {
+      let f = this.foreigns[fk]
+      let tableT = f.tableT
+      let attrT = f.attrT
+      if (data2[fk] == null) {
+        data2[f.name] = null
+        continue
+      }
+      data2[f.name] = tableT.where(d => d[attrT] == data2[fk]).data[0]
+      if (data2[f.name] == undefined)
+        return errHdl("A foreign key contraint fails")
+    }
+    this.pending = data2
+
+    return query
   }
 
   update() {

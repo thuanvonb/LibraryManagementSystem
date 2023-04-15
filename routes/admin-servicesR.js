@@ -14,6 +14,4 @@ router.get('/admin', (req, res) => {
 })
 
 
-module.exports = function(db) {
-  return router
-}
+module.exports = router

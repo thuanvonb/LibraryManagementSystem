@@ -2,10 +2,6 @@ const express = require('express');
 
 let router = express.Router();
 
-router.get('/', (req, res) => {
-  res.redirect('/login')
-})
-
 router.get('/registration', (req, res) => {
   res.render('pages/entry/register')
 })

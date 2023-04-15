@@ -26,5 +26,6 @@ function passwordCompare(password, hashed) {
 }
 
 
+exports.createSalt = createSalt
 exports.hashPassword = hashPassword
 exports.passwordCompare = passwordCompare
