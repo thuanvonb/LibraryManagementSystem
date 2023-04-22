@@ -15,21 +15,33 @@ class MaybeM {
   assert(verifyF) {
     if (this.nothing)
       return this
-    if (!verifyF(this.data))
+    try {
+      if (!verifyF(this.data))
+        return MonadM.error()
+    } catch (e) {
       return MonadM.error()
+    }
     return this
   }
 
   fmap(mapF) {
     if (this.nothing)
       return this
-    return MaybeM.pure(mapF(this.data))
+    try {
+      return MaybeM.pure(mapF(this.data))
+    } catch (e) {
+      return MonadM.error();
+    }
   }
 
   bind(monadF) {
     if (this.nothing)
       return this
-    return monadF(this.data);
+    try {
+      return monadF(this.data);
+    } catch (e) {
+      return MonadM.error();
+    }
   }
 
   pass(monadNext) {
@@ -51,7 +63,7 @@ class MaybeM {
   static lift(func) {
     return dataM => {
       try {
-        return dataM.bind(func)
+        return dataM.fmap(func)
       } catch (e) {
         return MonadM.error()
       }
@@ -77,21 +89,33 @@ class EitherM {
   assert(verifyF, errLog) {
     if (!this.isRight)
       return this
-    if (!verifyF(this.data))
-      return EitherM.error(errLog)
+    try {
+      if (!verifyF(this.data))
+        return EitherM.error(errLog)
+    } catch (err) {
+      return EitherM.error(err);
+    }
     return this
   }
 
   fmap(mapF) {
     if (!this.isRight)
       return this
-    return EitherM.pure(mapF(this.data))
+    try {
+      return EitherM.pure(mapF(this.data))
+    } catch (err) {
+      return EitherM.error(err)
+    }
   }
 
   bind(monadF) {
     if (!this.isRight)
       return this
-    return monadF(this.data)
+    try {
+      return monadF(this.data)
+    } catch (err) {
+      return EitherM.error(err)
+    }
   }
 
   pass(monadNext) {
@@ -101,16 +125,24 @@ class EitherM {
   }
 
   then(resolve, reject) {
-    if (this.isRight)
-      return resolve(this.data)
-    if (reject)
-      return reject(this.data);
+    try {
+      if (this.isRight)
+        return resolve(this.data)
+      if (reject)
+        return reject(this.data);
+    } catch (err) {
+      return EitherM.error(err)
+    }
     return this
   }
 
   catch(reject) {
-    if (!this.isRight)
-      return reject(this.data)
+    try {
+      if (!this.isRight)
+        return reject(this.data)
+    } catch (err) {
+      return EitherM.error(err)
+    }
     return this
   }
 
@@ -123,7 +155,7 @@ class EitherM {
   static lift(func) {
     return dataM => {
       try {
-        return dataM.bind(func)
+        return dataM.fmap(func)
       } catch (err) {
         return EitherM.error(err)
       }
