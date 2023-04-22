@@ -6,7 +6,14 @@ const validRenderValue = {
     'card-services': {
       permission: p => p.services,
       path: 'admin/card-services',
-      scripts: ['js/services/admin/card-services.js']
+      scripts: ['js/services/admin/card-services.js'],
+      stylesheet: 'css/services/card-services.css'
+    },
+    'update-parameters': {
+      permission: p => p.libControl,
+      path: 'admin/update-parameters',
+      scripts: ['js/services/admin/update-parameters.js'],
+      stylesheet: 'css/services/update-parameters.css'
     }
   }
 }
@@ -26,7 +33,8 @@ const sk_getAdminRenderData = socket => value => {
     socket.emit('renderData_accepted', {
       name: value,
       data: data,
-      scripts: services.scripts
+      scripts: services.scripts,
+      stylesheet: services.stylesheet
     })
   })
 }

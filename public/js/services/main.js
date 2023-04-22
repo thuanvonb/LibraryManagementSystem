@@ -27,6 +27,26 @@ function firePopUp(msg, type) {
   })
 }
 
+const loadScript = container => src => {
+  let script = document.createElement('script');
+  script.src = src;
+  container.appendChild(script)
+}
+
+function loadStylesheet(id, href) {
+  if (document.getElementById(id))
+    return false;
+  let head  = document.getElementsByTagName('head')[0];
+  let link  = document.createElement('link');
+  link.id   = id;
+  link.rel  = 'stylesheet';
+  link.type = 'text/css';
+  link.href = href;
+  link.media = 'all';
+  head.appendChild(link);
+  return true;
+}
+
 function loadContent(name) {
   socketCleanUp.forEach(socketName => socket.off(socketName))
   socketCleanUp = []
@@ -41,11 +61,10 @@ function loadContent(name) {
 
   let d = renderData[name]
   container.innerHTML = d.data;
-  d.scripts.forEach(src => {
-    let script = document.createElement('script');
-    script.src = src;
-    document.body.appendChild(script)
-  })
+  d.scripts.forEach(loadScript(container))
+
+  if (d.stylesheet)
+    loadStylesheet(name, d.stylesheet)
 }
 
 // ------------------- dom actions ----------------

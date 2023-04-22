@@ -3,5 +3,5 @@ node_modules/*
 otherlib
 public/assets
 public/assets/*
-test.*
+test*.*
 *~

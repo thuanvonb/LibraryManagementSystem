@@ -87,4 +87,3 @@ socket.on('getReaderData_accepted', readerInfo => {
 (['cardId', 'issueCard_rejected', 'issueCard_accepted', 'getReaderData_accepted']).forEach(socket => socketCleanUp.push(socket))
 
 socket.emit('getReaderData')
-console.log('load')

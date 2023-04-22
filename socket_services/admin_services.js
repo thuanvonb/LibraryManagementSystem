@@ -49,7 +49,7 @@ const sk_getReaderData = socket => data => {
   if (!socketUser(socket).permission.services)
     socket.emit('getReaderData_rejected', "No permission")
 
-  console.log(db.database.ReaderCard.data)
+  // console.log(db.database.ReaderCard.data)
 
   let dataOut = db.database.ReaderCard.data.map(d => ({
     cardId: d.cardid,
@@ -62,11 +62,31 @@ const sk_getReaderData = socket => data => {
   socket.emit('getReaderData_accepted', dataOut)
 }
 
+const sk_getParams = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    socket.emit('getParams_rejected', 'No permission')
+
+  socket.emit('getParams_accepted', db.database.parameters)
+}
+
+const sk_updateParams = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    socket.emit('updateParams_rejected', 'No permission')
+
+  db.updateParameters(data).then(result => {
+    socket.emit('updateParams_accepted', result)
+  }).catch(err => {
+    socket.emit('updateParams_rejected', err)
+  })
+}
+
 function adminServices(socket) {
   socket.on('getNewCardId', sk_getNewCard(socket))
   socket.on('issueCard', sk_issueCard(socket))
   socket.on('getReaderData', sk_getReaderData(socket))
   socket.on('renderData', csr_support.sk_getAdminRenderData(socket))
+  socket.on('getParams', sk_getParams(socket))
+  socket.on('updateParams', sk_updateParams(socket))
 }
 
 module.exports = adminServices

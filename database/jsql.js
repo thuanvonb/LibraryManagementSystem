@@ -426,9 +426,6 @@ class Table {
       this.data.push(this.pending)
       output = this.pending;
     }
-    if (actionType == 'U') {
-
-    }
     if (actionType == 'D') {
 
     }
@@ -495,12 +492,8 @@ class Table {
     return query
   }
 
-  update() {
-
-  }
-
   delete() {
-
+    // not intend to implement
   }
 
   refactor() {

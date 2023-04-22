@@ -1,0 +1,63 @@
+#update-parameters-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+#update-parameters-cont form h3 {
+  margin-bottom: 0.5em;
+}
+
+#update-parameters-cont #parameters {
+  border: solid black 1px;
+  padding: 1em;
+  width: 65%;
+}
+
+#update-parameters-cont form .parameter {
+  width: 100%;
+  display: flex;
+  margin: 1vh 0;
+}
+
+#update-parameters-cont form .parameter label {
+  flex-grow: 1;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+#update-parameters-cont form .parameter label.unit {
+  width: 3em;
+  flex-grow: unset;
+  justify-content: right;
+}
+
+#update-parameters-cont form .parameter input {
+  width: 20%;
+  height: 2em;
+}
+
+#update-parameters-cont form .parameter button {
+  width: 2em;
+  margin-left: 1vh;
+  border: none;
+  background: white;
+  visibility: hidden;
+}
+
+#update-parameters-cont form .parameter input.modified {
+  font-weight: bold;
+}
+
+#update-parameters-cont form .parameter input.modified ~ button {
+  visibility: visible;
+}
+
+#update-parameters-cont #update-param-btn {
+  text-align: center;
+  margin-top: 2vh;
+}
