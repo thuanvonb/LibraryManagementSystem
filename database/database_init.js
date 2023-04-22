@@ -14,7 +14,7 @@ let Author = new Table("Author", ['authorId', 'aName'])
 let Publisher = new Table("Publisher", ['publisherId', 'pName'])
 
 let BookTitle = new Table("BookTitle", ['titleId', 'bName', 'genreId', 'authorId', 'publisherId'])
-let BooksPublish = new Table("BookPublish", ['bpId', 'titleId', 'publishment', 'publishYear', 'totalAmount', 'price'])
+let BooksPublish = new Table("BooksPublish", ['bpId', 'titleId', 'publishment', 'publishYear', 'totalAmount', 'price'])
 
 let BookImport = new Table("BookImport", ['importId', 'bpId', 'amount', 'staffId', 'importDate'])
 let Book = new Table("Book", ['bookId', 'importId', 'available', 'stateDesc'])

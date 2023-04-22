@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128&display=swap');
+
 html, body {
   height: 100%;
+  overflow-x: hidden;
 }
 
 table td {
@@ -129,7 +133,7 @@ br {
   align-items: center;
 }
 
-.category.expand, .category.active {
+.category.expand2, .category.active {
   background: var(--sec-light);
 }
 
@@ -148,11 +152,15 @@ br {
   display: none;
 }
 
+.category ul li:before {
+  content: "";
+}
+
 .category ul li {
   height: 2em;
-  display: flex;
+  display: grid;
   align-items: center;
-  padding: 0 10%;
+  grid-template-columns: 3em auto;
 }
 
 .category ul li:hover {
@@ -165,4 +173,58 @@ br {
   background: var(--acc);
   color: var(--fc-acc);
   font-weight: bold;
+}
+
+#popup {
+  position: absolute;
+  bottom: 5%;
+  left: 100%;
+  width: 25%;
+  height: 3em;
+  background: #ddaaff;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  padding-left: 2em;
+  transition: 0.2s;
+}
+
+#popup.success {
+  background: #aaffaa;
+}
+
+#popup.failure {
+  background: #ffaaaa;
+}
+
+#popup div {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  bottom: 0;
+  left:0;
+  background: rgba(0, 0, 0, 0.5);
+  mix-blend-mode: color-burn;
+}
+
+#popup:hover div {
+  width: 100% !important;
+  transition: none !important;
+}
+
+#popup.triggered {
+  left: 75%;
+}
+
+#popup.triggered div {
+  width: 0%;
+  transition: 5s linear;
+}
+
+#mainContent {
+  padding: 0 2vw;
+}
+
+#mainContent > div {
+  min-height: 100%;
 }

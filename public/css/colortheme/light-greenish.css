@@ -3,6 +3,7 @@
   --sec: rgb(10, 20, 15);
   --sec-light: rgb(9, 100, 28);
   --acc: hsl(120, 100%, 85%);
+  --acc-light: hsla(120, 100%, 90%, 0.8);
   --fc-dom: black;
   --fc-sec: white;
   --fc-acc: black;

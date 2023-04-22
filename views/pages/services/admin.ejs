@@ -40,8 +40,7 @@
                 <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#ffffff'></box-icon></div>
               </div>
               <ul>
-                <li class='item'>Issue a new card</li>
-                <li class='item'>Renew a library card</li>
+                <li class='item' name='card-services'>Library cards</li>
                 <li class='item'>Lend books</li>
                 <li class='item'>Receive books</li>
                 <li class='item'>Issue an overdue invoice</li>
@@ -59,7 +58,7 @@
               <ul>
                 <li class='item'>Add new books</li>
                 <li class='item'>Browse books</li>
-                <li class='item'>Update parameters</li>
+                <li class='item' name='update-parameters'>Update parameters</li>
               </ul>
             </div>
 <% } -%>
@@ -93,6 +92,11 @@
     </tr>
   </table>
 
+  <div id='popup'>
+    <span>Message</span>
+    <div></div>
+  </div>
   <script src='js/services/main.js'></script>
+  <!-- <script src='js/services/admin_socket.js'></script> -->
 </body>
 </html>

@@ -6,6 +6,8 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const session = require('express-session');
 const io = new Server(server);
+const adminServices = require('./socket_services/admin_services.js')
+
 const port = 7000
 
 const db = require('./database/db.js')
@@ -18,9 +20,11 @@ db.connect().then(
   }
 )
 
+
 const entryRouter = require('./routes/entryRouter.js')
-const authRouter = require('./routes/authRouter.js')(db)
-const adminServiceRouter = require('./routes/admin-servicesR.js')(db)
+const authRouter = require('./routes/authRouter.js')
+const adminServiceRouter = require('./routes/admin-servicesR.js')
+const userServiceRouter = require('./routes/user-servicesR.js')
 
 const passport = require('passport')
 
@@ -49,6 +53,8 @@ adminNamespace.on('connection', socket => {
     return;
   }
   // console.log(socket.request.session.passport.user)
+
+  adminServices(socket);
 })
 
 app.use(sessionMdw)
@@ -57,6 +63,7 @@ app.use(passport.authenticate('session'));
 app.use('/', entryRouter)
 app.use('/', authRouter)
 app.use('/', adminServiceRouter)
+app.use('/', userServiceRouter)
 
 server.listen(port, () => {
   console.log(`Server is running on 127.0.0.1:${port}`);
