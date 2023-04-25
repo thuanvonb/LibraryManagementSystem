@@ -120,7 +120,7 @@ form input {
 #outer-form>input {
   width: 100%;
   border: none;
-  background: var(--acc2);
+  background: var(--sec-dark);
   height: 2em;
   border-radius: 3vh;
   margin-top: 1rem;
@@ -129,13 +129,13 @@ form input {
 }
 
 #outer-form>input:hover {
-  background: var(--acc1);
+  background: var(--sec);
 }
 
 .input-box {
   position: relative;
   margin-top: 2.5vh;
-  border-bottom: var(--acc2) 1px solid;
+  border-bottom: var(--sec-dark) 1px solid;
 }
 
 .input-box label {

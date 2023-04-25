@@ -14,6 +14,12 @@ const validRenderValue = {
       path: 'admin/update-parameters',
       scripts: ['js/services/admin/update-parameters.js'],
       stylesheet: 'css/services/update-parameters.css'
+    },
+    'book-browsing': {
+      permission: p => p.libControl,
+      path: 'admin/book-browsing',
+      scripts: ['js/services/admin/book-browsing.js'],
+      stylesheet: 'css/services/book-browsing.css'
     }
   }
 }
