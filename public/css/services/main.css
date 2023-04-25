@@ -13,7 +13,7 @@ padding: 0px;
 
 #navigation {
   width: 0%;
-  background: var(--sec);
+  background: var(--dom-dark);
   color: var(--fc-sec);
   transition: 0.3s;
 }
@@ -46,7 +46,7 @@ padding: 0px;
   top: 100%;
   z-index: 3;
   right: 5%;
-  background: var(--sec);
+  background: var(--dom-dark);
   box-shadow: 0px 0px 10px #667c63;
   width: 60%;
   border-radius: 8px;
@@ -71,7 +71,7 @@ padding: 0px;
 }
 
 #accountOption li:hover {
-  background: var(--sec-light);
+  background: var(--sec);
 }
 
 #accountOption li box-icon {
@@ -94,7 +94,7 @@ br {
 }
 
 #account:hover {
-  background: var(--sec-light);
+  background: var(--sec);
   cursor: pointer;
 }
 
@@ -124,7 +124,7 @@ br {
 }
 
 .category:hover {
-  background: var(--sec-light);
+  background: var(--sec);
   cursor: pointer;
 }
 
@@ -134,7 +134,7 @@ br {
 }
 
 .category.expand2, .category.active {
-  background: var(--sec-light);
+  background: var(--sec);
 }
 
 .category.active > .cat_header {

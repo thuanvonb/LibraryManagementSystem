@@ -2,7 +2,7 @@
 <html>
 <head>
   <%- include('../../partials/head', {title: "Library Management System (Staff side)"}) %>
-  <%- include('../../partials/theme', {themeName: "light-greenish"})%>
+  <%- include('../../partials/theme', {themeName: "cyanish"})%>
   <link rel="stylesheet" type="text/css" href="css/services/main.css">
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
@@ -12,14 +12,14 @@
       <td id='navigation' class='active'>
         <div class="w-100 h-100">
           <div id='account'>
-            <div style='display: flex;'><box-icon name='user' color='#ffffff'></box-icon></div>
+            <div style='display: flex;'><box-icon name='user' color='#3E284B'></box-icon></div>
             <div id='accountName'><%= who %></div>
             <div id='accountOption'>
               <ul>
-                <li><box-icon name='cog' color='#ffffff'></box-icon><span>Account setting</span></li>
+                <li><box-icon name='cog' color='#3E284B'></box-icon><span>Account setting</span></li>
                 <li>
-                  <box-icon name='log-out' color='#ffffff'></box-icon>
-                  <span>Logout</span>
+                  <box-icon name='log-out' color='#3E284B'></box-icon>
+                  <span>Đăng xuất</span>
                 </li>
               </ul>
             </div>
@@ -27,23 +27,23 @@
           <div id='services'>
             <div class="category item active">
               <div class="cat_header">
-                <div><box-icon type='solid' name='home' color='#ffffff'></box-icon></div>
-                <div>Home</div>
+                <div><box-icon type='solid' name='home' color='#3E284B'></box-icon></div>
+                <div>Trang chủ</div>
               </div>
             </div>
 <% if (permission.services) { -%>
             <br>
             <div class="category">
               <div class='cat_header dropdown'>
-                <div><box-icon type='solid' name='book' color='#ffffff'></box-icon></div>
-                <div>Services</div>
-                <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#ffffff'></box-icon></div>
+                <div><box-icon type='solid' name='book' color='#3E284B'></box-icon></div>
+                <div>Dịch vụ</div>
+                <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#3E284B'></box-icon></div>
               </div>
               <ul>
-                <li class='item' name='card-services'>Library cards</li>
-                <li class='item'>Lend books</li>
-                <li class='item'>Receive books</li>
-                <li class='item'>Issue an overdue invoice</li>
+                <li class='item' name='card-services'>Thẻ độc giả</li>
+                <li class='item'>Mượn sách</li>
+                <li class='item'>Trả sách</li>
+                <li class='item'>Lập phiếu thu phạt</li>
               </ul>
             </div>
 <% } -%>
@@ -51,14 +51,14 @@
             <br>
             <div class="category">
               <div class="cat_header dropdown">
-                <div><box-icon name='library' color='#ffffff'></box-icon></div>
-                <div>Library management</div>
-                <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#ffffff'></box-icon></div>
+                <div><box-icon name='library' color='#3E284B'></box-icon></div>
+                <div>Quản lý thư viện</div>
+                <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#3E284B'></box-icon></div>
               </div>
               <ul>
-                <li class='item'>Add new books</li>
-                <li class='item'>Browse books</li>
-                <li class='item' name='update-parameters'>Update parameters</li>
+                <li class='item'>Thêm sách</li>
+                <li class='item'>Tra cứu sách</li>
+                <li class='item' name='update-parameters'>Thay đổi quy định</li>
               </ul>
             </div>
 <% } -%>
@@ -66,13 +66,13 @@
             <br>
             <div class="category">
               <div class="cat_header dropdown">
-                <div><box-icon name='report' type='solid' color='#ffffff'></box-icon></div>
-                <div>Reporting</div>
-                <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#ffffff'></box-icon></div>
+                <div><box-icon name='report' type='solid' color='#3E284B'></box-icon></div>
+                <div>Lập báo cáo</div>
+                <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#3E284B'></box-icon></div>
               </div>
               <ul>
-                <li class='item'>Book rental activity</li>
-                <li class='item'>Overdued books</li>
+                <li class='item'>Tình hình mượn sách</li>
+                <li class='item'>Các sách trả trễ</li>
               </ul>
             </div>
 <% } -%>
@@ -80,8 +80,8 @@
             <br>
             <div class="category item">
               <div class='cat_header'>
-                <div><box-icon name='id-card' color='#ffffff'></box-icon></div>
-                <div>Staffs management</div>
+                <div><box-icon name='id-card' color='#3E284B'></box-icon></div>
+                <div>Quản lý nhân viên</div>
               </div>
 <% } -%>
             </div>
@@ -93,7 +93,7 @@
   </table>
 
   <div id='popup'>
-    <span>Message</span>
+    <span></span>
     <div></div>
   </div>
   <script src='js/services/main.js'></script>

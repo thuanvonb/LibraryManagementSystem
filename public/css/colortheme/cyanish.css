@@ -1,0 +1,15 @@
+:root {
+  --dom: rgb(255, 255, 255);
+  --dom-dark: #e9e9e9;
+  --sec: #86b3ff;
+  --acc: #3E284B;
+  --acc-light: #bbd4fe;
+  --fc-dom: black;
+  --fc-sec: #3E284B;
+  --fc-acc: white;
+}
+
+.accent-color {
+  background: var(--acc);
+  color: var(--fc-acc);
+}

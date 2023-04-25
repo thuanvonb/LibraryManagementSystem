@@ -2,25 +2,49 @@ html, body {
   height: 100%;
 }
 
+body {
+  display: grid;
+  grid-template-rows: 10vh 3vh auto 3vh 10vh;
+}
+
+.pad {
+/*  height: 10vh;*/
+}
+
+.pad img {
+  height: 8vh;
+  margin: 1vh 2vh;
+}
+
+.hbar {
+/*  height: 2vh;*/
+  background: #ddd;
+}
+
 #bg {
-  display: flex;
-  align-items: center;
-  background: url('https://i0.wp.com/calmatters.org/wp-content/uploads/2021/04/library.jpg?fit=2448%2C1140&ssl=1');
+  background: url('../../assets/library3.png');
   margin: 0;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
+}
+
+#login-form {
+  width: 30vw;
+  display: flex;
+  height: 100%;
+  position: absolute;
+  right: 0;
 }
 
 #form-cont {
   display: flex;
-  margin-left: 10%;
-  width: 30%;
+  width: 100%;
   padding: 2em 0;
-  backdrop-filter: blur(10px);
   justify-content: center;
   align-items: center;
-  border-radius: 3vh;
+  backdrop-filter: blur(10px);
 }
 
 #form-cont>div {
@@ -29,6 +53,8 @@ html, body {
   background-color: rgba(255, 255, 255, 0.6);
   padding: 5%;
   width: 80%;
+  border-radius: 3vh;
+  box-shadow: 2px 2px 5px 0px black;
 }
 
 #navigator>div:nth-of-type(1) {
@@ -50,25 +76,14 @@ html, body {
   color: black;
 }
 
-#form-cont h3 {
+#form-cont h2 {
   margin: 0vh;
+  color: var(--acc);
 }
 
 #form-cont h6 {
-  margin-top: 3vh;
-}
-
-#base {
-  position: relative;
-  border: green 1px solid;
-  display: inline-block;
-  width: 50%;
-  margin-top: 0px;
-  transition: 0.3s;
-}
-
-#base.trigger {
-  transform: translateX(100%);
+  font-style: italic;
+  text-align: center;
 }
 
 #outer-form form {
@@ -93,7 +108,7 @@ html, body {
 }
 
 #other-action a {
-  color: #235020;
+  color: var(--acc);
   font-weight: bold;
 }
 
@@ -105,7 +120,7 @@ form input {
 #outer-form>input {
   width: 100%;
   border: none;
-  background: #60aa70;
+  background: var(--acc2);
   height: 2em;
   border-radius: 3vh;
   margin-top: 1rem;
@@ -113,10 +128,14 @@ form input {
   font-weight: bold;
 }
 
+#outer-form>input:hover {
+  background: var(--acc1);
+}
+
 .input-box {
   position: relative;
   margin-top: 2.5vh;
-  border-bottom: green 1px solid;
+  border-bottom: var(--acc2) 1px solid;
 }
 
 .input-box label {

@@ -37,7 +37,7 @@
   margin: 0 3vh;
   border: none;
   outline: none;
-  background: var(--sec-light);
+  background: var(--sec);
   color: var(--fc-sec);
   border-radius: 2vh;
   transition: 0.2s;
@@ -196,7 +196,7 @@
 #reader-table > div div.action button {
   border: none;
   outline: none;
-  background: var(--sec-light);
+  background: var(--sec);
   color: var(--fc-sec);
   border-radius: 2vh;
   width: 12em;
