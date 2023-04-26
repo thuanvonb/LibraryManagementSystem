@@ -20,6 +20,12 @@ const validRenderValue = {
       path: 'admin/book-browsing',
       scripts: ['js/services/admin/book-browsing.js'],
       stylesheet: 'css/services/book-browsing.css'
+    },
+    'book-import': {
+      permission: p => p.libControl,
+      path: 'admin/book-import',
+      scripts: ['js/services/admin/book-import.js'],
+      stylesheet: 'css/services/book-import.css'
     }
   }
 }

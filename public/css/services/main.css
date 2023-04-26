@@ -8,7 +8,19 @@ html, body {
 
 table td {
 /*  border: black 1px solid;*/
-padding: 0px;
+  padding: 0px;
+}
+
+#icon {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#icon img {
+  width: 75%;
+  margin: 5vh 0;
 }
 
 #navigation {
@@ -26,18 +38,18 @@ padding: 0px;
   position: relative;
   z-index: 1;
   box-shadow: 2px 0px 5px grey;
-  padding-top: 5%;
 }
 
 #account {
-  position: relative;
+  position: absolute;
   display: flex;
-  height: 3em;
+  height: 100%;
   align-items: center;
-  padding: 0px 5%;
-  width: 100%;
-  font-weight: bold;
+  width: 17%;
   margin-bottom: 2em;
+  padding-left: 2%;
+  right: 0;
+  background: var(--dom-dark);
 }
 
 #accountOption {
@@ -45,13 +57,12 @@ padding: 0px;
   display: none;
   top: 100%;
   z-index: 3;
-  right: 5%;
+  right: 0;
+  top: calc(100% + 1px);
   background: var(--dom-dark);
-  box-shadow: 0px 0px 10px #667c63;
-  width: 60%;
-  border-radius: 8px;
   contain: paint;
-
+  font-size: 0.8em;
+  width: 85%;
 }
 
 #account:hover #accountOption {
@@ -66,8 +77,9 @@ padding: 0px;
 
 #accountOption li {
   display: flex;
-  height: 2em;
+  height: 3em;
   align-items: center;
+  padding-left: 1vh;
 }
 
 #accountOption li:hover {
@@ -88,9 +100,16 @@ br {
   flex-grow: 1;
 }
 
-#accountName {
-  text-align: right;
+#accountName p {
+  margin: 0;
+  padding: 0;
+  font-style: italic;
+  font-size: 0.75em;
+}
+
+#accountName div {
   padding-right: 5%;
+  font-weight: bold;
 }
 
 #account:hover {
@@ -221,10 +240,75 @@ br {
   transition: 5s linear;
 }
 
+#td-content {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 8% auto;
+}
+
+#td-content > div:first-child {
+  border-bottom: 1px solid gray;
+  position: relative
+}
+
 #mainContent {
   padding: 0 2vw;
+  position: relative;
+  overflow-x: auto;
 }
 
 #mainContent > div {
   min-height: 100%;
+}
+
+.display-table {
+  width: 100%;
+  border: solid 1px black;
+}
+
+.display-table thead {
+  height: 2em;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.display-table thead th {
+  width: calc(var(--r-size)/var(--t-size)*100%);
+  border: 1px solid black;
+  position: relative;
+}
+
+.display-table tbody tr td {
+  border: 1px solid black;
+  color: black;
+  text-align: center;
+}
+
+.display-table tbody tr td:nth-of-type(2) {
+  text-align: left;
+  padding-left: 1%;
+}
+
+.display-table thead th.asc::after {
+  content: '∧';
+  position: absolute;
+  top: -18%;
+  left: 50%;
+  font-size: 0.7em;
+}
+
+.display-table thead th.desc::after {
+  content: '∨';
+  position: absolute;
+  top: -18%;
+  left: 50%;
+  font-size: 0.7em;
+}
+
+.display-table tbody tr:nth-of-type(2n) {
+  background: lightgray;
+}
+
+.display-table tbody tr:hover {
+  background: var(--acc-light);
 }
