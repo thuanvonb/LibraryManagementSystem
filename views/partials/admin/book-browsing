@@ -1,0 +1,300 @@
+<div style="position: relative">
+    <div id="filter-bar">
+        <div class="row-1">
+            <div class="filter">
+                <input type="text" name="bName" placeholder="Tên sách">
+    
+                <select name="aName">
+                    <option value="" disabled selected>Tác giả</option>
+                    <option value="sangdoan">Sang Đoàn</option>
+                    <option value="sd">Sang Doan</option>
+                </select>
+    
+                <select name="gName">
+                    <option value="" disabled selected>Thể loại</option>
+                    <option value="romance">Tình cảm</option>
+                    <option value="scienc-fiction">Khoa học viễn tưởng</option>
+                </select>
+
+                <select name="pName">
+                    <option value="" disabled selected>Nhà XB</option>
+                    <option value="the-gioi">Thế giới</option>
+                    <option value="mot-thanh-vien">Một thành viên</option>
+                </select>
+
+                <select name="state">
+                    <option value="" disabled selected>Trạng thái</option>
+                    <option value="1">Còn hàng</option>
+                    <option value="0">Hết hàng</option>
+                </select>
+            </div>
+        </div>
+        <div class="row-2">
+            <div class="pYear filter">
+                <label for="pYear">Năm XB: </label>
+                <select name="low-pYear">
+                    <option value="" disabled selected>Từ năm</option>
+                    <option value="2018">2018</option>
+                </select>
+                <select name="high-pYear">
+                    <option value="" disabled selected>Đến năm</option>
+                    <option value="2018">200</option>
+                </select>
+            </div>
+            
+            <div class="price filter">
+                <label for="price">Giá trị: </label>
+                <select name="low-price">
+                    <option value="" disabled selected>Từ giá</option>
+                    <option value="1000">1.000</option>
+                </select>
+                <select name="high-price">
+                    <option value="" disabled selected>Đến giá</option>
+                    <option value="9000000">9.000.000</option>
+                </select>
+            </div>
+
+            <div class="button">
+                <button name='browseBook'>Tìm kiếm</button>
+            </div>
+        </div>
+    
+    </div>
+
+    <table id="book-table" class='expand'>
+        <thead>
+            <tr style='--t-size:100'>
+                <th style="--r-size: 10;">ID SÁCH</th>
+                <th style="--r-size: 30;">TÊN SÁCH</th>
+                <th style="--r-size: 10;">THỂ LOẠI</th>
+                <th style="--r-size: 10;">TÁC GIẢ</th>
+                <th style="--r-size: 10;">NĂM XB</th>
+                <th style="--r-size: 10;">NHÁ XB</th>
+                <th style="--r-size: 10;">GIÁ TRỊ</th>
+                <th style="--r-size: 10;">TRẠNG THÁI</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+            <tr>
+                <td>RM001</td>
+                <td>Bạn đắt giá bao nhiêu?</td>
+                <td>Sách</td>
+                <td>Van Tình</td>
+                <td>2018</td>
+                <td>Thế giới</td>
+                <td>101.000</td>
+                <td>Đã hết</td>
+            </tr>
+            <tr>
+                <td>KH002</td>
+                <td>Nhập môn công nghệ phần mềm</td>
+                <td>Tài liệu</td>
+                <td>Nguyễn Van A</td>
+                <td>2023</td>
+                <td>nguyên văn b nguyễn văn c</td>
+                <td>1.000.000</td>
+                <td>Còn 5/20</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

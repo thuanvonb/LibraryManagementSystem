@@ -1,0 +1,104 @@
+input,select 
+{
+    width: 32.5%;
+    height: 25px;
+    margin: 2px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#filter-bar{
+    position: sticky;
+    top: 0px;
+    padding: 20px 0;
+    background-color: white;
+}
+
+#filter-bar .row-1{
+    margin-bottom: 10px;
+}
+
+#filter-bar .row-2{
+    position: relative;
+    width: 100%;
+}
+
+#filter-bar .row-2 div{
+    display: inline-block;
+    width: 32%;
+}
+
+#filter-bar .row-2 .button{
+    text-align:right;
+}
+
+#filter-bar .row-2 .icon{
+    font-size: 25px;
+}
+
+#book-table {
+    padding-top: 2vh;
+    transition: 0.3s;
+}
+
+#book-table.expand {
+    padding-top: 5vh;
+}
+
+#book-table {
+    width: 100%;
+    border: solid 1px black;
+}
+
+#book-table thead {
+    position: sticky;
+    top: 141px;
+    background-color: var(--dom-dark);
+    height: 2em;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#book-table thead th {
+    width: calc(var(--r-size)/var(--t-size)*100%);
+    border: 1px solid black;
+    position: sticky;
+    top: 50px;
+}
+
+#book-table tbody tr td {
+    font-size: 17px;
+    border: 1px solid black;
+    color: black;
+    text-align: center;
+}
+
+#book-table tbody tr td:nth-of-type(2) {
+    text-align: left;
+    padding-left: 1%;
+}
+
+#book-table thead th.asc::after {
+    content: '∧';
+    position: absolute;
+    top: -18%;
+    left: 50%;
+    font-size: 0.7em;
+}
+
+#book-table thead th.desc::after {
+    content: '∨';
+    position: absolute;
+    top: -18%;
+    left: 50%;
+    font-size: 0.7em;
+}
+
+#book-table tbody tr:nth-of-type(2n) {
+    background: lightgray;
+}
+
+#book-table tbody tr:hover {
+    background: var(--acc-light);
+}
