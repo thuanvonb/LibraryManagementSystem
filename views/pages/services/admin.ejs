@@ -11,18 +11,8 @@
     <tr>
       <td id='navigation' class='active'>
         <div class="w-100 h-100">
-          <div id='account'>
-            <div style='display: flex;'><box-icon name='user' color='#3E284B'></box-icon></div>
-            <div id='accountName'><%= who %></div>
-            <div id='accountOption'>
-              <ul>
-                <li><box-icon name='cog' color='#3E284B'></box-icon><span>Account setting</span></li>
-                <li>
-                  <box-icon name='log-out' color='#3E284B'></box-icon>
-                  <span>Đăng xuất</span>
-                </li>
-              </ul>
-            </div>
+          <div id='icon'>
+            <img src="assets/icon.svg" alt="">
           </div>
           <div id='services'>
             <div class="category item active">
@@ -56,7 +46,7 @@
                 <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#3E284B'></box-icon></div>
               </div>
               <ul>
-                <li class='item'>Thêm sách</li>
+                <li class='item' name='book-import'>Thêm sách</li>
                 <li class='item' name='book-browsing'>Tra cứu sách</li>
                 <li class='item' name='update-parameters'>Thay đổi quy định</li>
               </ul>
@@ -88,7 +78,26 @@
           </div>
         </div>
       </td>
-      <td id='mainContent'></td>
+      <td id='td-content'>
+        <div>
+          <div id='account'>
+            <div id='accountName'>
+              <p>Xin chào</p>
+              <div><%= who %></div>
+            </div>
+            <div id='accountOption'>
+              <ul>
+                <li><box-icon name='cog' color='#3E284B'></box-icon><span>Tài khoản</span></li>
+                <li>
+                  <box-icon name='log-out' color='#3E284B'></box-icon>
+                  <span>Đăng xuất</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id='mainContent'></div>
+      </td>
     </tr>
   </table>
 
