@@ -26,6 +26,18 @@ const validRenderValue = {
       path: 'admin/book-import',
       scripts: ['js/services/admin/book-import.js'],
       stylesheet: 'css/services/book-import.css'
+    },
+    'borrowing-report': {
+      permission: p => p.libControl,
+      path: 'admin/borrowing-report',
+      scripts: ['js/services/admin/borrowing-report.js'],
+      stylesheet: 'css/services/borrowing-report.css'
+    },
+    'late-return-report': {
+      permission: p => p.libControl,
+      path: 'admin/late-return-report',
+      scripts: ['js/services/admin/late-return-report.js'],
+      stylesheet: 'css/services/late-return-report.css'
     }
   }
 }
