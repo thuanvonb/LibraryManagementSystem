@@ -243,7 +243,8 @@ br {
 #td-content {
   display: grid;
   height: 100%;
-  grid-template-rows: 8% auto;
+  grid-template-rows: 8vh auto;
+  overflow-x: hidden;
 }
 
 #td-content > div:first-child {

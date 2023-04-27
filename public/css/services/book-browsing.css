@@ -1,104 +1,79 @@
-input,select 
-{
-    width: 32.5%;
-    height: 25px;
-    margin: 2px;
+.book-browsing .w-100 {
+    width: 100%
+}
+
+#filter-bar {
+    font-size: 1rem;
+    position: fixed;
+    vertical-align: center;
+    top: 8vh;
+    height: 10.5rem;
+    width: 72%;
+    padding: 0.5rem 0 2.5rem 0;
+    z-index: 3;
+    background-color: white;
+    transition: 0.2s;
+}
+
+.book-browsing input, 
+.book-browsing select{
+    width: 31.5%;
+    height: 1.5rem;
+    margin: 0.5rem 0.5%;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
-#filter-bar{
-    position: sticky;
-    top: 0px;
-    padding: 20px 0;
-    background-color: white;
+.book-browsing button {
+    height: 1.5rem;
 }
 
-#filter-bar .row-1{
-    margin-bottom: 10px;
-}
-
-#filter-bar .row-2{
-    position: relative;
-    width: 100%;
-}
-
-#filter-bar .row-2 div{
+#filter-bar .row-3 div{
     display: inline-block;
-    width: 32%;
+    width: 31.5%;
+    height: 1.5rem;
+    margin: 0.5rem 0.5%;
 }
 
-#filter-bar .row-2 .button{
-    text-align:right;
+#filter-bar .row-3 select{
+    width: 30%;
 }
 
-#filter-bar .row-2 .icon{
-    font-size: 25px;
-}
-
-#book-table {
-    padding-top: 2vh;
-    transition: 0.3s;
-}
-
-#book-table.expand {
-    padding-top: 5vh;
+#filter-bar .row-3 .button {
+    text-align: right;
 }
 
 #book-table {
-    width: 100%;
+    position: relative;
+    top: 10.5rem;
     border: solid 1px black;
 }
 
 #book-table thead {
     position: sticky;
-    top: 141px;
+    top: 10.5rem;
     background-color: var(--dom-dark);
-    height: 2em;
-    vertical-align: middle;
+}
+
+#book-table thead th{
+    width: calc(var(--r-size) / var(--t-size) * 100%);
     text-align: center;
+    vertical-align: center;
+    border: solid 1px black;
 }
 
-#book-table thead th {
-    width: calc(var(--r-size)/var(--t-size)*100%);
-    border: 1px solid black;
-    position: sticky;
-    top: 50px;
-}
-
-#book-table tbody tr td {
-    font-size: 17px;
-    border: 1px solid black;
-    color: black;
+#book-table tbody td {
     text-align: center;
+    vertical-align: center;
+    border: solid 1px black;
 }
 
-#book-table tbody tr td:nth-of-type(2) {
-    text-align: left;
-    padding-left: 1%;
-}
-
-#book-table thead th.asc::after {
-    content: '∧';
-    position: absolute;
-    top: -18%;
-    left: 50%;
-    font-size: 0.7em;
-}
-
-#book-table thead th.desc::after {
-    content: '∨';
-    position: absolute;
-    top: -18%;
-    left: 50%;
-    font-size: 0.7em;
-}
-
-#book-table tbody tr:nth-of-type(2n) {
+#book-table tbody tr:nth-of-type(2n)
+{
     background: lightgray;
 }
 
 #book-table tbody tr:hover {
     background: var(--acc-light);
-}
+  }
