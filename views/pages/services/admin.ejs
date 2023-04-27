@@ -3,7 +3,7 @@
 <head>
   <%- include('../../partials/head', {title: "Library Management System (Staff side)"}) %>
   <%- include('../../partials/theme', {themeName: "cyanish"})%>
-  <link rel="stylesheet" type="text/css" href="css/services/main.css">
+  <link rel="stylesheet" type="text/css" href="css/services/admin/main.css">
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
@@ -61,8 +61,8 @@
                 <div class='dropBtn'><box-icon name='chevron-right' type='solid' color='#3E284B'></box-icon></div>
               </div>
               <ul>
-                <li class='item'>Tình hình mượn sách</li>
-                <li class='item'>Các sách trả trễ</li>
+                <li class='item' name='book-rental'>Tình hình mượn sách</li>
+                <li class='item' name='overdue-books'>Các sách trả trễ</li>
               </ul>
             </div>
 <% } -%>

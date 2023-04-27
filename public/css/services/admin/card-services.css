@@ -134,7 +134,7 @@
   width: 40%;
 }
 
-#reader-form form input, select {
+#reader-form form input, #reader-form form select {
   width: 58%;
   height: 2em;
 }
@@ -143,16 +143,16 @@
   margin: 0.2em 0;
 }
 
-.filter {
+#reader-table .filter {
   font-size: 0.8em;
   margin-bottom: 0.5em;
 }
 
-.filter span {
+#reader-table .filter span {
   font-style: italic;
 }
 
-.filter select {
+#reader-table .filter select {
   width: 7em;
 }
 
@@ -177,7 +177,8 @@
   text-align: right;
 }
 
-#reader-table > div div.action button.active, button:hover {
+#reader-table > div div.action button.active,
+#reader-table > div div.action button:hover {
   background: var(--acc) !important;
   color: var(--fc-acc) !important;
 }
