@@ -4,3 +4,4 @@ otherlib
 test*.*
 *~
 sandbox
+.DS_Store

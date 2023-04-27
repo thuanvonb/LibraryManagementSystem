@@ -7,37 +7,37 @@ const validRenderValue = {
       permission: p => p.services,
       path: 'admin/card-services',
       scripts: ['js/services/admin/card-services.js'],
-      stylesheet: 'css/services/card-services.css'
+      stylesheet: 'css/services/admin/card-services.css'
     },
     'update-parameters': {
       permission: p => p.libControl,
       path: 'admin/update-parameters',
       scripts: ['js/services/admin/update-parameters.js'],
-      stylesheet: 'css/services/update-parameters.css'
+      stylesheet: 'css/services/admin/update-parameters.css'
     },
     'book-browsing': {
       permission: p => p.libControl,
       path: 'admin/book-browsing',
       scripts: ['js/services/admin/book-browsing.js'],
-      stylesheet: 'css/services/book-browsing.css'
+      stylesheet: 'css/services/admin/book-browsing.css'
     },
     'book-import': {
       permission: p => p.libControl,
       path: 'admin/book-import',
       scripts: ['js/services/admin/book-import.js'],
-      stylesheet: 'css/services/book-import.css'
+      stylesheet: 'css/services/admin/book-import.css'
     },
-    'borrowing-report': {
-      permission: p => p.libControl,
-      path: 'admin/borrowing-report',
-      scripts: ['js/services/admin/borrowing-report.js'],
-      stylesheet: 'css/services/borrowing-report.css'
+    'book-rental': {
+      permission: p => p.report,
+      path: 'admin/book-rental',
+      scripts: ['js/services/admin/book-rental.js'],
+      stylesheet: 'css/services/admin/book-rental.css'
     },
-    'late-return-report': {
-      permission: p => p.libControl,
-      path: 'admin/late-return-report',
-      scripts: ['js/services/admin/late-return-report.js'],
-      stylesheet: 'css/services/late-return-report.css'
+    'overdue-books': {
+      permission: p => p.report,
+      path: 'admin/overdue-books',
+      scripts: ['js/services/admin/overdue-books.js'],
+      stylesheet: 'css/services/admin/overdue-books.css'
     }
   }
 }

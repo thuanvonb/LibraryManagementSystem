@@ -3,7 +3,7 @@ html, body {
 }
 
 #bg {
-  background: url('https://assets.weforum.org/article/image/responsive_big_webp_JMF96ETfn1kSViVnUou1Z0XIDwWcPpT5mrPc7-ytpAc.webp');
+  background: url('../../assets/library2.png');
   filter: brightness(0.8);
   margin: 0;
   background-position: center;

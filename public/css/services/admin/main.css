@@ -6,6 +6,15 @@ html, body {
   overflow-x: hidden;
 }
 
+html {
+  font-size: 2.2vmin;
+}
+
+box-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 table td {
 /*  border: black 1px solid;*/
   padding: 0px;
@@ -258,10 +267,6 @@ br {
   overflow-x: auto;
 }
 
-#mainContent > div {
-  min-height: 100%;
-}
-
 .display-table {
   width: 100%;
   border: solid 1px black;
@@ -271,6 +276,7 @@ br {
   height: 2em;
   vertical-align: middle;
   text-align: center;
+  background-color: var(--dom-dark);
 }
 
 .display-table thead th {
