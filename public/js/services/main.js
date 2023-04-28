@@ -4,40 +4,66 @@ let socketCleanUp = []
 
 const tableHeader = table => table.select('thead').selectAll('th').nodes().map(v => v.getAttribute('name'))
 
+const serialize = fields => data => data.map(d => fields.map(f => d[f] ?? ""))
+
+const attributeMap = fields => data => {
+  let out = {}
+  fields.forEach((f, i) => out[f] = data[i]);
+  return out;
+}
+
 const insertIntoTable = table => newData => {
   let data = table.selectAll('tr').data().filter(t => t)
 
   if (!(newData instanceof Array))
     newData = [newData]
 
-  let fields = tableHeader(table)
-  let serialized = newData.map(d => fields.map(f => d[f] ?? ""))
+  let serialized = serialize(tableHeader(table))(newData)
 
   table.select("tbody")
     .selectAll('tr')
     .data(data.concat(serialized))
     .join('tr')
     .html(d => d.map(v => "<td>" + v + "</td>").join(''))
+
+  tableOrdering(table)
 }
 
 const tableFilter = table => condition => {
-  let fields = tableHeader(table)
-  let rows = table.select("tbody").selectAll('tr')
+  if (!condition)
+    condition = () => true;
 
-  rows.each(function(){
-    let rd = {}
-    let row = d3.select(this)
+  let attr = attributeMap(tableHeader(table))
 
-    row.selectAll("td").each(function(v, i){
-      rd[fields[i]] = d3.select(this).attr("value")
-    })
-    
-    if (!condition(rd))
-      row.style("display", "none")
-    else 
-      row.style("display", "")
-  })
+  let data = table.select("tbody")
+    .selectAll('tr')
+    .data()
+
+  data.sort((d1, d2) => condition(attr(d2)) - condition(attr(d1)))
+  table.select('tbody')
+    .selectAll('tr')
+    .data(data)
+    .join('tr')
+    .html(d => d.map(v => "<td>" + v + "</td>").join(''))
+    .classed('filtered', d => !condition(attr(d)))
+}
+
+const ordering = table => {
   
+}
+
+const tableOrdering = table => {
+  let fields = tableHeader(table)
+  let attr = attributeMap(fields)
+  
+  let data = (table.select('tbody').selectAll('tr').data()).map(attr)
+  data.sort(ordering(table))
+
+  table.select('tbody')
+    .selectAll('tr')
+    .data(serialize(fields)(data))
+    .join('tr')
+    .html(d => d.map(v => "<td>" + v + "</td>").join(''))
 }
 
 function firePopUp(msg, type) {
@@ -59,7 +85,7 @@ const loadScript = container => src => {
 }
 
 function loadStylesheet(id, href) {
-  if (document.getElementById(id))
+  if (document.getElementById("css_" + id))
     return false;
   let head  = document.getElementsByTagName('head')[0];
   let link  = document.createElement('link');

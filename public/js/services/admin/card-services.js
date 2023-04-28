@@ -74,15 +74,16 @@ socket.on('issueCard_accepted', userInfo => {
   $("span[name='validDate']").html(userInfo.validUntil)
   document.forms.issueForm.reset()
   $(".cardAttr").html("")
-  insertIntoTable(d3.select('#reader-table').select('table'), [{value: ""}])(userInfo)
+  insertIntoTable(d3.select('#reader-table').select('table'))(userInfo)
   // $("#issueCardBtn").html("Issued!")
   firePopUp("Card issued successfully", 'success')
 })
 
 socket.on('getReaderData_accepted', readerInfo => {
-  let defaultInsert = insertIntoTable(d3.select('#reader-table').select('table'), [{value: ""}])
-  // defaultInsert(readerInfo)
-  readerInfo.forEach(defaultInsert)
+  let defaultInsert = insertIntoTable(d3.select('#reader-table').select('table'))
+  console.log(readerInfo)
+  defaultInsert(readerInfo)
+  // readerInfo.forEach(defaultInsert)
 });
 
 (['cardId', 'issueCard_rejected', 'issueCard_accepted', 'getReaderData_accepted']).forEach(socket => socketCleanUp.push(socket))

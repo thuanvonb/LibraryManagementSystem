@@ -319,3 +319,7 @@ br {
 .display-table tbody tr:hover {
   background: var(--acc-light);
 }
+
+.display-table tbody tr.filtered {
+  display: none;
+}
