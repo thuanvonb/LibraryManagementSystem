@@ -15,10 +15,17 @@ function isValidPrice(){
 }
 
 // --------------------- dom action --------------------
-var ytInput = $("input[name='year_to']")[0]
-var yfInput = $("input[name='year_from']")[0]
+var ytInput = $("input[name='year_to']")[0],
+    yfInput = $("input[name='year_from']")[0],
+    bName = $("input[name='bName']")[0],
+    aName = $("select[name='aName']")[0],
+    gName = $("select[name='gName']")[0],
+    pName = $("select[name='pName']")[0],
+    state = $("select[name='state']")[0]
+
 ytInput.value = ytInput.max = yfInput.max = JSON.stringify(getCurrentYear())
 yfInput.value = ytInput.min = yfInput.min = 1950
+bName.value = bName.innerHTML
 
 yfInput.addEventListener("focusout", function(e) {
     if (Number(yfInput.value) < Number(yfInput.min))
@@ -69,25 +76,29 @@ ptInput.addEventListener("focusout", function(e) {
 
 $("button[name='unbrowseBook']")[0].addEventListener("click", function(e){
     console.log("clear filter")
-    $("input[name='bName']")[0].value = ""
-    $("select[name='aName']")[0].value = ""
-    $("select[name='gName']")[0].value = ""
-    $("select[name='pName']")[0].value = ""
-    $("select[name='state']")[0].value = ""
+    bName.value = ""
+    aName.value = ""
+    gName.value = ""
+    pName.value = ""
+    state.value = ""
 
-    var ytInput = $("input[name='year_to']")[0]
-    var yfInput = $("input[name='year_from']")[0]
     ytInput.value = ytInput.max
     yfInput.value = yfInput.min
-    showValidInput(yfInput)
-    showValidInput(ytInput)
 
-    var pfInput = $("input[name='price_from']")[0]
-    var ptInput = $("input[name='price_to']")[0]
     ptInput.value = ptInput.max
     pfInput.value = pfInput.min
-    showValidInput(pfInput)
-    showValidInput(ptInput)
+})
+
+$("button[name='browseBook']")[0].addEventListener("click", function(e) {
+    tableFilter(d3.select("#book-table"))(d =>
+            (bName.value == "" || d.bName == bName.value) &&
+            (aName.value == "" || d.aName == aName.value) &&
+            (gName.value == "" || d.gName == gName.value) &&
+            (pName.value == "" || d.pName == pName.value) &&
+            (state.value == "" || d.state == state.value) &&
+            (Number(yfInput.value) <= Number(d.pYear) && Number(d.pYear) <= Number(ytInput.value)) &&
+            (Number(pfInput.value) <= Number(d.price) && Number(d.price) <= Number(ptInput.value))
+    )
 })
 // ------------------- socket comm. ------------------
 

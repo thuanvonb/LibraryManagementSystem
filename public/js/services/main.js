@@ -21,7 +21,23 @@ const insertIntoTable = table => newData => {
 }
 
 const tableFilter = table => condition => {
+  let fields = tableHeader(table)
+  let rows = table.select("tbody").selectAll('tr')
 
+  rows.each(function(){
+    let rd = {}
+    let row = d3.select(this)
+
+    row.selectAll("td").each(function(v, i){
+      rd[fields[i]] = d3.select(this).attr("value")
+    })
+    
+    if (!condition(rd))
+      row.style("display", "none")
+    else 
+      row.style("display", "")
+  })
+  
 }
 
 function firePopUp(msg, type) {
