@@ -1,0 +1,64 @@
+.overdue-books .title {
+    margin-bottom: 2vh;
+    padding: 1vh 0;
+    font-size: 2em;
+    color: var(--sec-dark);
+    text-align: center;
+    border: solid 1px;
+    border-color: transparent transparent black transparent;
+}
+
+.overdue-books .panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 1.5rem;
+    margin: 1rem 0 2rem 0;
+}
+  
+.overdue-books .panel .button {
+    text-align: right;
+}
+
+.overdue-books .panel button {
+    height: 2em;
+    border: none;
+    outline: none;
+    background: var(--sec);
+    color: var(--fc-sec);
+    border-radius: 1vh;
+    margin-right: 1em;
+}
+
+.overdue-books button:hover {
+    background: var(--acc);
+    color: var(--fc-acc);
+  }
+
+.overdue-books .panel input,
+.overdue-books .panel select{
+    width: 50%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 2em;
+}
+
+.overdue-books .panel .sum {
+    padding-top: 0.25em;
+}
+  
+.overdue-books #overdue-table {
+    position: relative;
+    border: solid 1px black;
+  }
+  
+.overdue-books #overdue-table thead {
+    position: sticky;
+    top: -1px;
+}
+  
+.overdue-books > div:last-child {
+    position: relative;
+    overflow-x: auto;
+    height: calc(100% - 20vh);
+}

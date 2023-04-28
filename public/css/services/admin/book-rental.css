@@ -1,0 +1,64 @@
+.book-rental .title {
+    margin-bottom: 2vh;
+    padding: 1vh 0;
+    font-size: 2em;
+    color: var(--sec-dark);
+    text-align: center;
+    border: solid 1px;
+    border-color: transparent transparent black transparent;
+}
+
+.book-rental .panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    height: 1.5rem;
+    margin: 1rem 0 2rem 0;
+}
+  
+.book-rental .panel .button {
+    text-align: right;
+}
+
+.book-rental .panel button {
+    height: 2em;
+    border: none;
+    outline: none;
+    background: var(--sec);
+    color: var(--fc-sec);
+    border-radius: 1vh;
+    margin-right: 1em;
+}
+
+.book-rental button:hover {
+    background: var(--acc);
+    color: var(--fc-acc);
+  }
+
+.book-rental .panel input,
+.book-rental .panel select{
+    width: 50%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 2em;
+}
+
+.book-rental .panel .sum {
+    padding-top: 0.25em;
+}
+  
+.book-rental #rental-table {
+    position: relative;
+    border: solid 1px black;
+  }
+  
+.book-rental #rental-table thead {
+    position: sticky;
+    top: -1px;
+}
+  
+.book-rental > div:last-child {
+    position: relative;
+    overflow-x: auto;
+    height: calc(100% - 20vh);
+}

@@ -1,0 +1,32 @@
+<div class="overdue-books" style="position: relative; height: 100%">
+    <div class='title'>
+        <b>BÁO CÁO THỐNG KÊ SÁCH TRẢ TRỄ</b>
+    </div>
+
+    <div class="panel">
+        <div>
+            <label for="date">Ngày: </label>
+            <input type="date" name="date" required="true">
+        </div>
+        <div class="button">
+            <button name="report-on-screen">Lập báo cáo</button>
+            <button name="report-on-doc">In báo cáo</button>
+        </div>
+    </div>
+
+    <div>
+        <table id="overdue-table" class='expand display-table'>
+            <thead>
+                <tr style='--t-size:100'>
+                    <th style="--r-size: 10;">STT</th>
+                    <th style="--r-size: 40;">Tên sách</th>
+                    <th style="--r-size: 25;">Ngày mượn</th>
+                    <th style="--r-size: 25;">Số ngày trả trễ</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            
+        </table>
+    </div>
+</div>
