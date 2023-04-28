@@ -36,8 +36,8 @@ const sk_issueCard = socket => data => {
       console.log(data)
       socket.emit('issueCard_accepted', {
         cardId: data.cardid,
-        readerName: data.info.rname,
-        cardtype: data.readertype,
+        rName: data.info.rname,
+        cardType: data.readertype,
         issueDate: data.issuedate.format('YYYY-MM-DD'),
         validUntil: data.validuntil.format('YYYY-MM-DD')
       })
@@ -53,8 +53,8 @@ const sk_getReaderData = socket => data => {
 
   let dataOut = db.database.ReaderCard.data.map(d => ({
     cardId: d.cardid,
-    readerName: d.info.rname,
-    cardtype: d.readertype,
+    rName: d.info.rname,
+    cardType: d.readertype,
     issueDate: d.issuedate.format('YYYY-MM-DD'),
     validUntil: d.validuntil.format('YYYY-MM-DD')
   }))
