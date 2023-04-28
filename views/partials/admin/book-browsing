@@ -1,1 +1,53 @@
-<div class="book-browsing" style="position: relative; height: 100%"> <div id="filter-bar"> <div> <div class="row-1 w-100"> <div class="filter"> <input type="text" name="bName" placeholder="Tên sách"> <select name="aName"> <option value="" disabled selected>Tác giả</option> </select> <select name="gName"> <option value="" disabled selected>Thể loại</option> </select> </div> </div> <div class="row-2 w-100"> <div class="filter"> <select name="pName"> <option value="" disabled selected>Nhà XB</option> </select> <select name="state"> <option value="" disabled selected>Trạng thái</option> <option value="1">Còn hàng</option> <option value="0">Hết hàng</option> </select> </div> </div> <div class="row-3 w-100"> <div class="pYear filter_"> <label for="pYear">Năm XB:</label> <span>Từ</span> <input type="number" name="year_from" placeholder="năm bất kỳ"> <span>Đến</span> <input type="number" name="year_to" min='1950' placeholder="năm bất kỳ"> </div> <div class="price filter_"> <label for="price">Giá:</label> <span>Từ</span> <input type="number" name="price_from" value="0" min='0'> <span>Đến</span> <input type="number" name="price_to" min='10000' placeholder="giá bất kỳ"> </div> <div class="button"> <button name='browseBook'>Lọc</button> <button name='unbrowseBook'>Xóa bộ lọc</button> </div> </div> </div> </div> <div> <table id="book-table" class='expand display-table'> <thead> <tr style='--t-size:100'> <th style="--r-size: 10;">Mã sách</th> <th style="--r-size: 30;">Tên sách</th> <th style="--r-size: 10;">Thể loại</th> <th style="--r-size: 10;">Tác giả</th> <th style="--r-size: 10;">Năm xb</th> <th style="--r-size: 10;">Nhà xb</th> <th style="--r-size: 10;">Giá trị</th> <th style="--r-size: 10;">Trạng thái</th> </tr> </thead> <tbody></tbody> </table> </div> </div>
+<div class="book-browsing" style="position: relative; height: 100%">
+    <div id="filter-bar">
+        <div>
+            <div class="row-1 w-100">
+                <div class="filter"> <input type="text" name="bName" placeholder="Tên sách"> <select name="aName">
+                        <option value="" disabled selected>Tác giả</option>
+                    </select> <select name="gName">
+                        <option value="" disabled selected>Thể loại</option>
+                    </select> </div>
+            </div>
+            <div class="row-2 w-100">
+                <div class="filter"> <select name="pName">
+                        <option value="" disabled selected>Nhà XB</option>
+                    </select> <select name="state">
+                        <option value="" disabled selected>Trạng thái</option>
+                        <option value="1">Còn hàng</option>
+                        <option value="0">Hết hàng</option>
+                    </select> </div>
+            </div>
+            <div class="row-3 w-100">
+                <div class="pYear filter_"> 
+                    <label for="pYear">Năm XB:</label> 
+                    <span>Từ</span> <input type="number" name="year_from" placeholder="năm bất kỳ"> 
+                    <span>Đến</span> <input type="number" name="year_to" placeholder="năm bất kỳ"> 
+                </div>
+                <div class="price filter_"> <label for="price">Giá:</label> <span>Từ</span> <input type="number"
+                        name="price_from" value="0" min='0'> <span>Đến</span> <input type="number" name="price_to" value="999999999"
+                        max='999999999' placeholder="giá bất kỳ"> 
+                </div>
+                <div class="button"> <button name='browseBook'>Lọc</button> <button name='unbrowseBook'>Xóa bộ
+                        lọc</button> </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table id="book-table" class='expand display-table'>
+            <thead>
+                <tr style='--t-size:100'>
+                    <th style="--r-size: 10;">Mã sách</th>
+                    <th style="--r-size: 30;">Tên sách</th>
+                    <th style="--r-size: 10;">Thể loại</th>
+                    <th style="--r-size: 10;">Tác giả</th>
+                    <th style="--r-size: 10;">Năm xb</th>
+                    <th style="--r-size: 10;">Nhà xb</th>
+                    <th style="--r-size: 10;">Giá trị</th>
+                    <th style="--r-size: 10;">Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
