@@ -1,5 +1,5 @@
-let params = undefined;
-let default_params = undefined;
+var params = undefined;
+var default_params = undefined;
 
 function updateParams() {
   let t = d3.select('#parameters')

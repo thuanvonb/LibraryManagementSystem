@@ -2,17 +2,26 @@ const socket = io('/admin')
 let renderData = {}
 let socketCleanUp = []
 
-const insertIntoTable = (table, otherFields) => (data) => {
-  let serialized = []
-  for (let key in data)
-    serialized.push({key, value: data[key]})
-  serialized = serialized.concat(otherFields)
-  // console.log(serialized)
-  return table.append('tr')
-    .selectAll('td')
-    .data(serialized)
-    .join('td')
-    .html(d => d.value)
+const tableHeader = table => table.select('thead').selectAll('th').nodes().map(v => v.getAttribute('name'))
+
+const insertIntoTable = table => newData => {
+  let data = table.selectAll('tr').data().filter(t => t)
+
+  if (!(newData instanceof Array))
+    newData = [newData]
+
+  let fields = tableHeader(table)
+  let serialized = newData.map(d => fields.map(f => d[f] ?? ""))
+
+  table.select("tbody")
+    .selectAll('tr')
+    .data(data.concat(serialized))
+    .join('tr')
+    .html(d => d.map(v => "<td>" + v + "</td>").join(''))
+}
+
+const tableFilter = table => condition => {
+
 }
 
 function firePopUp(msg, type) {
