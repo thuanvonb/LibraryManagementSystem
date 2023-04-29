@@ -191,3 +191,7 @@
   border-radius: 2vh;
   width: 12em;
 }
+
+#reader-table thead th:hover {
+  background-color: var(--acc-light);
+}

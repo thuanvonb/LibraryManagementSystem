@@ -26,7 +26,12 @@ const insertIntoTable = table => newData => {
     .join('tr')
     .html(d => d.map(v => "<td>" + v + "</td>").join(''))
 
-  tableOrdering(table)
+  table.select("thead th").each(function() {
+    if (d3.select(this).attr("class") == "asc")
+      tableOrdering(table, d3.select(this).attr("name"), 0)
+    else if (d3.select(this).attr('class') == "desc")
+      tableOrdering(table, d3.select(this).attr("name"), 1)
+  })
 }
 
 const tableFilter = table => condition => {
@@ -40,6 +45,7 @@ const tableFilter = table => condition => {
     .data()
 
   data.sort((d1, d2) => condition(attr(d2)) - condition(attr(d1)))
+
   table.select('tbody')
     .selectAll('tr')
     .data(data)
@@ -48,17 +54,33 @@ const tableFilter = table => condition => {
     .classed('filtered', d => !condition(attr(d)))
 }
 
-const ordering = table => {
-  
+const ordering = (table, cri, order) => (d1, d2) => {
+  console.log("odering", cri, order)
+  if (d1[cri] == d2[cri])
+      return 0
+
+  if (order == 0) // asc
+  {
+    if (d1[cri] > d2[cri])
+      return 1
+    else 
+      return -1
+  }
+  else // desc
+  {
+    if (d1[cri] > d2[cri])
+      return -1
+    else 
+      return 1
+  }
 }
 
-const tableOrdering = table => {
+const tableOrdering = (table, cri, order) => {
   let fields = tableHeader(table)
   let attr = attributeMap(fields)
-  
-  let data = (table.select('tbody').selectAll('tr').data()).map(attr)
-  data.sort(ordering(table))
 
+  let data = (table.select('tbody').selectAll('tr').data()).map(attr)
+  data.sort(ordering(table, cri, order))
   table.select('tbody')
     .selectAll('tr')
     .data(serialize(fields)(data))
@@ -147,6 +169,27 @@ $("#popup").click(e => {
   $("#popup").removeClass('success')
   $("#popup").removeClass('failure')
 })
+
+// Sort khi click vao table header
+function sortTable(table, hName) {
+  table.selectAll("thead th").each(function() {
+    if (d3.select(this).attr("name") == hName)
+    {
+      if (d3.select(this).attr("class") == "none" || d3.select(this).attr("class") == "desc")
+      {
+        d3.select(this).attr("class", "asc")
+        tableOrdering(table, hName, 0)
+      }
+      else 
+      {
+        d3.select(this).attr("class", "desc")
+        tableOrdering(table, hName, 1)
+      }
+    }
+    else 
+      d3.select(this).attr("class", "none")
+  })
+}
 
 // --------------------- socket comm. ---------------------
 socket.on('renderData_rejected', d => firePopUp(d, 'error'))

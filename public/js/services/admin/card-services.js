@@ -57,6 +57,11 @@ $("button[name='issueAction']").click(e => {
   }
 })
 
+// Sort khi click vao table header
+$("#reader-table thead th").click(function() {
+  sortTable(d3.select("#reader-table table"), $(this).attr("name"))
+})
+
 // ------------------- socket comm. ------------------
 socket.on('cardId', data => {
   d3.select("#barcode").html(data.idBar)

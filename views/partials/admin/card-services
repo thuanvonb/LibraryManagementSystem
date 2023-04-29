@@ -1,1 +1,60 @@
-<div> <div id='reader-info' style='display: none;'> <div id='reader-form'> <div> <form id='issueForm' accept-charset="utf-8" class='w-100'> <label for="rName">Họ và tên</label> <input type="text" name="rName" placeholder="Tên của độc giả" required><br> <label for="email">Email</label> <input type="email" name="email" placeholder="Email của độc giả" required><br> <label for="identityNum">Số CCCD</label> <input type="text" name="identityNum" placeholder="Số CCCD" pattern="\d{9,12}" required><br> <label for="addr">Địa chỉ</label> <input type="text" name="addr" placeholder="Địa chỉ thường trú" required><br> <label for="birthday">Ngày sinh</label> <input type="date" name="birthday" required><br> <label for="readerType">Loại thẻ</label> <select name="readerType"> <option value="Thường">Thường</option> <option value="HSSV">Học sinh/Sinh viên</option> </select> <label for="oldId">Mã thẻ cũ</label> <input type="text" name="oldId" value="" placeholder="Không sử dụng" pattern='\d{8}' disabled> </form> </div> </div> <div id='card-service'> <div id='card-info'> <div> <img src='assets/icon.svg'> <div id='info-fields'> <div style='--fid: 0;'><span>Tên:</span> <span class='cardAttr' name='rName'></span></div> <div style='--fid: 1;'><span>Ngày sinh:</span> <span class='cardAttr' name='birthday'></span> </div> <div style='--fid: 2;'><span>Loại thẻ:</span> <span class='cardAttr' name='readerType'></span> </div> <div style='--fid: 3;'><span>Địa chỉ:</span> <span class='cardAttr' name='addr'></span></div> </div> <span id='issueDate'>Ngày lập thẻ: <span class='cardAttr' name='issueDate'></span></span> <span id='validDate'>Hiệu lực đến: <span class='cardAttr' name='validDate'></span></span> <span id='barcode'></span> <span id='cardId'>Mã độc giả: <span class='cardAttr' name='cardId'></span></span> </div> </div> <div> <button id='issueCardBtn'>Lập thẻ</button> <button id='prolongCardBtn'>Gia hạn thẻ</button> </div> </div> </div> <div id='reader-table' class='expand'> <div> <div class='filter'> <span>Bộ lọc:</span> <input type="text" placeholder="nhập giá trị"> <select> <option>Mã độc giả</option> <option>Tên độc giả</option> </select> </div> <div class='action'> <button name='issueAction'>+ Lập thẻ độc giả</button> </div> </div> <table class='display-table'> <thead> <tr style='--t-size:20'> <th style="--r-size: 2;" name='cardId' class='asc'>Mã ĐG</th> <th style="--r-size: 7;" name='rName'>Họ và tên</th> <th style="--r-size: 2;" name='cardType'>Loại thẻ</th> <th style="--r-size: 3;" name='issueDate'>Ngày lập thẻ</th> <th style="--r-size: 3;" name='validUntil'>Hiệu lực đến</th> <th style="--r-size: 3;" name='action'>Tác vụ</th> </tr> </thead> <tbody> </tbody> </table> </div> </div>
+<div>
+    <div id='reader-info' style='display: none;'>
+        <div id='reader-form'>
+            <div>
+                <form id='issueForm' accept-charset="utf-8" class='w-100'> <label for="rName">Họ và tên</label> <input
+                        type="text" name="rName" placeholder="Tên của độc giả" required><br> <label
+                        for="email">Email</label> <input type="email" name="email" placeholder="Email của độc giả"
+                        required><br> <label for="identityNum">Số CCCD</label> <input type="text" name="identityNum"
+                        placeholder="Số CCCD" pattern="\d{9,12}" required><br> <label for="addr">Địa chỉ</label> <input
+                        type="text" name="addr" placeholder="Địa chỉ thường trú" required><br> <label
+                        for="birthday">Ngày sinh</label> <input type="date" name="birthday" required><br> <label
+                        for="readerType">Loại thẻ</label> <select name="readerType">
+                        <option value="Thường">Thường</option>
+                        <option value="HSSV">Học sinh/Sinh viên</option>
+                    </select> <label for="oldId">Mã thẻ cũ</label> <input type="text" name="oldId" value=""
+                        placeholder="Không sử dụng" pattern='\d{8}' disabled> </form>
+            </div>
+        </div>
+        <div id='card-service'>
+            <div id='card-info'>
+                <div> <img src='assets/icon.svg'>
+                    <div id='info-fields'>
+                        <div style='--fid: 0;'><span>Tên:</span> <span class='cardAttr' name='rName'></span></div>
+                        <div style='--fid: 1;'><span>Ngày sinh:</span> <span class='cardAttr' name='birthday'></span>
+                        </div>
+                        <div style='--fid: 2;'><span>Loại thẻ:</span> <span class='cardAttr' name='readerType'></span>
+                        </div>
+                        <div style='--fid: 3;'><span>Địa chỉ:</span> <span class='cardAttr' name='addr'></span></div>
+                    </div> <span id='issueDate'>Ngày lập thẻ: <span class='cardAttr' name='issueDate'></span></span>
+                    <span id='validDate'>Hiệu lực đến: <span class='cardAttr' name='validDate'></span></span> <span
+                        id='barcode'></span> <span id='cardId'>Mã độc giả: <span class='cardAttr'
+                            name='cardId'></span></span>
+                </div>
+            </div>
+            <div> <button id='issueCardBtn'>Lập thẻ</button> <button id='prolongCardBtn'>Gia hạn thẻ</button> </div>
+        </div>
+    </div>
+    <div id='reader-table' class='expand'>
+        <div>
+            <div class='filter'> <span>Bộ lọc:</span> <input type="text" placeholder="nhập giá trị"> <select>
+                    <option>Mã độc giả</option>
+                    <option>Tên độc giả</option>
+                </select> </div>
+            <div class='action'> <button name='issueAction'>+ Lập thẻ độc giả</button> </div>
+        </div>
+        <table class='display-table'>
+            <thead>
+                <tr style='--t-size:20'>
+                    <th style="--r-size: 2;" name='cardId' class='asc'>Mã ĐG</th>
+                    <th style="--r-size: 7;" name='rName' class='none'>Họ và tên</th>
+                    <th style="--r-size: 2;" name='cardType' class='none'>Loại thẻ</th>
+                    <th style="--r-size: 3;" name='issueDate' class='none'>Ngày lập thẻ</th>
+                    <th style="--r-size: 3;" name='validUntil' class='none'>Hiệu lực đến</th>
+                    <th style="--r-size: 3;" name='action' class='none'>Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody> </tbody>
+        </table>
+    </div>
+</div>
