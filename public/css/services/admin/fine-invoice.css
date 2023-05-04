@@ -1,0 +1,135 @@
+#invoice-overdue {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+}
+
+#invoice-overdue h4 {
+  color: var(--sec-dark);
+}
+
+#invoice-overdue .pop-up-field {
+  display: none;
+  z-index: 5;
+}
+
+#invoice-overdue .pop-up-field.show {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#invoice-overdue .pop-up-field.show ~ .dimmer {
+  display: block;
+}
+
+.infoRow input:disabled {
+  background: initial;
+  color: initial;
+  border-style: solid;
+  border-color: initial;
+  border-width: 1px;
+  border-radius: 3px;
+}
+
+.infoRow div {
+  width: 100%;
+  display: flex;
+  margin: 2vh 0;
+}
+
+.infoRow div label {
+  flex: 1;
+}
+
+.infoRow div input {
+  height: 2em;
+  width: 50%;
+}
+
+#invoice-field > div {
+  width: 50%;
+/*  border: 1px solid black;*/
+  border-radius: 2vh;
+  display: flex;
+  justify-content: center;
+  background: white;
+}
+
+#invoice-field > div > div {
+  width: 70%;
+  margin: 4vh 0;
+}
+
+#invoice-field table td {
+  outline: none;
+  text-align: center;
+}
+
+#invoice-field table td:nth-of-type(4),
+#invoice-field table td:nth-of-type(n+6) {
+  outline: none;
+  text-align: left;
+  padding-left: 1%;
+}
+
+.dimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0.3, 0.3, 0.3, 0.5);
+  z-index: 3;
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+#invoice-overdue div.readerInfo {
+  display: grid;
+  grid-template-columns: auto 2fr 1fr 1.5fr auto;
+  align-items: center;
+  margin-bottom: 2vh;
+}
+
+#invoice-overdue div.readerInfo span {
+  margin-top: 1vh;
+}
+
+#invoice-field form div:first-child label {
+  margin: 0;
+  margin-right: 2em;
+}
+
+/*#invoice-field form div:first-child > div {
+  flex: 1;
+}*/
+
+#invoice-field form > div:last-child {
+  margin-top: 4vh;
+  display: flex;
+}
+
+#inner-invoice-books {
+  margin-top: 2vh;
+}
+
+#invoice-field form > div:last-child button {
+  flex: 1;
+  margin: 0 1em;
+  height: 2em;
+}
+
+#inner-invoice-books button {
+  width: 13em;
+  margin-left: 2em;
+  height: 2em;
+}
+
+#inner-invoice-books > div:first-child {
+  margin-bottom: 1vh;
+}

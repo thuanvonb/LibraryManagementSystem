@@ -195,3 +195,8 @@
 #reader-table thead th:hover {
   background-color: var(--acc-light);
 }
+
+#reader-table tbody tr td:nth-of-type(2) {
+  text-align: left;
+  padding-left: 1%;
+}

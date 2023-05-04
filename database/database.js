@@ -55,8 +55,8 @@ class Database {
           this[table].respond()
           return reject(err)
         }
-        let data = this[table].respond('I')
-        resolve(data)
+        let out = this[table].respond('I' + (data instanceof Array ? "M" : ""))
+        resolve(out)
       })
     })
   }

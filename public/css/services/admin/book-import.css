@@ -46,10 +46,14 @@
   border-radius: 2vh;
 }
 
+#import-book-form .section:first-child {
+  flex: 2;
+}
+
 #import-book-form .section:first-child .item {
   margin: 1vh 0;
   display: grid;
-  grid-template-columns: 35% auto 40%;
+  grid-template-columns: 30% auto 55%;
 }
 
 #import-book-form .section:last-child .item {

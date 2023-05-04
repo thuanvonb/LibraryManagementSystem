@@ -25,7 +25,7 @@ let BorrowingContents = new Table("BorrowingContents", ['borrowId', 'bookId'])
 let Returning = new Table("Returning", ['returnId', 'cardId', 'returnDate', 'overdueFine', 'staffId'])
 let ReturningContents = new Table("ReturningContents", ['returnId', 'bookId', 'borrowId', 'isLost'])
 
-let FineInvoice = new Table("FineInvoice", ['invoiceId', 'cardId', 'paid', 'staffId'])
+let FineInvoice = new Table("FineInvoice", ['invoiceId', 'cardId', 'paid', 'staffId', 'invoiceDate'])
 
 WebUser           .addPrimaryKey(['userUUID'])
 Staff             .addPrimaryKey(['staffId'])

@@ -44,7 +44,7 @@ class Table {
     this.grouped = undefined;
     this.groups = {};
     this.primaryAuto = false;
-    this.pending = undefined;
+    this.pending = [];
   }
 
   isEmpty() {
@@ -422,19 +422,25 @@ class Table {
     if (!this.pending)
       return;
     let output = undefined
-    if (actionType == 'I') {
-      this.data.push(this.pending)
-      output = this.pending;
+    if (actionType == 'I' || actionType == 'IM') {
+      this.data = this.data.concat(this.pending)
+      if (actionType == 'I')
+        output = this.pending[0];
+      else
+        output = this.pending
     }
-    if (actionType == 'D') {
 
-    }
-
-    this.pending = undefined
+    this.pending = []
     return output;
   }
 
   insert(data, errHdl) {
+    if (data instanceof Array) {
+      let queries = data.map(datum => this.insert(datum, errHdl))
+      let q = queries[0].substr(0, queries[0].lastIndexOf('(')) + queries.map(q => q.substr(q.lastIndexOf('('))).join()
+      // console.log(data, queries)
+      return q;
+    }
     let data2 = {}
     for (let field in data)
       data2[field.toLowerCase()] = data[field];
@@ -469,11 +475,12 @@ class Table {
 
     let query = `insert into ${this.name} (${columns.join(',')}) values (${dataQ.join(',')})`
 
-    console.log(data2, this.foreigns)
+    // console.log(data2, this.foreigns)
 
     if (this.primaryAuto) {
       let pk = this.primary[0]
-      data2[pk] = this.aggregation([Agg.max(pk), 0, 'maxC']).data[0].maxC + 1
+      data2[pk] = Math.max(this.aggregation([Agg.max(pk), 0, 'maxC']).data[0].maxC,
+        this.pending.reduce((acc, t) => Math.max(t[pk], acc), Math.max())) + 1
     }
     for (let fk in this.foreigns) {
       let f = this.foreigns[fk]
@@ -487,7 +494,7 @@ class Table {
       if (data2[f.name] == undefined)
         return errHdl("A foreign key contraint fails")
     }
-    this.pending = data2
+    this.pending.push(data2)
 
     return query
   }

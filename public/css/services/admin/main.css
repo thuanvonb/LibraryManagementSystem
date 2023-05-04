@@ -262,9 +262,12 @@ br {
 }
 
 #mainContent {
-  padding: 0 2vw;
   position: relative;
   overflow-x: auto;
+}
+
+#mainContent > div {
+  padding: 0 2vw;
 }
 
 .display-table {
@@ -283,17 +286,13 @@ br {
   width: calc(var(--r-size)/var(--t-size)*100%);
   border: 1px solid black;
   position: relative;
+  user-select: none;
 }
 
 .display-table tbody tr td {
   border: 1px solid black;
   color: black;
   text-align: center;
-}
-
-.display-table tbody tr td:nth-of-type(2) {
-  text-align: left;
-  padding-left: 1%;
 }
 
 .display-table thead th.asc::after {
@@ -322,4 +321,17 @@ br {
 
 .display-table tbody tr.filtered {
   display: none;
+}
+
+button.stdBtn {
+  background: var(--sec);
+  color: var(--fc-sec);
+  border: none;
+  outline: none;
+  border-radius: 1vh;
+}
+
+button.stdBtn:hover {
+  background: var(--acc);
+  color: var(--fc-acc);
 }

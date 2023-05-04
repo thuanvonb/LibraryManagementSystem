@@ -14,6 +14,14 @@ function updateForm(e) {
   $("span[name='issueDate']").html(moment().format("YYYY-MM-DD"))
 }
 
+function addAction(val) {
+  let validUntil = moment(val.validUntil)
+  if (validUntil.diff(moment()) > 0)
+    val.action = 'Gia hạn'
+  else
+    val.action = 'Làm lại'
+}
+
 // --------------------- dom action --------------------
 $("#issueForm input").on('input', updateForm)
 $("#issueForm select").on('change', updateForm)
@@ -53,13 +61,9 @@ $("button[name='issueAction']").click(e => {
   else {
     document.forms.issueForm.reset()
     $(".cardAttr").html("")
+    $("#barcode").html("")
     $("#reader-info").slideUp()
   }
-})
-
-// Sort khi click vao table header
-$("#reader-table thead th").click(function() {
-  sortTable(d3.select("#reader-table table"), $(this).attr("name"))
 })
 
 // ------------------- socket comm. ------------------
@@ -69,6 +73,8 @@ socket.on('cardId', data => {
 })
 
 socket.on('issueCard_rejected', reason => {
+  console.log(reason)
+  
   if (typeof reason == 'string')
     firePopUp(reason, 'failure')
   else
@@ -78,6 +84,7 @@ socket.on('issueCard_rejected', reason => {
 socket.on('issueCard_accepted', userInfo => {
   $("span[name='validDate']").html(userInfo.validUntil)
   document.forms.issueForm.reset()
+  addAction(userInfo)
   $(".cardAttr").html("")
   insertIntoTable(d3.select('#reader-table').select('table'))(userInfo)
   // $("#issueCardBtn").html("Issued!")
@@ -86,7 +93,7 @@ socket.on('issueCard_accepted', userInfo => {
 
 socket.on('getReaderData_accepted', readerInfo => {
   let defaultInsert = insertIntoTable(d3.select('#reader-table').select('table'))
-  console.log(readerInfo)
+  readerInfo.forEach(addAction)
   defaultInsert(readerInfo)
   // readerInfo.forEach(defaultInsert)
 });
@@ -94,3 +101,4 @@ socket.on('getReaderData_accepted', readerInfo => {
 (['cardId', 'issueCard_rejected', 'issueCard_accepted', 'getReaderData_accepted']).forEach(socket => socketCleanUp.push(socket))
 
 socket.emit('getReaderData')
+orderingColumns(d3.select('#reader-table').select('table'))

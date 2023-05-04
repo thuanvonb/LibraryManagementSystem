@@ -9,6 +9,24 @@ const validRenderValue = {
       scripts: ['js/services/admin/card-services.js'],
       stylesheet: 'css/services/admin/card-services.css'
     },
+    'borrow-books': {
+      permission: p => p.services,
+      path: 'admin/borrow-books',
+      scripts: ['js/services/admin/borrow-books.js'],
+      stylesheet: 'css/services/admin/borrow-books.css'
+    },
+    'receive-books': {
+      permission: p => p.services,
+      path: 'admin/receive-books',
+      scripts: ['js/services/admin/receive-books.js'],
+      stylesheet: 'css/services/admin/receive-books.css'
+    },
+    'fine-invoice': {
+      permission: p => p.services,
+      path: 'admin/fine-invoice',
+      scripts: ['js/services/admin/fine-invoice.js'],
+      stylesheet: 'css/services/admin/fine-invoice.css'
+    },
     'update-parameters': {
       permission: p => p.libControl,
       path: 'admin/update-parameters',
@@ -38,7 +56,13 @@ const validRenderValue = {
       path: 'admin/overdue-books',
       scripts: ['js/services/admin/overdue-books.js'],
       stylesheet: 'css/services/admin/overdue-books.css'
-    }
+    },
+    'staffs-manage': {
+      permission: p => p.staffControl,
+      path: 'admin/staffs-manage',
+      scripts: ['js/services/admin/staffs-manage.js'],
+      stylesheet: 'css/services/admin/staffs-manage.css'
+    },
   }
 }
 

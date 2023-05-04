@@ -129,7 +129,8 @@ create table FineInvoice (
   invoiceId int primary key auto_increment,
   cardId int references ReaderCard(cardId),
   paid decimal(10, 2),
-  staffId char(6) references Staff(staffId)
+  staffId char(6) references Staff(staffId),
+  invoiceDate datetime
 );
 
 create table Parameters (
