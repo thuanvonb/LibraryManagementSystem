@@ -66,9 +66,13 @@ create table Publisher (
 create table BookTitle (
   titleId int primary key auto_increment,
   bName varchar(50) character set utf8mb4,
-  genreId int references Genre(genreId),
+  genreId int references Genre(genreId)
+);
+
+create table BookAuthor (
+  titleId int references BookTitle(titleId),
   authorId int references Author(authorId),
-  publisherId int references Publisher(publisherId)
+  primary key (titleId, authorId)
 );
 
 create table BooksPublish (
@@ -77,7 +81,8 @@ create table BooksPublish (
   publishment int,
   publishYear int,
   totalAmount int,
-  price decimal(10, 2)
+  price decimal(10, 2),
+  publisherId int references Publisher(publisherId)
 );
 
 create table BookImport (
