@@ -2,11 +2,55 @@ const socket = io('/admin')
 let renderData = {}
 let socketCleanUp = []
 
+function placeCaretAtEnd(el) {
+  el.focus();
+  if (typeof window.getSelection != "undefined"
+        && typeof document.createRange != "undefined") {
+    var range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  } else if (typeof document.body.createTextRange != "undefined") {
+    var textRange = document.body.createTextRange();
+    textRange.moveToElementText(el);
+    textRange.collapse(false);
+    textRange.select();
+  }
+}
+
+const normalize = x => x.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase()
+
+const levenshteinDistance = (s, t) => {
+  if (!s.length) return t.length;
+  if (!t.length) return s.length;
+  const arr = [];
+  for (let i = 0; i <= t.length; i++) {
+    arr[i] = [i];
+    for (let j = 1; j <= s.length; j++) {
+      arr[i][j] = i === 0 ? j : Math.min(
+        arr[i - 1][j] + 1,
+        arr[i][j - 1] + 1,
+        arr[i - 1][j - 1] + (s[j - 1] === t[i - 1] ? 0 : 1)
+      );
+    }
+  }
+  return arr[t.length][s.length];
+};
+
 const tableHeader = table => table.select('thead').selectAll('th').nodes().map(v => v.getAttribute('name'))
 
-const serialize = fields => data => data.map(d => fields.map(f => d[f] ?? ""))
+const serialize = fields => data => data.map(d => {
+  let serialized = fields.map(f => d[f] ?? "")
+  serialized['raw_data'] = d
+  return serialized
+})
 
 const attributeMap = fields => data => {
+  if (data.raw_data)
+    return data.raw_data
+
   let out = {}
   fields.forEach((f, i) => out[f] = data[i]);
   return out;
@@ -32,6 +76,9 @@ const insertIntoTable = table => newData => {
     else if (d3.select(this).attr('class') == "desc")
       tableOrdering(table, d3.select(this).attr("name"), 1)
   })
+
+  return table.select("tbody")
+    .selectAll('tr')
 }
 
 const tableFilter = table => condition => {
@@ -102,6 +149,7 @@ function orderingColumns(table) {
 }
 
 function firePopUp(msg, type) {
+  console.log(msg, type)
   if (type)
     $("#popup").addClass(type)
   $("#popup span").html(msg)
@@ -151,6 +199,68 @@ function loadContent(name) {
 
   if (d.stylesheet)
     loadStylesheet(name, d.stylesheet)
+}
+
+const filterData = selector => onItemClick => list => text => {
+  if (text.length < 1)
+    return [];
+  let t = list.map(item => ({
+    text: item.text,
+    distance: levenshteinDistance(item.normalized, text)
+  }))
+  t.sort((a, b) => a.distance - b.distance)
+  let data = t.filter((v, i) => i <= 5 && v.distance < Math.max(v.text.length, text.length))
+  selector.selectAll('div')
+    .data(data)
+    .join('div')
+    .html(d => d.text)
+    .on('click', (e, d) => {
+      onItemClick(d.text)
+    })
+}
+
+const initAutoComplete = dom => list => {
+  let domNode = d3.select(dom)
+  let input = $(domNode.select('input').node())
+  let autoList = domNode.append('div')
+
+  let list2 = list.map(st => ({
+    text: st,
+    normalized: normalize(st)
+  }))
+
+  let autoCompleteBase = filterData(autoList)(text => {
+    input.val(text)
+    autoList.selectChildren().remove()
+  })
+
+  input.on('input', e => {
+    autoList.selectChildren().remove()
+    autoCompleteBase(list2)(normalize(e.target.value))
+  })
+
+  input.on('focusout', e => {
+    // autoList.selectChildren().remove()
+    setTimeout(e => {
+      autoList.selectChildren().remove()
+    }, 100)
+  })
+
+  input.on('focusin', e => {
+    autoCompleteBase(list2)(normalize(e.target.value))
+  })
+
+  let addItem = item => {
+    if (list2.some(v => v.text == item))
+      return addItem
+    // list.push(item)
+    list2.push({
+      text: item,
+      normalized: normalize(item)
+    })
+    return addItem
+  }
+  return addItem
 }
 
 // ------------------- dom actions ----------------

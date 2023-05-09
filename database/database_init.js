@@ -13,7 +13,7 @@ let Genre = new Table("Genre", ['genreId', 'gName'])
 let Author = new Table("Author", ['authorId', 'aName'])
 let Publisher = new Table("Publisher", ['publisherId', 'pName'])
 
-let BookTitle = new Table("BookTitle", ['titleId', 'bName', 'genreId'])
+let BookTitle = new Table("BookTitle", ['titleId', 'bName', 'genreId', 'isbn'])
 let BookAuthor = new Table("BookAuthor", ['titleId', 'authorId'])
 let BooksPublish = new Table("BooksPublish", ['bpId', 'titleId', 'publishment', 'publishYear', 'totalAmount', 'price', 'publisherId'])
 

@@ -1,8 +1,10 @@
 const db = require('../database/db.js')
 const requestInput = require('../requests/requestIn.js')
+const requestOutput = require('../requests/requestOut.js')
 const {encodeToCode128, socketUser} = require('../control/utils.js')
 const csr_support = require('./csr.js')
 const {EitherM} = require('../control/monads.js')
+const moment = require('moment')
 
 function getNewCardId() {
   while (true) {
@@ -52,15 +54,12 @@ const sk_getReaderData = socket => data => {
 
   // console.log(db.database.ReaderCard.data)
 
-  let dataOut = db.database.ReaderCard.data.map(d => ({
-    cardId: d.cardid,
-    rName: d.info.rname,
-    cardType: d.readertype,
-    issueDate: d.issuedate.format('YYYY-MM-DD'),
-    validUntil: d.validuntil.format('YYYY-MM-DD')
-  }))
-
-  socket.emit('getReaderData_accepted', dataOut)
+  requestOutput.getReaderData()
+    .then(dataOut => socket.emit('getReaderData_accepted', dataOut),
+      error => {
+        console.log(error)
+        socket.emit('getReaderData_rejected', error)
+      })
 }
 
 const sk_getParams = socket => data => {
@@ -81,81 +80,121 @@ const sk_updateParams = socket => data => {
   })
 }
 
+const addIfNE = context => data => {
+  let dat = db.database[context.table].where(d => d[context.attr] == context.test(data))
+  if (dat.isNotEmpty())
+    return EitherM.pure(dat.data[0])
+  return context.prepareFunc(data).then(newData => db.insert(context.table, newData))
+}
+
+const sk_addTitle = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('importBook_rejected', 'No permission')
+
+  console.log(data)
+  let startMonad = EitherM.pure(0);
+  const addToAuthor = addIfNE({
+    table: 'Author',
+    attr: 'aname',
+    prepareFunc: requestInput.createNewAuthor,
+    test: data => data
+  })
+  const addToGenre = addIfNE({
+    table: 'Genre',
+    attr: 'gname',
+    prepareFunc: requestInput.createNewGenre,
+    test: data => data
+  })
+
+  if (db.database.BookTitle.where(d => d.isbn == data.isbn).isNotEmpty())
+    return socket.emit('addTitle_rejected', 'Sách đã được thêm trước đó.')
+
+  data.authors.reduce((currMonad, author) => currMonad.then(d => addToAuthor(author)), startMonad)
+    .then(d => addToGenre(data.gName))
+    .then(d => requestInput.createNewBook({
+      bName: data.bName,
+      genreId: db.database.Genre.where(d => d.gname == data.gName).data[0].genreid,
+      isbn: data.isbn
+    }))
+    .then(newTitle => db.insert('BookTitle', newTitle))
+    .then(title => db.insert('BookAuthor', data.authors.map(aName => 
+        db.database.Author.where(d => d.aname == aName).data[0].authorid
+      ).map(authorId => ({
+        titleId: title.titleid,
+        authorId: authorId
+      }))
+    )).then(dat => {
+      socket.emit('addTitle_accepted', {
+        titleId: dat[0].titleid,
+        bName: data.bName,
+        gName: data.gName,
+        authorNames: data.authors,
+        isbn: data.isbn
+      })
+    }, error => {
+      console.log(error)
+      socket.emit('addTitle_rejected', error.toString())
+    })
+}
+
+const sk_getBookData = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('getBookData_rejected', 'No permission')
+
+  requestOutput.getBookData().then(data => socket.emit('getBookData_accepted', data),
+    error => {
+      console.log(error)
+      socket.emit('getBookData_rejected', error.toString())
+    })
+}
+
+const sk_addPublish = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('addPublish_rejected', 'No permission')
+
+  addIfNE({
+    table: 'Publisher',
+    attr: 'pname',
+    prepareFunc: requestInput.createNewPublisher,
+    test: data => data
+  })(data.pName)
+    .then(publisher => {
+      let newPublish = Object.assign({}, data)
+      delete newPublish.pName;
+      newPublish.publisherId = publisher.publisherid
+      return requestInput.createNewPublishment(newPublish)
+    })
+    .then(publishData => db.insert('BooksPublish', publishData))
+    .then(newPublish => {
+      socket.emit('addPublish_accepted', {
+        publishment: newPublish.publishment,
+        publisher: newPublish.publisher.pname,
+        publishYear: newPublish.publishyear,
+        imported: 0,
+        remaining: 0,
+        price: newPublish.price,
+        canImport: moment().year() - newPublish.publishyear <= db.database.parameters.validPublishment
+      })
+    }, error => {
+      console.log(error)
+      socket.emit('addPublish_rejected', error.toString())
+    })
+}
+
 const sk_importBook = socket => data => {
   if (!socketUser(socket).permission.libControl)
     return socket.emit('importBook_rejected', 'No permission')
 
-  let eitherM;
-
-  if (db.database.BookTitle.where(d => d.bname == data.bName).isNotEmpty()) {
-    eitherM = EitherM.pure(db.database.BookTitle.where(d => d.bname == data.bName).data[0])
-      .then(bt => {
-        let publish = db.database.BooksPublish.where(d => d.titleid == bt.titleid && d.publishment == data.publishment)
-        if (publish.isNotEmpty())
-          return EitherM.pure(publish.data[0])
-        return requestInput.createNewPublishment({
-          titleId: bt.titleid,
-          publishment: data.publishment,
-          publishYear: data.publishYear,
-          price: data.price
-        }).then(newPublish => db.insert('BooksPublish', newPublish))
-      })
-  } else {
-    let author = db.database.Author.where(d => d.aname == data.aName)
-    if (author.isEmpty())
-      eitherM = requestInput.createNewAuthor(data.aName)
-        .then(data => db.insert("Author", data))
-    else
-      eitherM = EitherM.pure(author.data[0])
-
-    let publisher = db.database.Publisher.where(d => d.pname == data.pName)
-    if (publisher.isEmpty())
-      eitherM = eitherM.then(ok => requestInput.createNewPublisher(data.pName))
-        .then(data => db.insert("Publisher", data))
-    else
-      eitherM = eitherM.then(ok => EitherM.pure(publisher.data[0]))
-
-    let genre = db.database.Genre.where(d => d.gname == data.gName)
-    if (genre.isEmpty())
-      eitherM = eitherM.then(ok => requestInput.createNewGenre(data.gName))
-        .then(data => db.insert("Genre", data))
-    else
-      eitherM = eitherM.then(ok => EitherM.pure(genre.data[0]))
-
-    eitherM = eitherM.then(ok => requestInput.createNewBook({
-      bName: data.bName,
-      genreId: db.database.Genre.where(d => d.gname == data.gName).data[0].genreid,
-      publisherId: db.database.Publisher.where(d => d.pname == data.pName).data[0].publisherid,
-      authorId: db.database.Author.where(d => d.aname == data.aName).data[0].authorid
-    })).then(data => db.insert("BookTitle", data))
-      .then(newBook => requestInput.createNewPublishment({
-        titleId: newBook.titleid,
-        publishment: data.publishment,
-        publishYear: data.publishYear,
-        price: data.price
-      })).then(newPublish => db.insert('BooksPublish', newPublish))
-
-  }
-
-  eitherM.then(publishment => requestInput.createNewImport({
-    bpId: publishment.bpid,
-    amount: data.amount,
-    staffId: socketUser(socket).staffId
-  })).then(newImport => db.insert('BookImport', newImport))
-  .then(importData => {
-    db.database.BooksPublish.where(d => d.bpid == importData.bpid).data[0].totalamount += importData.amount;
-    return requestInput.createBooks(importData)
-  }).then(books => db.insert("Book", books))
-  .then(books => {
-    let importData = books[0].import
-    socket.emit('importBook_accepted', {
-      importId: importData.importid,
-      bName: importData.bp.title.bname,
-      publishment: importData.bp.publishment,
-      importDate: importData.importdate.format('YYYY-MM-DD'),
-      amount: importData.amount
+  requestInput.createNewImport(data, socketUser(socket).staffId)
+    .then(newImport => db.insert('BookImport', newImport))
+    .then(importData => {
+      db.database.BooksPublish.where(d => d.bpid == importData.bpid).data[0].totalamount += importData.amount;
+      return requestInput.createBooks(importData)
+    }).then(books => db.insert("Book", books))
+    .then(d => socket.emit('importBook_accepted', data), error => {
+      console.log(error)
+      socket.emit('importBook_rejected', error.toString())
     })
-  }, error => socket.emit('importBook_rejected', error.toString()))
 }
 
 function adminServices(socket) {
@@ -166,6 +205,9 @@ function adminServices(socket) {
   socket.on('getParams', sk_getParams(socket))
   socket.on('updateParams', sk_updateParams(socket))
 
+  socket.on('getBookData', sk_getBookData(socket))
+  socket.on('addTitle', sk_addTitle(socket))
+  socket.on('addPublish', sk_addPublish(socket))
   socket.on('importBook', sk_importBook(socket))
 }
 

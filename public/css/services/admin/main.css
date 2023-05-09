@@ -335,3 +335,16 @@ button.stdBtn:hover {
   background: var(--acc);
   color: var(--fc-acc);
 }
+
+.item {
+  position: relative;
+}
+
+.item.error::after {
+  position: absolute;
+  content: '!';
+  top: 0.2em;
+  right: 1em;
+  color: red;
+  font-weight: bold;
+}

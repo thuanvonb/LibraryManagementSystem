@@ -8,4 +8,6 @@ for each row
   update BooksPublish
   set totalAmount = totalAmount + new.amount
   where BooksPublish.bpId = new.bpId;
-| delimiter ;
+|
+
+delimiter ;

@@ -90,6 +90,8 @@ class Table {
           continue;
         if (d[at] instanceof Date)
           m[at.toLowerCase()] = moment(d[at])
+        else if (typeof d[at] == 'string' && d[at].match(/\d+\.\d{2}/))
+          m[at.toLowerCase()] = +d[at]
         else
           m[at.toLowerCase()] = d[at]
       }
@@ -269,7 +271,7 @@ class Table {
 
   // immutable
   aggregation(...aggregations) {
-    // aggregations = [[aggreFunction, startVal, name]...]
+    // aggregations = [aggreFunction, startVal, name], ...
     if (!this.grouped) {
       let dataOut = {}
       aggregations.forEach(agg => {
@@ -454,9 +456,9 @@ class Table {
         this.primary.forEach(pk => data2[pk] = null)
       else {
         if (this.primary.some(pk => data2[pk] == null))
-          return errHdl("Primary key's attributes cannot be null")
+          return errHdl(`Table ${this.name}: Primary key's attributes cannot be null`)
         if (this.where(d => this.primary.every(pk => (d[pk] == data2[pk]))).isNotEmpty())
-          return errHdl("Primary key has to be unique")
+          return errHdl(`Table ${this.name}: Primary key has to be unique`)
       }
     }
 

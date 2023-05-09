@@ -55,31 +55,31 @@ function createNewPublishment(publishmentInfo) {
   return EitherM.pure(out)
 }
 
-function createNewImport(importInfo) {
-  let out = Object.assign({}, importInfo)
-  let currentYear = moment().year()
-  let publishYear = db.BooksPublish.where(d => d.bpid == importInfo.bpId).data[0].publishyear
-  if (currentYear - publishYear > db.parameters.validPublishment)
-    return EitherM.error("Sách quá cũ để nhập")
+function createNewImport(importInfo, staffId) {
+  let publishment = db.BooksPublish.where(d => d.publishment == importInfo.publishment && d.titleid == importInfo.titleId)
 
-  out.importDate = moment()
+  if (publishment.isEmpty())
+    return EitherM.error("Không tìm thấy đợt xuất bản")
+
+  let publishData = publishment.data[0]
+  if (moment().year() - publishData.publishyear > db.parameters.validPublishment)
+    return EitherM.error('Sách quá cũ để nhập')
+
+  let out = {
+    amount: importInfo.amount,
+    bpId: publishData.bpid,
+    staffId: staffId,
+    importDate: moment()
+  }
   return EitherM.pure(out)
 }
 
 function createBooks(importData) {
-  // console.log(importData.amount)
   let books = new Array(importData.amount).fill(0).map(v => ({
     importId: importData.importid,
     available: 1,
     stateDesc: "Bình thường"
   }))
-  // console.log(new Array(importData.amount))
-  // console.log(new Array(importData.amount).fill(0))
-  // console.log(new Array(importData.amount).fill(0).map(v => ({
-  //   importId: importData.importid,
-  //   available: 1,
-  //   stateDesc: "Bình thường"
-  // })))
   return EitherM.pure(books)
 }
 

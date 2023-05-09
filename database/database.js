@@ -49,7 +49,7 @@ class Database {
 
   insert(table, data) {
     return new Promise((resolve, reject) => {
-      let query = this[table].insert(data)
+      let query = this[table].insert(data, reject)
       this.database.query(query, (err, res) => {
         if (err) {
           this[table].respond()
