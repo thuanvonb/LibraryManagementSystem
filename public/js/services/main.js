@@ -39,6 +39,26 @@ const levenshteinDistance = (s, t) => {
   return arr[t.length][s.length];
 };
 
+const longestCommonSubsequence = x => y => {
+  let m = x.length
+  n = y.length;
+  let l = new Array(m+1).fill(0).map(v => new Array(n).fill(0))
+  for (let i = 0; i <= m; i++) {
+    for (let j = 0; j <= n; j++) {
+      if (i == 0 || j == 0) {
+        l[i][j] = 0;
+      } else if (x[i-1] == y[j-1]) {
+        l[i][j] = l[i - 1][j - 1] + 1;
+      } else {
+        l[i][j] = Math.max(l[i - 1][j], l[i][j - 1]);
+      }
+    }
+  }
+  let lcs = l[m][n];
+
+  return lcs;
+}
+
 const tableHeader = table => table.select('thead').selectAll('th').nodes().map(v => v.getAttribute('name'))
 
 const serialize = fields => data => data.map(d => {
@@ -91,7 +111,17 @@ const tableFilter = table => condition => {
     .selectAll('tr')
     .data()
 
-  data.sort((d1, d2) => condition(attr(d2)) - condition(attr(d1)))
+  let orderF = ordering(table)
+
+  data.sort((d1, d2) => {
+    let c1 = condition(attr(d1))
+    let c2 = condition(attr(d2))
+
+    if (c1 != c2)
+      return c2 - c1;
+
+    return orderF(attr(d1), attr(d2))
+  })
 
   table.select('tbody')
     .selectAll('tr')

@@ -1,75 +1,37 @@
 #filter-bar {
-  margin-bottom: 2vh;
-  padding-top: 1vh;
-}
-
-#filter-bar div {
-  vertical-align: center;
-  top: 8vh;
-  width: 100%;
-  background-color: white;
-  transition: 0.2s;
-}
-
-.book-browsing .filter {
-  margin-bottom: 1vh;
-}
-
-.book-browsing input, .book-browsing select{
-  width: 31.5%;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  height: 2em;
-}
-
-.book-browsing button {
-  height: 2em;
-  border: none;
-  outline: none;
-  background: var(--sec);
-  color: var(--fc-sec);
-  border-radius: 1vh;
-}
-
-.book-browsing button[name='browseBook'] {
-  width: 4em;
-}
-
-.book-browsing button[name='unbrowseBook'] {
-  width: 7em;
-}
-
-.book-browsing button:hover {
-  background: var(--acc);
-  color: var(--fc-acc);
-}
-
-/* .book-browsing .invalid {
-  background-color: var(--err-bg-red);
-  border: solid 1px var(--err-bd-red);
-  color: var(--err-bd-red);
-  border-radius: 1vh;
-  box-sizing: border-box;
-} */
-
-#filter-bar .row-3 {
+  padding: 2vh 0;
   display: grid;
-  grid-template-columns: 3fr 3fr 2fr;
+  grid-template-columns: 3fr 7fr 2fr;
 }
 
-#filter-bar .row-3 div{
-  display: inline-block;
-  height: 1.5rem;
-  margin: 0.5rem 0.5%;
+#filter-bar select,
+#filter-bar input,
+#filter-bar button {
+  height: 2em;
 }
 
-#filter-bar .row-3 select{
-  width: 30%;
+#filter-category select {
+  width: 70%;
 }
 
-#filter-bar .row-3 .button {
+#filter-input > div {
+  display: none;
+}
+
+#filter-input > div > input {
+  width: 100%;
+}
+
+#filter-input > div.show {
+  display: block;
+}
+
+#filter-action {
   text-align: right;
+}
+
+#filter-action button {
+  width: 80%;
 }
 
 #book-table {
@@ -83,11 +45,11 @@
 }
 
 .book-browsing > div:first-child {
-  height: 18vh;
+  height: calc(4vh + 2em);
 }
 
 .book-browsing > div:last-child {
   position: relative;
   overflow-x: auto;
-  height: calc(100% - 20vh);
+  height: calc(100% - 4vh - 2em);
 }

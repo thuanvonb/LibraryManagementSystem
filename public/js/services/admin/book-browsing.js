@@ -1,108 +1,79 @@
-function getCurrentYear(){
-    return moment().year()
+var bookData = []
+
+function updateFilter(e=undefined) {
+  let nameMap = {
+    name: "bName",
+    author: "aName",
+    genre: 'gName',
+    isbn: 'isbn'
+  }
+  let cond = x => true;
+  if (e != undefined) {
+    let name = nameMap[e.target.getAttribute('name')]
+    let val = normalize(e.target.value)
+    let dist = longestCommonSubsequence(val)
+    if (val != "") {
+      cond = d => name != 'aName' ? 
+        (dist(normalize(d[name])) == val.length) : 
+        (d[name].split(', ').some(author => dist(normalize(author)) == val.length))
+    }
+  }
+
+  tableFilter(d3.select("#book-table"))(cond)
 }
 
-function isValidYear(){
-    let maxY = Number($("input[name='year_to']")[0].value)
-    let minY = Number($("input[name='year_from']")[0].value)
-    return minY <= maxY
-}
+function clearFilter() {
+  d3.select('#filter-input')
+    .selectAll('input')
+    .property('value', "")
 
-function isValidPrice(){
-    let minP = $("input[name='price_from']")[0].value
-    let maxP = $("input[name='price_to']")[0].value
-    return minP <= maxP
+  updateFilter()
 }
 
 // --------------------- dom action --------------------
-var ytInput = $("input[name='year_to']")[0],
-    yfInput = $("input[name='year_from']")[0],
-    bName = $("input[name='bName']")[0],
-    aName = $("select[name='aName']")[0],
-    gName = $("select[name='gName']")[0],
-    pName = $("select[name='pName']")[0],
-    state = $("select[name='state']")[0]
-
-ytInput.value = ytInput.max = yfInput.max = JSON.stringify(getCurrentYear())
-yfInput.value = ytInput.min = yfInput.min = 1950
-bName.value = bName.innerHTML
-
-yfInput.addEventListener("focusout", function(e) {
-    if (Number(yfInput.value) < Number(yfInput.min))
-        yfInput.value = yfInput.min
-
-    if (!isValidYear())
-    {
-        console.log("invalid year, auto fix")
-        yfInput.value = ytInput.value
-    }
+$("#filter-category select").on('change', e => {
+  clearFilter()
+  let v = e.target.value
+  $("#filter-input div").removeClass('show')
+  $("#" + v + "_filter").addClass('show')
 })
 
-ytInput.addEventListener("focusout", function(e) {
-    if (Number(ytInput.value) > Number(ytInput.max))
-        ytInput.value = ytInput.max
-    
-        if (!isValidYear())
-        {
-            console.log("invalid year, auto fix")
-            ytInput.value = yfInput.value
-        }
-})
+$("#filter-input input").on('input', updateFilter)
+$("#filter-input input").on('focusout', updateFilter)
 
-var pfInput = $("input[name='price_from']")[0]
-var ptInput = $("input[name='price_to']")[0]
+$("#filter-action button").click(clearFilter)
 
-pfInput.addEventListener("focusout", function(e) {
-    if (Number(pfInput.value) < Number(pfInput.min))
-        pfInput.value = pfInput.min
-
-    if (!isValidPrice())
-    {
-        console.log("invalid price, auto fix")
-        pfInput.value = ptInput.value
-    }
-})
-
-ptInput.addEventListener("focusout", function(e) {
-    if (Number(ptInput.value) > Number(ptInput.max))
-        ptInput.value = ptInput.max
-    
-    if (!isValidPrice())
-    {
-        console.log("invalid price, auto fix")
-        ptInput.value = pfInput.value
-    }
-})
-
-$("button[name='unbrowseBook']")[0].addEventListener("click", function(e){
-    console.log("clear filter")
-    bName.value = ""
-    aName.value = ""
-    gName.value = ""
-    pName.value = ""
-    state.value = ""
-
-    ytInput.value = ytInput.max
-    yfInput.value = yfInput.min
-
-    ptInput.value = ptInput.max
-    pfInput.value = pfInput.min
-})
-
-$("button[name='browseBook']")[0].addEventListener("click", function(e) {
-    tableFilter(d3.select("#book-table"))(d =>
-            (bName.value == "" || d.bName == bName.value) &&
-            (aName.value == "" || d.aName == aName.value) &&
-            (gName.value == "" || d.gName == gName.value) &&
-            (pName.value == "" || d.pName == pName.value) &&
-            (state.value == "" || d.state == state.value) &&
-            (Number(yfInput.value) <= Number(d.pYear) && Number(d.pYear) <= Number(ytInput.value)) &&
-            (Number(pfInput.value) <= Number(d.price) && Number(d.price) <= Number(ptInput.value))
-    )
-})
 // ------------------- socket comm. ------------------
 
+socket.on('getBookData_accepted', data => {
+  bookData = data.map(d => {
+    let r = d.publishments.reduce((acc, pb) => acc + pb.remaining, 0)
+    let remaining = "Còn lại: "
+    if (r == 0)
+      remaining = 'Hết sách'
+    else
+      remaining += r
 
-;[].forEach(socket => socketCleanUp.push(socket))
+    genreList(d.gName)
+    d.authors.reduce((fn, author) => fn(author), authorList)
 
-socket.emit('no_action')
+    return {isbn: d.isbn,
+      titleId: d.titleId,
+      bName: d.bName,
+      gName: d.gName,
+      aName: d.authors.join(', '),
+      state: remaining
+    }
+  })
+
+  insertIntoTable(d3.select("#book-table"))(bookData)
+})
+
+;['getBookData_accepted'].forEach(socket => socketCleanUp.push(socket))
+
+orderingColumns(d3.select("#book-table"))
+
+var genreList = initAutoComplete(document.getElementById('genre_filter'))([])
+var authorList = initAutoComplete(document.getElementById('author_filter'))([])
+
+socket.emit('getBookData')
