@@ -2,6 +2,7 @@ const database = require('./../database/db.js')
 const moment = require('moment')
 const utils = require('../control/utils.js')
 const {EitherM} = require('../control/monads.js')
+const {Agg} = require('../database/jsql.js')
 
 const dayDiff = date1 => date2 => moment.duration(date1.diff(date2))
 
@@ -83,12 +84,32 @@ function createBooks(importData) {
   return EitherM.pure(books)
 }
 
-exports.createNewReader = createNewReader
-exports.issueNewCard = issueNewCard
-exports.createNewAuthor = createNewAuthor
-exports.createNewPublisher = createNewPublisher
-exports.createNewGenre = createNewGenre
-exports.createNewBook = createNewBook
-exports.createNewImport = createNewImport
-exports.createNewPublishment = createNewPublishment
-exports.createBooks = createBooks
+function newBorrow(cardId, staffId) {
+  return EitherM.pure({
+    cardId: cardId,
+    staffId: staffId,
+    borrowDate: moment(),
+    dueDate: moment().add(db.parameters.maxDayBorrow, 'days')
+  })
+}
+
+function newBorrowBooks(borrowId, books) {
+  return EitherM.pure(books.map(bookId => ({
+    bookId: bookId,
+    borrowId: borrowId
+  })))
+}
+
+module.exports = {
+  createNewReader,
+  issueNewCard,
+  createNewAuthor,
+  createNewPublisher,
+  createNewGenre, 
+  createNewImport,
+  createNewPublishment,
+  createNewBook,
+  createBooks,
+  newBorrow,
+  newBorrowBooks
+}

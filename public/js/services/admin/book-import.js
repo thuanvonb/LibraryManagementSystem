@@ -33,6 +33,9 @@ function trEvent(e, d){
   let table = d3.select('#books-publish-table').select('table')
   table.select('tbody').selectAll('tr').remove()
 
+  if (!currBook.publishments)
+    currBook.publishments = []
+
   insertIntoTable(table)(currBook.publishments)
   makePublishEditable()
 }
@@ -115,20 +118,28 @@ $("input[name='addAuthor']").click(e => {
 })
 
 $("button[name='addBook_req']").click(e => {
+  e.preventDefault()
+  $("input[name='isbn']").get()[0].setCustomValidity('')
   if (!document.forms[0].reportValidity())
     return;
   let data = $("#new-book-title form").serializeArray()
   let out = {}
   data.forEach(d => out[d.name] = d.value)
-  out.authors = d3.selectAll('.added-author').selectAll('.author').nodes().map(v => v.innerHTML)
 
-  if (out.authors.length == 0) {
-    e.preventDefault()
-    return firePopUp('Thêm ít nhất 1 tác giả', 'failure')
+  out.isbn = verifyISBN(out.isbn)
+  if (out.isbn == null) {
+    $("input[name='isbn']").get()[0].setCustomValidity('Invalid ISBN')
+    document.forms[0].reportValidity()
+    // $("input[name='isbn']").get()[0].setCustomValidity('')
+    return;
   }
 
+  out.authors = d3.selectAll('.added-author').selectAll('.author').nodes().map(v => v.innerHTML)
+
+  if (out.authors.length == 0)
+    return firePopUp('Thêm ít nhất 1 tác giả', 'failure')
+
   socket.emit('addTitle', out)
-  e.preventDefault()
 })
 
 $("input[name='publishment']").on('input', e => {

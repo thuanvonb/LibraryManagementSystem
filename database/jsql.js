@@ -119,16 +119,16 @@ class Table {
   where(cb) {
     this.ungroupedEnsure()
     let nData = this.data.filter(d => cb(d, {
-      exists: (query => query(d).isNotEmpty()),
-      notexists: (query => query(d).isEmpty()),
-      in: ((col, query) => Table.#contain(d, col, query(d))),
-      notin: ((col, query) => !Table.#contain(d, col, query(d)))
+      exists: (queryRes => queryRes.isNotEmpty()),
+      notexists: (queryRes => queryRes.isEmpty()),
+      in: ((col, queryRes) => Table.#contain(d, col, queryRes)),
+      notin: ((col, queryRes) => !Table.#contain(d, col, queryRes))
     }))
     return Table.fromData(nData)
   }
 
   // immutable
-  select(columns_) {
+  select(...columns_) {
     this.ungroupedEnsure()
     let columns = columns_.map(c => c.toLowerCase())
     if (columns.some(c => !this.hasColumn(c)))
@@ -214,9 +214,9 @@ class Table {
     })
     return Table.fromData(data)
   }
-
+  
   // mutable
-  groupBy(cols) {
+  groupBy(...cols) {
     this.ungroupedEnsure()
     let t = Table.fromData(this.data)
     t.grouped = cols;
@@ -308,6 +308,16 @@ class Table {
     return Table.fromData(dataOut)
   }
 
+  forEach(fn) {
+    this.ungroupedEnsure()
+    this.data.forEach(fn)
+  }
+
+  map(fn) {
+    this.ungroupedEnsure()
+    return this.data.map(fn)
+  }
+
   // immutable
   fmap(...mapping) {
     this.ungroupedEnsure()
@@ -328,7 +338,7 @@ class Table {
     let data = []
     this.data.forEach((d, i) => {
       let m = Object.assign({}, d)
-      m[colName] = mapF(m[colName], i, this.data.length)
+      m[colName] = mapF(d, i, this.data.length)
       data.push(m)
     })
     return Table.fromData(data)

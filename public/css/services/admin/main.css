@@ -207,13 +207,13 @@ br {
   position: absolute;
   bottom: 5%;
   left: 100%;
-  width: 25%;
+  width: 30%;
   height: 3em;
   background: #ddaaff;
   z-index: 5;
   display: flex;
   align-items: center;
-  padding-left: 2em;
+  padding-left: 1em;
   transition: 0.2s;
 }
 
@@ -241,7 +241,7 @@ br {
 }
 
 #popup.triggered {
-  left: 75%;
+  left: 70%;
 }
 
 #popup.triggered div {
@@ -312,7 +312,7 @@ br {
 }
 
 .display-table tbody tr:nth-of-type(2n) {
-  background: lightgray;
+  background: #eee;
 }
 
 .display-table tbody tr:hover {
@@ -334,6 +334,11 @@ button.stdBtn {
 button.stdBtn:hover {
   background: var(--acc);
   color: var(--fc-acc);
+}
+
+button.stdBtn:disabled {
+  background: lightgray;
+  color: gray;
 }
 
 .item {
@@ -377,4 +382,16 @@ button.stdBtn:hover {
 
 .autocomplete > div > div:hover {
   background: lightgray;
+}
+
+.green {
+  color: #0080ff;
+  font-weight: bold;
+/*  text-decoration: underline;*/
+}
+
+.red {
+  color: red;
+  font-weight: bold;
+/*  text-decoration: underline;*/
 }

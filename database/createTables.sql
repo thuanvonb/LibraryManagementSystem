@@ -65,7 +65,7 @@ create table Publisher (
 
 create table BookTitle (
   titleId int primary key auto_increment,
-  bName varchar(50) character set utf8mb4,
+  bName varchar(100) character set utf8mb4,
   genreId int references Genre(genreId),
   isbn varchar(13) unique key
 );

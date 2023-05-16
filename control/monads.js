@@ -17,9 +17,9 @@ class MaybeM {
       return this
     try {
       if (!verifyF(this.data))
-        return MonadM.error()
+        return MaybeM.error()
     } catch (e) {
-      return MonadM.error()
+      return MaybeM.error()
     }
     return this
   }
@@ -30,7 +30,7 @@ class MaybeM {
     try {
       return MaybeM.pure(mapF(this.data))
     } catch (e) {
-      return MonadM.error();
+      return MaybeM.error();
     }
   }
 
@@ -40,7 +40,7 @@ class MaybeM {
     try {
       return monadF(this.data);
     } catch (e) {
-      return MonadM.error();
+      return MaybeM.error();
     }
   }
 
@@ -56,8 +56,8 @@ class MaybeM {
 
   static fromEither(eitherM) {
     if (eitherM.isRight)
-      return MonadM.pure(eitherM.data)
-    return MonadM.error()
+      return MaybeM.pure(eitherM.data)
+    return MaybeM.error()
   }
 
   static lift(func) {
@@ -65,7 +65,7 @@ class MaybeM {
       try {
         return dataM.fmap(func)
       } catch (e) {
-        return MonadM.error()
+        return MaybeM.error()
       }
     }
   }

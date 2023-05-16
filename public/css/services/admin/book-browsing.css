@@ -53,3 +53,10 @@
   overflow-x: auto;
   height: calc(100% - 4vh - 2em);
 }
+
+#book-table tbody tr td:nth-of-type(3),
+#book-table tbody tr td:nth-of-type(4),
+#book-table tbody tr td:nth-of-type(5) {
+  text-align: left;
+  padding: 0 .5em;
+}

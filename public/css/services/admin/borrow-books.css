@@ -57,7 +57,9 @@
 }
 
 #borrow-field table td:nth-of-type(4),
-#borrow-field table td:nth-of-type(n+6) {
+#borrow-field table td:nth-of-type(n+6),
+#borrow-content-field table td:nth-of-type(3),
+#rental-activity td:nth-of-type(3) {
   outline: none;
   text-align: left;
   padding-left: 1%;
@@ -144,7 +146,7 @@
 }
 
 #borrow-books .status-partial {
-  background-color: #ff8033;
+  background-color: #ffad7b;
 }
 
 #borrow-books .status-complete {
@@ -156,4 +158,13 @@
   background-color: #ff0000;
   color: white;
   font-weight: bold;
+}
+
+#borrow-section tr.error td:nth-of-type(4) {
+  color: red;
+}
+
+#rental-activity td span {
+  display: inline-block;
+  width: 100%;
 }

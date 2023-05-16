@@ -7,8 +7,10 @@
   flex-grow: 1;
 }
 
-#issueForm input:disabled {
-  background: #ddd;
+#issueForm input:disabled, #issueForm select:disabled {
+  background: #eee;
+  border: gray 1px solid;
+  cursor: not-allowed;
 }
 
 #card-service {
@@ -98,7 +100,7 @@
 #card-info #cardId {
   position: absolute;
   top: calc(var(--card-size)*0.14vh);
-  right: calc(var(--card-size)*0.1vh);
+  right: calc(var(--card-size)*0.12vh);
 }
 
 #info-fields > div :first-child {
@@ -131,11 +133,11 @@
 }
 
 #reader-form form label {
-  width: 40%;
+  width: 30%;
 }
 
 #reader-form form input, #reader-form form select {
-  width: 58%;
+  width: 68%;
   height: 2em;
 }
 
@@ -153,7 +155,7 @@
 }
 
 #reader-table .filter select {
-  width: 7em;
+  min-width: 8em;
 }
 
 #reader-table {
@@ -199,4 +201,25 @@
 #reader-table tbody tr td:nth-of-type(2) {
   text-align: left;
   padding-left: 1%;
+}
+
+#reader-table tbody tr td:last-child {
+  cursor: pointer;
+}
+
+#prolongCardBtn {
+  display: none;
+}
+
+#card-service > div.other-mode > :first-child {
+  display: none;
+}
+
+#card-service > div.other-mode > :last-child {
+  display: initial; 
+}
+
+#reader-table > div:first-child input,
+#reader-table > div:first-child select {
+  height: 2em;
 }

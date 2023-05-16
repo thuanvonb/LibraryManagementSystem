@@ -1,0 +1,1 @@
+exports.if = cond => f1 => f2 => cond ? f1 : f2

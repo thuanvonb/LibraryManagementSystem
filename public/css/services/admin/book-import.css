@@ -51,7 +51,7 @@
 }
 
 #new-book-title > div {
-  width: 50%;
+  width: 70%;
 }
 
 #new-books-publish > div {
@@ -73,7 +73,7 @@
 }
 
 #import-container .pop-up-field form > div > label {
-  width: 30%;
+  width: 20%;
 }
 
 #new-book-title form > div:last-child > label {
@@ -118,6 +118,13 @@
 
 #book-title-table table tbody tr {
   cursor: pointer;
+}
+
+#book-title-table table tbody tr td:nth-of-type(2),
+#book-title-table table tbody tr td:nth-of-type(3),
+#book-title-table table tbody tr td:nth-of-type(4) {
+  text-align: left;
+  padding: 0 .5em;
 }
 
 #import-container .action {
@@ -235,3 +242,4 @@
   background: var(--acc);
   color: var(--fc-acc);
 }
+
