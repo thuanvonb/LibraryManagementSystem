@@ -133,3 +133,9 @@
 #inner-invoice-books > div:first-child {
   margin-bottom: 1vh;
 }
+
+#invoice-list tbody tr td:nth-of-type(3) {
+  outline: none;
+  text-align: left;
+  padding-left: 1%;
+}

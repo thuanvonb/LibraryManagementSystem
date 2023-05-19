@@ -23,10 +23,10 @@ let Book = new Table("Book", ['bookId', 'importId', 'available', 'stateDesc'])
 let Borrowing = new Table("Borrowing", ['borrowId', 'cardId', 'borrowDate', 'dueDate', 'staffId'])
 let BorrowingContents = new Table("BorrowingContents", ['borrowId', 'bookId'])
 
-let Returning = new Table("Returning", ['returnId', 'cardId', 'returnDate', 'overdueFine', 'staffId'])
+let Returning = new Table("Returning", ['returnId', 'cardId', 'returnDate', 'overdueFine', 'debtAtTime', 'staffId'])
 let ReturningContents = new Table("ReturningContents", ['returnId', 'bookId', 'borrowId', 'isLost'])
 
-let FineInvoice = new Table("FineInvoice", ['invoiceId', 'cardId', 'paid', 'staffId', 'invoiceDate'])
+let FineInvoice = new Table("FineInvoice", ['invoiceId', 'cardId', 'paid', 'remaining', 'staffId', 'invoiceDate'])
 
 WebUser           .addPrimaryKey(['userUUID'])
 Staff             .addPrimaryKey(['staffId'])

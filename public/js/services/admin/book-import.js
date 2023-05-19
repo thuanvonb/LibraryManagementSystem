@@ -128,7 +128,7 @@ $("button[name='addBook_req']").click(e => {
 
   out.isbn = verifyISBN(out.isbn)
   if (out.isbn == null) {
-    $("input[name='isbn']").get()[0].setCustomValidity('Invalid ISBN')
+    $("input[name='isbn']").get()[0].setCustomValidity('ISBN không hợp lệ')
     document.forms[0].reportValidity()
     // $("input[name='isbn']").get()[0].setCustomValidity('')
     return;

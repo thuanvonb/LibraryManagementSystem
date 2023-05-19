@@ -36,7 +36,7 @@ router.post('/login-admin', (req, res, next) => {
       req.session.error = info.msg
       req.session._username = req.body.username
       req.session._password = req.body.password
-      res.redirect('/admin_Iogin_4365')
+      res.redirect('/admin_login_4365')
       return;
     }
 

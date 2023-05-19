@@ -1,3 +1,5 @@
+// const moment = require('moment')
+
 const and = f => g => d => f(d) && g(d)
 
 const normalize = x => x.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase()
@@ -53,7 +55,7 @@ const filterData = selector => onItemClick => list => text => {
     .data(data)
     .join('div')
     .html(d => d.text)
-    .on('click', (e, d) => {
+    .on('mousedown', (e, d) => {
       onItemClick(d.text)
     })
 }
@@ -78,11 +80,8 @@ const initAutoComplete = dom => list => {
     autoCompleteBase(list2)(normalize(e.target.value))
   })
 
-  input.on('focusout', e => {
-    // autoList.selectChildren().remove()
-    setTimeout(e => {
-      autoList.selectChildren().remove()
-    }, 100)
+ input.on('focusout', e => {
+    autoList.selectChildren().remove()
   })
 
   input.on('focusin', e => {

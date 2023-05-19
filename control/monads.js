@@ -129,7 +129,7 @@ class EitherM {
       if (this.isRight)
         return resolve(this.data)
       if (reject)
-        return reject(this.data);
+        return reject(this.data)
     } catch (err) {
       return EitherM.error(err)
     }

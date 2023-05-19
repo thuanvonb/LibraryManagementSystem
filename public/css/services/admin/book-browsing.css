@@ -1,3 +1,59 @@
+#book-browsing {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+}
+
+#book-browsing h4 {
+  color: var(--sec-dark);
+}
+
+#book-browsing .pop-up-field {
+  display: none;
+  z-index: 5;
+}
+
+#book-browsing .pop-up-field.show {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#book-browsing .pop-up-field.show ~ .dimmer {
+  display: block;
+}
+
+#book-browsing .contents {
+  position: relative;
+}
+
+#borrow-books-field > div {
+  width: 80%;
+  background: white;
+  padding: 1.2em 2em;
+  border-radius: 2vh;
+}
+
+#borrow-books-field > div > div:first-child {
+  margin-bottom: 2vh;
+}
+
+#borrow-books-field > div > div:last-child {
+  display: flex;
+  justify-content: center;
+  margin-top: 2vh;
+}
+
+#borrow-books-field button {
+  width: 5em;
+  height: 2em;
+}
+
 #filter-bar {
   padding: 2vh 0;
   display: grid;
@@ -44,11 +100,11 @@
   top: -1px;
 }
 
-.book-browsing > div:first-child {
+#book-browsing .contents > div:first-child {
   height: calc(4vh + 2em);
 }
 
-.book-browsing > div:last-child {
+#book-browsing .contents > div:last-child {
   position: relative;
   overflow-x: auto;
   height: calc(100% - 4vh - 2em);
@@ -60,3 +116,32 @@
   text-align: left;
   padding: 0 .5em;
 }
+
+#bookid-table {
+  width: 100%;
+}
+
+#bookid-table {
+  border: 1px solid black;
+  table-layout: fixed;
+}
+
+#bookid-table thead th {
+  text-align: center;
+  height: 2em;
+}
+
+#bookid-table tbody td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+#bookid-table tbody td:hover {
+  background: var(--acc-light);
+}
+
+#bookid-table tbody td.not-avaiable {
+  background: lightgray;
+  color: gray;
+}
+

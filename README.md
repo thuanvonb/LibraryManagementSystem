@@ -9,7 +9,7 @@
   3. Add your staff entry to database by following the guide in the next section.
   4. In the file `database/db.js`, at line 5, change the string `"username"` and `"password"` corresponding to your username and password of your mysql user.
   5. Run the file `run.bat`, or run the command `run` or `npm start` to start the web. Then, go to `localhost:7000` to open the web.
-  6. If you've followed the guide below, you can now use your username and password that you added to the table to login as a staff at `localhost:7000/admin_Iogin_4365`
+  6. If you've followed the guide below, you can now use your username and password that you added to the table to login as a staff at `localhost:7000/admin_login_4365`
 
 
 # Adding your staff entry

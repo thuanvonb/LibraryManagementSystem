@@ -62,6 +62,10 @@ class Table {
     return !this.isEmpty()
   }
 
+  get first() {
+    return this.data[0]
+  }
+
   hasColumn(name) {
     return this.columns.includes(name.toLowerCase())
   }

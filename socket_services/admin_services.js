@@ -51,7 +51,7 @@ const sk_issueCard = socket => data => {
       issueDate: data.issuedate.format('YYYY-MM-DD'),
       validUntil: data.validuntil.format('YYYY-MM-DD')
     })
-  }).catch(err => {
+  }, err => {
     console.log(err)
     socket.emit('issueCard_rejected', err.toString())
   })
@@ -133,7 +133,7 @@ const sk_updateParams = socket => data => {
 
   db.updateParameters(data).then(result => {
     socket.emit('updateParams_accepted', result)
-  }).catch(err => {
+  }, err => {
     socket.emit('updateParams_rejected', err)
   })
 }
@@ -295,7 +295,7 @@ const sk_searchBookById = socket => data => {
 }
 
 const sk_borrowBooks = socket => data => {
-  if (!socketUser(socket).permission.libControl)
+  if (!socketUser(socket).permission.services)
     socket.emit('borrowBooks_rejected', "No permission")
 
   let card = db.database.ReaderCard.where(d => d.cardid == data.cardId)
@@ -334,18 +334,131 @@ const sk_borrowBooks = socket => data => {
         .forEach(d => d.available = 0)
       return requestOutput.newBorrow(booksData)
     })
-    .then(output => socket.emit('borrowBooks_accepted', output))
-    .catch(err => {
+    .then(output => socket.emit('borrowBooks_accepted', output), err => {
       console.log(err);
       socket.emit('borrowBooks_rejected', err.toString())
     })
 }
 
 const sk_getBorrowedBooks = socket => data => {
-  if (!socketUser(socket).permission.libControl)
+  if (!socketUser(socket).permission.services)
     socket.emit('getBorrowedBooks_rejected', "No permission")
 
   requestOutput.getBorrowData().then(data => socket.emit('getBorrowedBooks_accepted', data))
+}
+
+const sk_getReaderBorrowedBooks = socket => data => {
+  if (!socketUser(socket).permission.services)
+    socket.emit('getReaderBorrowedBooks_rejected', "No permission")
+
+  let card = db.database.ReaderCard.where(d => d.cardid == data)
+  if (card.isEmpty())
+    return socket.emit('getReaderBorrowedBooks_rejected', "Không tìm thấy thẻ độc giả")
+  
+  requestOutput.getReaderBorrowedBooks(data)
+    .then(data => socket.emit('getReaderBorrowedBooks_accepted', data))
+}
+
+const sk_returnBooks = socket => data => {
+  if (!socketUser(socket).permission.services)
+    socket.emit('returnBooks_rejected', "No permission")
+
+  let card = db.database.ReaderCard.where(d => d.cardid == data.cardId)
+  if (card.isEmpty())
+    return socket.emit('returnBooks_rejected', "Không tìm thấy thẻ độc giả")
+
+  let accM = data.returnBooks.losts.concat(data.returnBooks.returns)
+    .map(requestOutput.searchBook).reduce((accM, monad) => accM.pass(monad), MaybeM.pure())
+
+  if (accM.isNothing)
+    return socket.emit('returnBooks_rejected', "Một số mã quyển sách không hợp lệ")
+
+  let losts = data.returnBooks.losts.map(v => +v.substring(v.length-4))
+  let returns = data.returnBooks.returns.map(v => +v.substring(v.length-4))
+
+  let verifyBorrowingBook = verifier.verifyBorrowingBook(data.cardId)
+  let sequenceVerify = data => comb.sequenceMaybe(data.map(verifyBorrowingBook))
+
+  let lostBooks = sequenceVerify(losts)
+  let returnBooks = sequenceVerify(returns)
+
+  if (lostBooks.isNothing || returnBooks.isNothing)
+    return socket.emit('returnBooks_rejected', "Một số sách đã được trả trước đó")
+
+  requestInput.calculateTotalFine(data.cardId, {losts, returns})
+    .then(totalFine => requestInput.newReturn(data.cardId, socketUser(socket).staffId, totalFine))
+    .then(newReturn => db.insert('Returning', newReturn))
+    .then(returnData => requestInput.returnBooks(returnData.returnid, {losts, returns}, {
+      losts: lostBooks.data,
+      returns: returnBooks.data
+    }))
+    .then(returnedBooks => db.insert('ReturningContents', returnedBooks))
+    .then(returnData => {
+      let returned = returnData.filter(d => !d.islost).map(v => v.bookid)
+      db.database.Book.where(d => returned.includes(d.bookid)).forEach(d => d.available = 1)
+      return requestOutput.newReturn(returnData)
+    })
+    .then(out => socket.emit('returnBooks_accepted', out), err => {
+      console.log(err);
+      socket.emit('returnBooks_rejected', err.toString())
+    })
+}
+
+const sk_getReturnedBooks = socket => data => {
+  if (!socketUser(socket).permission.services)
+    socket.emit('getReturnedBooks_rejected', "No permission")
+
+  requestOutput.getReturnData()
+    .then(data => socket.emit('getReturnedBooks_accepted', data))
+}
+
+const sk_getFineDetails = socket => data => {
+  if (!socketUser(socket).permission.services)
+    return socket.emit('getFineDetails_rejected', "No permission")
+
+  let card = db.database.ReaderCard.where(d => d.cardid == data)
+  if (card.isEmpty())
+    return socket.emit('getFineDetails_rejected', "Không tìm thấy độc giả")
+
+  socket.emit('getFineDetails_accepted', {
+    rName: card.first.info.rname,
+    totalDebt: card.first.debt
+  })
+}
+
+const sk_issueInvoice = socket => data => {
+  if (!socketUser(socket).permission.services)
+    return socket.emit('issueInvoice_rejected', "No permission")
+
+  requestInput.issueInvoice(data, socketUser(socket).staffId)
+    .then(newInvoice => db.insert('FineInvoice', newInvoice))
+    .then(invoiceData => {
+      db.database.ReaderCard.where(d => d.cardid == invoiceData.cardid).first.debt -= invoiceData.paid;
+      socket.emit('issueInvoice_accepted', requestOutput.fromInvoice(invoiceData))
+    }, err => {
+      console.log(err)
+      socket.emit('issueInvoice_rejected', err.toString())
+    })
+}
+
+const sk_getInvoices = socket => data => {
+  if (!socketUser(socket).permission.services)
+    return socket.emit('getInvoices_rejected', "No permission")
+
+  requestOutput.getInvoices()
+    .then(data => socket.emit('getInvoices_accepted', data))
+}
+
+const sk_getBookBorrowContext = socket => isbn => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('getBookBorrowContext_rejected', 'No permission')
+
+  requestOutput.getBookBorrowContext(isbn)
+    .then(data => requestOutput.getBookId_Status(isbn)
+      .then(statusD => EitherM.pure({context: data, status: statusD}))
+    )
+    .then(data => socket.emit('getBookBorrowContext_accepted', data), err => 
+      socket.emit('getBookBorrowContext_rejected', err.toString()))
 }
 
 function adminServices(socket) {
@@ -370,6 +483,15 @@ function adminServices(socket) {
 
   socket.on('borrowBooks', sk_borrowBooks(socket))
   socket.on('getBorrowedBooks', sk_getBorrowedBooks(socket))
+  socket.on('getBookBorrowContext', sk_getBookBorrowContext(socket))
+
+  socket.on('getReaderBorrowedBooks', sk_getReaderBorrowedBooks(socket))
+  socket.on('returnBooks', sk_returnBooks(socket))
+  socket.on('getReturnedBooks', sk_getReturnedBooks(socket))
+
+  socket.on('getFineDetails', sk_getFineDetails(socket))
+  socket.on('issueInvoice', sk_issueInvoice(socket))
+  socket.on('getInvoices', sk_getInvoices(socket))
 }
 
 module.exports = adminServices

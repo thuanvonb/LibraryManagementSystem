@@ -18,15 +18,36 @@ begin
     set available = 0
     where bookId = new.bookId;
 end$$
-
-
+delimiter ;
+delimiter $$
+-- drop trigger after_insert_returning_contents;
 create trigger after_insert_returning_contents
 after insert
 on ReturningContents for each row
 begin 
     update Book
     set available = 1
-    where bookId = new.bookId;
+    where bookId = new.bookId and new.isLost = 0;
 end$$
+
+delimiter ;
+
+delimiter |
+
+create trigger after_returning_books
+after insert on Returning
+for each row begin
+  update ReaderCard rc
+  set debt = debt + new.overdueFine
+  where rc.cardId = new.cardId;
+end|
+
+create trigger after_issue_invoice
+after insert on FineInvoice
+for each row begin
+  update ReaderCard rc
+  set debt = debt - new.paid
+  where rc.cardId = new.cardId;
+end|
 
 delimiter ;

@@ -1,7 +1,7 @@
 const database = require('./../database/db.js')
 const moment = require('moment')
 const utils = require('../control/utils.js')
-const {EitherM} = require('../control/monads.js')
+const {MaybeM, EitherM} = require('../control/monads.js')
 const {Agg} = require('../database/jsql.js')
 
 const dayDiff = date1 => date2 => moment.duration(date1.diff(date2))
@@ -75,10 +75,23 @@ function verifyISBN(isbn) {
   return null;
 }
 
+const verifyBorrowingBook = cardId => bookId => {
+  let t = db.BorrowingContents.where((d, fn) => d.borrow.cardid == cardId && d.bookid == bookId 
+    && fn.notexists(
+      db.ReturningContents.where(d2 => d2.borrowid == d.borrowid && d2.bookid == d.bookid)
+    )
+  )
+
+  if (t.isEmpty())
+    return MaybeM.error()
+  return MaybeM.pure(t.first.borrowid)
+}
+
 module.exports = {
   verifyISBN,
   verifyNumberOfBorrowing,
   verifyDuplicateBorrowing,
   verifyOverdueBook,
-  verifyAvailability
+  verifyAvailability,
+  verifyBorrowingBook
 }

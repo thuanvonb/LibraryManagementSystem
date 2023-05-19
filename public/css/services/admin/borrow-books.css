@@ -28,6 +28,8 @@
   display: block;
 }
 
+#book-browsing
+
 .infoRow input:disabled {
   background: initial;
   color: initial;
@@ -63,17 +65,6 @@
   outline: none;
   text-align: left;
   padding-left: 1%;
-}
-
-.dimmer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba(0.3, 0.3, 0.3, 0.5);
-  z-index: 3;
-  display: none;
-  width: 100%;
-  height: 100%;
 }
 
 #borrow-books div.readerInfo {

@@ -3,6 +3,7 @@ const moment = require('moment')
 const utils = require('../control/utils.js')
 const {EitherM} = require('../control/monads.js')
 const {Agg} = require('../database/jsql.js')
+const comb = require('../control/combinators.js')
 
 const dayDiff = date1 => date2 => moment.duration(date1.diff(date2))
 
@@ -100,6 +101,71 @@ function newBorrowBooks(borrowId, books) {
   })))
 }
 
+function calculateTotalFine(cardId, returnBooks) {
+  let concerningBook = books => bookId => books.includes(bookId)
+  let isReturning = comb.on(a => b => a || b)(concerningBook(returnBooks.losts))(concerningBook(returnBooks.returns))
+
+  let fine = db.BorrowingContents.where((d, fn) => d.borrow.cardid == cardId && 
+    isReturning(d.bookid) && fn.notexists(
+      db.ReturningContents.where(d2 => d2.borrowid == d.borrowid && d2.bookid == d.bookid)
+    )
+  ).fmap([d => Math.max(0, moment().startOf('day').diff(d.borrow.duedate.startOf('day'), 'days')), 'overdueDays'])
+  .aggregation([Agg.sum('overdueDays'), 0, 'totalOverdue'])
+  .first.totalOverdue * db.parameters.overdueFinePerDay
+
+  fine += db.BorrowingContents.where((d, fn) => d.borrow.cardid == cardId
+    && concerningBook(returnBooks.losts)(d.bookid) && fn.notexists(
+      db.ReturningContents.where(d2 => d2.borrowid == d.borrowid && d2.bookid == d.bookid)
+    )
+  ).project('book').project('import').project('bp')
+  .aggregation([Agg.sum('price'), 0, 'totalPrice'])
+  .first.totalPrice * 3;
+
+  return EitherM.pure(fine);
+}
+
+function newReturn(cardId, staffId, totalFine) {
+  return EitherM.pure({
+    cardId: cardId,
+    staffId: staffId,
+    returnDate: moment(),
+    overdueFine: totalFine,
+    debtAtTime: totalFine + db.ReaderCard.where(d => d.cardid == cardId).first.debt
+  })
+}
+
+function returnBooks(returnId, books, borrows) {
+  let out = books.losts.map((t, i) => ({
+    borrowId: borrows.losts[i],
+    bookId: t,
+    isLost: 1
+  })).concat(books.returns.map((t, i) => ({
+    borrowId: borrows.returns[i],
+    bookId: t,
+    isLost: 0
+  })))
+
+  out.forEach(v => v.returnId = returnId)
+
+  // console.log(out)
+  return EitherM.pure(out)
+}
+
+function issueInvoice(data, staffId) {
+  let card = db.ReaderCard.where(d => d.cardid == data.cardId)
+  if (card.isEmpty())
+    return EitherM.error("Không tìm thấy độc giả")
+
+  if (card.first.debt < data.paid)
+    return EitherM.error("Số tiền phải trả không quá số tiền nợ.")
+
+  let out = Object.assign({}, data)
+  out.staffId = staffId;
+  out.invoiceDate = moment()
+  out.remaining = card.first.debt - data.paid
+  return EitherM.pure(out)
+}
+
 module.exports = {
   createNewReader,
   issueNewCard,
@@ -111,5 +177,9 @@ module.exports = {
   createNewBook,
   createBooks,
   newBorrow,
-  newBorrowBooks
+  newBorrowBooks,
+  calculateTotalFine,
+  newReturn,
+  returnBooks,
+  issueInvoice
 }

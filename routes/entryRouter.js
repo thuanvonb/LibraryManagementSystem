@@ -37,7 +37,7 @@ router.get('/login2', (req, res) => {
   req.session.error = undefined;
 })
 
-router.get('/admin_Iogin_4365', (req, res) => {
+router.get('/admin_login_4365', (req, res) => {
   if (req.isAuthenticated()) {
     if (req.user.isAdmin)
       res.redirect('/admin')

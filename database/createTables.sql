@@ -117,9 +117,10 @@ create table BorrowingContents (
 
 create table Returning (
   returnId int primary key auto_increment,
-  cardId int references ReaderCard(cardId),
+  cardId char(8) references ReaderCard(cardId),
   returnDate datetime,
   overdueFine decimal(10, 2),
+  debtAtTime decimal(10, 2),
   staffId char(6) references Staff(staffId)
 );
 
@@ -133,8 +134,9 @@ create table ReturningContents (
 
 create table FineInvoice (
   invoiceId int primary key auto_increment,
-  cardId int references ReaderCard(cardId),
+  cardId char(8) references ReaderCard(cardId),
   paid decimal(10, 2),
+  remaining decimal(10, 2),
   staffId char(6) references Staff(staffId),
   invoiceDate datetime
 );
