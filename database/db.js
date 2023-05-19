@@ -2,7 +2,7 @@ const sql = require('mysql2')
 const db = require('./database_init.js')
 const moment = require('moment')
 
-const connection = { host: 'localhost', user: 'root', password: 'sangdoan', database: 'se104'}
+const connection = { host: 'localhost', user: 'se104', password: 'admin104', database: 'se104'}
 
 // console.log('new connection')
 

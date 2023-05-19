@@ -125,3 +125,15 @@ function verifyISBN(isbn) {
 
   return null;
 }
+
+function downloadCSV(data, name) {
+  var fileContent = data;
+  var fileName = name + '.csv';
+
+  const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), fileContent], { type: "text/plain;charset=utf8" });
+  const a = document.createElement('a');
+  a.setAttribute('download', fileName);
+  a.setAttribute('href', window.URL.createObjectURL(blob));
+  a.click();
+  a.remove();
+}

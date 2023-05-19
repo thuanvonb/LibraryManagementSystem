@@ -461,6 +461,22 @@ const sk_getBookBorrowContext = socket => isbn => {
       socket.emit('getBookBorrowContext_rejected', err.toString()))
 }
 
+const sk_reportRental = socket => data => {
+  if (!socketUser(socket).permission.report)
+    return socket.emit('reportRental_rejected', 'No permission')
+
+  requestOutput.reportRental(data.month, data.year)
+    .then(output => socket.emit('reportRental_accepted', output))
+}
+
+const sk_reportOverdue = socket => data => {
+  if (!socketUser(socket).permission.report)
+    return socket.emit('reportOverdue_rejected', 'No permission')
+
+  requestOutput.reportOverdue(moment(data))
+    .then(output => socket.emit('reportOverdue_accepted', output))
+}
+
 function adminServices(socket) {
   socket.on('renderData', csr_support.sk_getAdminRenderData(socket))
 
@@ -492,6 +508,9 @@ function adminServices(socket) {
   socket.on('getFineDetails', sk_getFineDetails(socket))
   socket.on('issueInvoice', sk_issueInvoice(socket))
   socket.on('getInvoices', sk_getInvoices(socket))
+
+  socket.on('reportRental', sk_reportRental(socket))
+  socket.on('reportOverdue', sk_reportOverdue(socket))
 }
 
 module.exports = adminServices

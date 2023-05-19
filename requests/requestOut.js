@@ -267,6 +267,38 @@ function getBookId_Status(isbn) {
   return EitherM.pure(status)
 }
 
+function reportRental(month, year) {
+  let output = db.BorrowingContents.where(d => 
+    d.borrow.borrowdate.month() == month-1 && d.borrow.borrowdate.year() == year)
+    .fmap([d => d.book.import.bp.title.genre.gname, 'gname'])
+    .groupBy('gname')
+    .aggregation([Agg.count(), 0, 'rentalCount']).data
+
+  let total = output.reduce((acc, v) => acc + v.rentalCount, 0)
+  output.forEach(val => val.percentage = utils.round(100*val.rentalCount / total, -100) + '%')
+  return EitherM.pure({
+    total, 
+    report: output, 
+    csv: utils.makeCsv(output, {header: false})})
+}
+
+function reportOverdue(date) {
+  let overdueBooks = db.ReturningContents.where(d => 
+    d.return.returndate.diff(date.add(1, 'days')) < 0 && 
+    d.return.returndate.startOf('day').diff(d.borrow.duedate.startOf('day')) > 0
+  ).fmap(
+    [d => bookIdFromBook(d.book), 'bookId'],
+    [d => d.book.import.bp.title.bname, 'bName'],
+    [d => d.borrow.borrowdate.format('YYYY-MM-DD'), 'borrowDate'],
+    [d => d.return.returndate.startOf('day').diff(d.borrow.duedate.startOf('day'), 'days'), 'overdueDays']
+  ).data;
+
+  return EitherM.pure({
+    report: overdueBooks,
+    csv: utils.makeCsv(overdueBooks, {header: false})
+  })
+}
+
 module.exports = {
   getReaderData,
   getBookData,
@@ -280,5 +312,7 @@ module.exports = {
   fromInvoice,
   getInvoices,
   getBookBorrowContext,
-  getBookId_Status
+  getBookId_Status,
+  reportRental,
+  reportOverdue
 }

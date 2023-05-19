@@ -6,7 +6,7 @@ const {hashPassword, passwordCompare} = require('./passwordHashing.js')
 function adminPermissionExtract(p) {
   let full = (p >> 4) % 2
   return {
-    services: (p % 2) | full,
+    services: ((p >> 0) % 2) | full,
     libControl: ((p >> 1) % 2) | full,
     report: ((p >> 2) % 2) | full,
     staffControl: ((p >> 3) % 2) | full

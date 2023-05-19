@@ -36,7 +36,34 @@ function encodeToCode128(text, codeABC = "B") {
 
 const socketUser = socket => socket.request.session.passport.user
 
+function makeCsv(data, options) {
+  let opt = Object.assign({index: true, header: true}, options)
+  let header = Object.keys(data[0])
+  if (opt.index)
+    header.unshift('index')
+  let output = []
+  if (opt.header)
+    output.push(header)
+  data.forEach((v, i) => {
+    let rows = []
+    if (opt.index)
+      rows.push(i+1)
+    Object.keys(v).forEach(k => rows.push(v[k]))
+    output.push(rows)
+  })
+
+  return output.map(row => row.join(',')).join('\n')
+}
+
+function round(x, significance) {
+  if (significance < 0)
+    return Math.round(x * (-significance))/(-significance);
+  return Math.round(x / significance)*significance;
+}
 
 exports.between = between
 exports.encodeToCode128 = encodeToCode128
 exports.socketUser = socketUser
+exports.makeCsv = makeCsv
+exports.round = round
+
