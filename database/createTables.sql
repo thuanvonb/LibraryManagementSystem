@@ -1,4 +1,4 @@
--- create database se104;
+create database se104;
 
 use se104;
 
@@ -24,6 +24,7 @@ create table Staff (
   username varchar(30),
   pwd varchar(100),
   salt varchar(30),
+  permissionPreset int references PresetPermission(presetId),
   permission int
   -- mask: 1 - services; 2 - parameter update; 4 - report; 8 - staff control; 16 - full control
 );
@@ -83,7 +84,8 @@ create table BooksPublish (
   publishYear int,
   totalAmount int,
   price decimal(10, 2),
-  publisherId int references Publisher(publisherId)
+  publisherId int references Publisher(publisherId),
+  unique key (titleId, publishment)
 );
 
 create table BookImport (
@@ -139,6 +141,12 @@ create table FineInvoice (
   remaining decimal(10, 2),
   staffId char(6) references Staff(staffId),
   invoiceDate datetime
+);
+
+create table PresetPermission (
+  presetId int primary key auto_increment,
+  permission int unique key,
+  permissionName varchar(30) character set utf8mb4
 );
 
 create table Parameters (

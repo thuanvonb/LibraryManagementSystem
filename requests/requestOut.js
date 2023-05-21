@@ -299,6 +299,37 @@ function reportOverdue(date) {
   })
 }
 
+function getPermissionPreset() {
+  return db.PresetPermission.select('permissionname', 'permission').map(d => ({
+    pmName: d.permissionname,
+    permission: d.permission / 2
+  }))
+}
+
+function fromStaff(staff) {
+  return {
+    staffId: staff.staffid,
+    sName: staff.sname,
+    permission: staff.permission ?? staff.preset.permission,
+    employmentDate: staff.employmentdate.format('YYYY-MM-DD'),
+    presetId: staff.permissionpreset,
+    permissionName: (staff.preset ? staff.preset.permissionname : null),
+    phone: staff.phone
+  }
+}
+
+function getStaffData(isFullControl) {
+  return EitherM.pure({
+    preset: getPermissionPreset(),
+    staffs: db.Staff.map(fromStaff),
+    currStaffFullControl: isFullControl
+  })
+}
+
+function staffData(staff) {
+  return EitherM.pure(fromStaff(staff))
+}
+
 module.exports = {
   getReaderData,
   getBookData,
@@ -314,5 +345,8 @@ module.exports = {
   getBookBorrowContext,
   getBookId_Status,
   reportRental,
-  reportOverdue
+  reportOverdue,
+  getStaffData,
+  staffData,
+  getPermissionPreset
 }

@@ -208,12 +208,12 @@ br {
   bottom: 5%;
   left: 100%;
   width: 30%;
-  height: 3em;
-  background: #ddaaff;
+  height: 4em;
+  background: #aaddff;
   z-index: 5;
   display: flex;
   align-items: center;
-  padding-left: 1em;
+  padding: 0 0.2em 0 1em;
   transition: 0.2s;
 }
 

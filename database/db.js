@@ -1,8 +1,9 @@
 const sql = require('mysql2')
 const db = require('./database_init.js')
 const moment = require('moment')
+const registration = require('../security/registration.js')
 
-const connection = { host: 'localhost', user: 'se104', password: 'admin104', database: 'se104'}
+const connection = { host: 'localhost', user: 'username', password: 'password', database: 'se104'}
 
 // console.log('new connection')
 
@@ -57,13 +58,82 @@ function prolongCard(cardId) {
   })
 }
 
+function addNewStaff(staffData) {
+  let accountData = registration.staffRegistration(staffData)
+  return new Promise((resolve, reject) => {
+    let newStaff = Object.assign(staffData, accountData)
+    let query = `insert into Staff (staffId, sName, phone, employmentDate, username, pwd, salt, permissionPreset, permission) values ("${newStaff.staffId}", "${newStaff.sName}", "${newStaff.phone}", "${newStaff.employmentDate.format()}", "${newStaff.username}", "${newStaff.password}", "${newStaff.salt}", ${newStaff.permissionPreset}, ${newStaff.permission})`
+
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err);
+
+      resolve(newStaff)
+    })
+  }).then(newStaff => {
+    db.Staff.insert(newStaff, err => new Promise.reject(err))
+    return db.Staff.respond('I')
+  })
+}
+
+function updateStaffPermission(data) {
+  return new Promise((resolve, reject) => {
+    let query = 'update Staff set permission = ' + data.permission + ', permissionPreset = ' + data.presetId + ' where staffId = "' + data.staffId + '"';
+    
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+
+      let staff = db.Staff.where(d => d.staffid == data.staffId).first
+      staff.permission = data.permission
+      staff.permissionpreset = data.presetId
+
+      if (data.presetId == null)
+        staff.preset = null;
+      else
+        staff.preset = db.PresetPermission.where(d => d.presetid == data.presetId).first
+
+      resolve(staff)
+    })
+  })
+}
+
+function updateOnePreset(data) {
+  return new Promise((resolve, reject) => {
+    let query = `update PresetPermission set permission = ${data.permission} where presetId = ${data.id}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+
+      db.PresetPermission.where(d => d.presetid == data.id).first.permission = data.permission
+      resolve(data)
+    })
+  })
+}
+
+function updatePreset(updateData) {
+  let tobeUpdated = Array.from(updateData)
+  let monad = Promise.resolve(tobeUpdated)
+
+  updateData.forEach(v => {
+    monad = monad.then(data => {
+      let next = data.pop()
+      return updateOnePreset(next)
+        .then(v => data)
+    })
+  })
+
+  return monad.then(u => updateData)
+}
+
 const query = q => cb => con.query(q, cb)
 
 exports.database = db;
 exports.connect = connect;
 exports.insert = insert;
 exports.query = query;
-exports.updateParameters = updateParameters
-exports.prolongCard = prolongCard
+exports.utilities = {
+  updateParameters, prolongCard, addNewStaff, updateStaffPermission, updatePreset
+}
 // exports.adminAuthenticate = adminAuthenticate
 // exports.userAuthenticate = userAuthenticate

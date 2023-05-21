@@ -15,3 +15,6 @@ exports.sequenceMaybe = monads => {
 }
 
 exports.on = f => g => h => x => f(g(x))(h(x))
+
+exports.flip = f => x => y => f(y)(x)
+exports.starling = f => g => t => f(t)(g(t))

@@ -82,7 +82,7 @@ function processBorrowData(borrow) {
     borrow.status = 'Đã trả'
     statusClass = 'status-complete'
   } else {
-    if (moment(borrow.dueDate).diff(moment()) < 0) {
+    if (moment(borrow.dueDate).add(1, 'days').diff(moment()) < 0) {
       borrow.status = 'Quá hạn'
       statusClass = 'status-overdue'
     } else {

@@ -142,7 +142,6 @@ function orderingColumns(table) {
 }
 
 function firePopUp(msg, type) {
-  console.log(msg, type)
   if (type)
     $("#popup").addClass(type)
   $("#popup span").html(msg)
@@ -224,9 +223,17 @@ $("#popup").click(e => {
   $("#popup").removeClass('failure')
 })
 
+$("#accountOption li:last-child").click(e => {
+  window.location.href = '/logout'
+})
+
 // --------------------- socket comm. ---------------------
 socket.on('renderData_rejected', d => firePopUp(d, 'error'))
 socket.on("renderData_accepted", d => {
   renderData[d.name] = d
   loadContent(d.name)
+})
+
+socket.on('serverMsg', msg => {
+  firePopUp(msg)
 })

@@ -166,6 +166,34 @@ function issueInvoice(data, staffId) {
   return EitherM.pure(out)
 }
 
+function addNewStaff(data) {
+  if (data.presetId != null && db.PresetPermission.where(d => d.presetid == data.presetId).isEmpty())
+    return EitherM.error("Nhóm quyền không tồn tại")
+
+  if (db.Staff.where(d => d.phone == data.phone).isNotEmpty())
+    return EitherM.error("Số điện thoại đã có nhân viên khác đăng ký")
+
+  let output = {
+    permissionPreset: data.presetId,
+    permission: null,
+    sName: data.staffName.join(' '),
+    phone: data.phone
+  }
+
+  if (data.permission != null)
+    output.permission = data.permission - data.permission % 2;
+
+  while (true) {
+    output.staffId = ("" + Math.floor(Math.random() * 1000000)).padStart(6, 0)
+    if (db.Staff.where(d => d.staffid == output.staffId).isEmpty())
+      break;
+  }
+
+  output.employmentDate = moment()
+
+  return EitherM.pure(output)
+}
+
 module.exports = {
   createNewReader,
   issueNewCard,
@@ -181,5 +209,6 @@ module.exports = {
   calculateTotalFine,
   newReturn,
   returnBooks,
-  issueInvoice
+  issueInvoice,
+  addNewStaff
 }

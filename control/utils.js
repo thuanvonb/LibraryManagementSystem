@@ -34,8 +34,6 @@ function encodeToCode128(text, codeABC = "B") {
   return startCode + text + check + stop;
 }
 
-const socketUser = socket => socket.request.session.passport.user
-
 function makeCsv(data, options) {
   let opt = Object.assign({index: true, header: true}, options)
   let header = Object.keys(data[0])
@@ -63,7 +61,7 @@ function round(x, significance) {
 
 exports.between = between
 exports.encodeToCode128 = encodeToCode128
-exports.socketUser = socketUser
 exports.makeCsv = makeCsv
 exports.round = round
 
+exports.normalize = x => x.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase()

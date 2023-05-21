@@ -2,12 +2,15 @@ const db = require('../database/db.js')
 const requestInput = require('../requests/requestIn.js')
 const requestOutput = require('../requests/requestOut.js')
 const verifier = require('../requests/verifier.js')
-const {encodeToCode128, socketUser} = require('../control/utils.js')
+const {encodeToCode128} = require('../control/utils.js')
 const csr_support = require('./csr.js')
 const {MaybeM, EitherM} = require('../control/monads.js')
 const moment = require('moment')
 const comb = require('../control/combinators.js')
 const {Agg} = require('../database/jsql.js')
+const Users = require('../security/users.js')
+
+const socketUser = Users.socketUser
 
 function getNewCardId() {
   while (true) {
@@ -107,7 +110,7 @@ const sk_prolongCard = socket => data => {
   let id = socket.previousLookup;
   socket.previousLookup = null
 
-  db.prolongCard(id).then(
+  db.utilities.prolongCard(id).then(
     data => socket.emit('prolongCard_accepted', {
       cardId: id,
       validUntil: data.validuntil.format('YYYY-MM-DD')
@@ -131,7 +134,7 @@ const sk_updateParams = socket => data => {
   if (!socketUser(socket).permission.libControl)
     return socket.emit('updateParams_rejected', 'No permission')
 
-  db.updateParameters(data).then(result => {
+  db.utilities.updateParameters(data).then(result => {
     socket.emit('updateParams_accepted', result)
   }, err => {
     socket.emit('updateParams_rejected', err)
@@ -200,8 +203,8 @@ const sk_addTitle = socket => data => {
 }
 
 const sk_getBookData = socket => data => {
-  if (!socketUser(socket).permission.libControl)
-    return socket.emit('getBookData_rejected', 'No permission')
+  // if (!socketUser(socket).permission.libControl)
+  //   return socket.emit('getBookData_rejected', 'No permission')
 
   requestOutput.getBookData().then(data => socket.emit('getBookData_accepted', data),
     error => {
@@ -450,8 +453,8 @@ const sk_getInvoices = socket => data => {
 }
 
 const sk_getBookBorrowContext = socket => isbn => {
-  if (!socketUser(socket).permission.libControl)
-    return socket.emit('getBookBorrowContext_rejected', 'No permission')
+  // if (!socketUser(socket).permission.libControl)
+  //   return socket.emit('getBookBorrowContext_rejected', 'No permission')
 
   requestOutput.getBookBorrowContext(isbn)
     .then(data => requestOutput.getBookId_Status(isbn)
@@ -477,7 +480,94 @@ const sk_reportOverdue = socket => data => {
     .then(output => socket.emit('reportOverdue_accepted', output))
 }
 
+const sk_staffManageData = socket => data => {
+  if (!socketUser(socket).permission.staffControl)
+    return socket.emit('staffManageData_rejected', 'No permission')
+
+  requestOutput.getStaffData(socketUser(socket).permission.fullControl)
+    .then(data => socket.emit('staffManageData_accepted', data))
+}
+
+const sk_addNewStaff = socket => data => {
+  if (!socketUser(socket).permission.staffControl)
+    return socket.emit('addNewStaff_rejected', 'No permission')
+
+  requestInput.addNewStaff(data)
+    .then(db.utilities.addNewStaff)
+    .then(newStaff => requestOutput.staffData(newStaff))
+    .then(staffData => socket.emit('addNewStaff_accepted', staffData),
+      err => {
+        console.log(err)
+        socket.emit('addNewStaff_rejected', err.toString())
+      }
+    )
+}
+
+const sk_updateStaff = socket => data => {
+  if (!socketUser(socket).permission.staffControl)
+    return socket.emit('updateStaff_rejected', 'No permission')
+
+  if (data.presetId == null && data.permission == null)
+    return socket.emit('updateStaff_rejected', "Holy hell!")
+
+  if (data.presetId != null && db.database.PresetPermission.where(d => d.presetid == data.presetId).isEmpty())
+    return socket.emit('updateStaff_rejected', 'Nhóm quyền không tồn tại')
+
+  let staff = db.database.Staff.where(d => d.staffid == data.staffId)
+  if (staff.isEmpty())
+    return socket.emit('updateStaff_rejected', "Không tìm thấy nhân viên")
+
+  let currPermission = staff.first.permission ?? staff.first.preset.permission
+
+  let changedPermission = data.permission ?? db.database.PresetPermission.where(d => d.presetid == data.presetId).first.permission
+
+  if ((currPermission + changedPermission) % 2 == 1)
+    return socket.emit('updateStaff_rejected', "Không có quyền thực hiện thao tác này")
+
+  if (!socketUser(socket).permission.fullControl &&
+    ((currPermission ^ changedPermission) >> 4) % 2 == 1)
+    return socket.emit('updateStaff_rejected', "Không có quyền thực hiện thao tác này")
+
+  db.utilities.updateStaffPermission(data)
+    .then(updatedStaff => {
+      data.permission = updatedStaff.permission ?? updatedStaff.preset.permission
+      let otherSocket = Users.findSocketById(data.staffId)
+      if (otherSocket)
+        otherSocket.emit('serverMsg', "Quyền của bạn đã được cập nhật, hãy tải lại trang")
+      socket.emit('updateStaff_accepted', data)
+    }, err => {
+      console.log(err)
+      socket.emit('updateStaff_rejected', err.toString())
+    })
+}
+
+const sk_updatePreset = socket => data => {
+  if (!socketUser(socket).permission.staffControl)
+    return socket.emit('updatePreset_rejected', 'No permission')
+
+  let updateData = data.map((v, i) => ({
+    id: i+1,
+    permission: v*2
+  })).filter(v => db.database.PresetPermission.where(d => d.presetid == v.id && d.permission != v.permission).isNotEmpty())
+
+  db.utilities.updatePreset(updateData)
+    .then(updatedData => {
+      let p = updatedData.map(v => v.id)
+      db.database.Staff.where(d => p.includes(d.permissionpreset))
+        .map(v => Users.findSocketById(v.staffid))
+        .filter(otherSocket => otherSocket != undefined && otherSocket != socket)
+        .forEach(socket => 
+          socket.emit('serverMsg', "Quyền của bạn đã được cập nhật, hãy tải lại trang"))
+
+      socket.emit('updatePreset_accepted', requestOutput.getPermissionPreset())
+    }, err => {
+      console.log(err)
+      socket.emit('updateStaff_rejected', err.toString())
+    })
+}
+
 function adminServices(socket) {
+  Users.addUserSocket(socket)
   socket.on('renderData', csr_support.sk_getAdminRenderData(socket))
 
   socket.on('getNewCardId', sk_getNewCard(socket))
@@ -511,6 +601,12 @@ function adminServices(socket) {
 
   socket.on('reportRental', sk_reportRental(socket))
   socket.on('reportOverdue', sk_reportOverdue(socket))
+
+  socket.on('staffManageData', sk_staffManageData(socket))
+  socket.on('addNewStaff', sk_addNewStaff(socket))
+  socket.on('updateStaff', sk_updateStaff(socket))
+  socket.on('updatePreset', sk_updatePreset(socket))
+
 }
 
 module.exports = adminServices

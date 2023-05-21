@@ -2,14 +2,31 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const db = require('./../database/db.js')
 const {hashPassword, passwordCompare} = require('./passwordHashing.js')
+const {starling} = require('../control/combinators.js')
+const UserManager = require('./users.js')
 
-function adminPermissionExtract(p) {
-  let full = (p >> 4) % 2
+function adminPermissionExtract(staffData) {
+  let getPData = n => {
+    // console.log(staffData, n)
+    if (staffData.permission != null)
+      return staffData.permission
+    return staffData.preset.permission
+  }
+
+  let bitAt = t => n => (n >> t) % 2;
+
+  let getPermission = n => {
+    let p = getPData(n)
+    return bitAt(n)(p)
+  }
+
+  let full = () => getPermission(0)
   return {
-    services: ((p >> 0) % 2) | full,
-    libControl: ((p >> 1) % 2) | full,
-    report: ((p >> 2) % 2) | full,
-    staffControl: ((p >> 3) % 2) | full
+    get fullControl() {return full()},
+    get services() {return full() || getPermission(1)},
+    get libControl() {return full() || getPermission(2)},
+    get report() {return full() || getPermission(3)},
+    get staffControl() {return full() || getPermission(4)}
   }
 }
 
@@ -54,7 +71,7 @@ function adminAuthenticate(username, password) {
           data: {
             staffId: q.data[0].staffid,
             sName: q.data[0].sname,
-            permission: adminPermissionExtract(q.data[0].permission),
+            permission: adminPermissionExtract(q.data[0]),
             isAdmin: true
           }
         });
@@ -84,11 +101,14 @@ passport.use('user_local', new LocalStrategy(function (username, password, cb) {
 
 passport.serializeUser(function(user, done) {
   console.log(user)
-  done(null, user);
+  UserManager.addUser(user, user.staffId)
+  done(null, user.staffId);
 });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+passport.deserializeUser(function(id, done) {
+  UserManager.findUserById(id, (err, user) => {
+    done(err, user);
+  })
 });
 
 

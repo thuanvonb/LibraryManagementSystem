@@ -155,7 +155,7 @@ $("#reader-table table").click(e => {
     else
       node = node.parentNode;
   }
-  if (node.parentNode.children[5] != node)
+  if (node.parentNode.children[6] != node)
     return;
 
   issueFormRestoreDefault()

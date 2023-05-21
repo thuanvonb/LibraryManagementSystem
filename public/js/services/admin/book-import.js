@@ -181,7 +181,6 @@ $("button[name='addPublish_req']").click(e => {
 
 socket.on('addTitle_rejected', err => firePopUp(err, 'failure'))
 socket.on('addTitle_accepted', data => {
-  console.log(data)
   let authors = data.authorNames
   data.authorNames = data.authorNames.join(', ')
   firePopUp("Sách đã được nhập thành công", 'success')
@@ -210,6 +209,7 @@ socket.on('addPublish_accepted', data => {
   let table = d3.select('#books-publish-table').select('table')
   insertIntoTable(table)(data)
   currBook.publishments.push(data)
+  publisherList(data.publisher)
   $("#new-books-publish").removeClass('show')
   document.forms[1].reset()
   makePublishEditable()

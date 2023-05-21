@@ -3,7 +3,7 @@ const Table = require('./jsql.js').Table
 
 let WebUser = new Table("WebUser", ['userUUID', 'username', 'deleted', 'createDate', 'webName', 'gender', 'email', 'phone', 'dob'])
 
-let Staff = new Table("Staff", ['staffId', 'sName', 'phone', 'employmentDate', 'username', 'permission'])
+let Staff = new Table("Staff", ['staffId', 'sName', 'phone', 'employmentDate', 'username', 'permission', 'permissionPreset'])
 
 let CardInfo = new Table("CardInfo", ['infoId', 'rName', 'addr', 'birthday', 'email', 'identityNum'])
 
@@ -28,6 +28,8 @@ let ReturningContents = new Table("ReturningContents", ['returnId', 'bookId', 'b
 
 let FineInvoice = new Table("FineInvoice", ['invoiceId', 'cardId', 'paid', 'remaining', 'staffId', 'invoiceDate'])
 
+let PresetPermission = new Table("PresetPermission", ['presetId', 'permission', 'permissionName'])
+
 WebUser           .addPrimaryKey(['userUUID'])
 Staff             .addPrimaryKey(['staffId'])
 CardInfo          .addPrimaryKey(['infoId'])
@@ -46,6 +48,7 @@ Returning         .addPrimaryKey(['returnId'])
 ReturningContents .addPrimaryKey(['returnId', 'bookId'])
 FineInvoice       .addPrimaryKey(['invoiceId'])
 
+Staff             .addForeignKey('permissionPreset', PresetPermission, 'presetId', 'preset')
 ReaderCard        .addForeignKey('userUUID', WebUser, 'userUUID', 'user')
 ReaderCard        .addForeignKey('infoId', CardInfo, 'infoId', 'info')
 ReaderCard        .addForeignKey('staffId', Staff, 'staffId', 'staff')
@@ -83,6 +86,6 @@ FineInvoice       .autoPrimary()
 
 
 
-let db = new Database('se104', [WebUser, Staff, CardInfo, ReaderCard, Publisher, Genre, Author, BookTitle, BookAuthor, BooksPublish, BookImport, Book, Borrowing, BorrowingContents, Returning, ReturningContents, FineInvoice])
+let db = new Database('se104', [WebUser, Staff, CardInfo, ReaderCard, Publisher, Genre, Author, BookTitle, BookAuthor, BooksPublish, BookImport, Book, Borrowing, BorrowingContents, Returning, ReturningContents, FineInvoice, PresetPermission])
 
 module.exports = db

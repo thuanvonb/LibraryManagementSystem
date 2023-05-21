@@ -1,4 +1,4 @@
-const {socketUser} = require('../control/utils.js')
+const {socketUser} = require('../security/users.js')
 const fs = require('fs')
 
 const validRenderValue = {
@@ -34,7 +34,7 @@ const validRenderValue = {
       stylesheet: 'css/services/admin/update-parameters.css'
     },
     'book-browsing': {
-      permission: p => p.libControl,
+      permission: p => 1,
       path: 'admin/book-browsing',
       scripts: ['js/services/admin/book-browsing.js'],
       stylesheet: 'css/services/admin/book-browsing.css'
@@ -68,10 +68,10 @@ const validRenderValue = {
 
 const sk_getAdminRenderData = socket => value => {
   if (!validRenderValue.admin[value])
-    socket.emit('renderData_rejected', 'unknown value')
+    return socket.emit('renderData_rejected', 'unknown value')
   let services = validRenderValue.admin[value]
   if (!services.permission(socketUser(socket).permission))
-    socket.emit('renderData_rejected', 'no permission')
+    return socket.emit('renderData_rejected', 'no permission')
   // console.log("/views/partials/" + services.path)
   fs.readFile("views/partials/" + services.path, 'utf8', (err, data) => {
     if (err) {

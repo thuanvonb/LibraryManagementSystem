@@ -75,6 +75,14 @@ const initAutoComplete = dom => list => {
     autoList.selectChildren().remove()
   })
 
+  input.on('keydown', e => {
+    if (e.key == 'Escape') {
+      autoList.selectChildren().remove()
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  })
+
   input.on('input', e => {
     autoList.selectChildren().remove()
     autoCompleteBase(list2)(normalize(e.target.value))
