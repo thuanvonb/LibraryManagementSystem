@@ -391,6 +391,10 @@ const sk_returnBooks = socket => data => {
   requestInput.calculateTotalFine(data.cardId, {losts, returns})
     .then(totalFine => requestInput.newReturn(data.cardId, socketUser(socket).staffId, totalFine))
     .then(newReturn => db.insert('Returning', newReturn))
+    .then(returnData => {
+      card.first.debt += returnData.overdueFine
+      return EitherM.pure(returnData)
+    })
     .then(returnData => requestInput.returnBooks(returnData.returnid, {losts, returns}, {
       losts: lostBooks.data,
       returns: returnBooks.data
@@ -399,6 +403,7 @@ const sk_returnBooks = socket => data => {
     .then(returnData => {
       let returned = returnData.filter(d => !d.islost).map(v => v.bookid)
       db.database.Book.where(d => returned.includes(d.bookid)).forEach(d => d.available = 1)
+
       return requestOutput.newReturn(returnData)
     })
     .then(out => socket.emit('returnBooks_accepted', out), err => {

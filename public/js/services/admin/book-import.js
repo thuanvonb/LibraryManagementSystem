@@ -119,7 +119,7 @@ $("input[name='addAuthor']").click(e => {
 
 $("button[name='addBook_req']").click(e => {
   e.preventDefault()
-  $("input[name='isbn']").get()[0].setCustomValidity('')
+  // $("input[name='isbn']").get()[0].setCustomValidity('')
   if (!document.forms[0].reportValidity())
     return;
   let data = $("#new-book-title form").serializeArray()
@@ -128,10 +128,10 @@ $("button[name='addBook_req']").click(e => {
 
   out.isbn = verifyISBN(out.isbn)
   if (out.isbn == null) {
-    $("input[name='isbn']").get()[0].setCustomValidity('ISBN không hợp lệ')
-    document.forms[0].reportValidity()
+    // $("input[name='isbn']").get()[0].setCustomValidity('ISBN không hợp lệ')
+    // document.forms[0].reportValidity()
     // $("input[name='isbn']").get()[0].setCustomValidity('')
-    return;
+    return firePopUp('ISBN không hợp lệ', 'failure')
   }
 
   out.authors = d3.selectAll('.added-author').selectAll('.author').nodes().map(v => v.innerHTML)

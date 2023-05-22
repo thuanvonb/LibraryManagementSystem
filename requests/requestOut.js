@@ -120,7 +120,7 @@ const fromBookToReturn = book => {
   out.borrowDate = book.borrow.borrowdate.format('YYYY-MM-DD')
   out.borrowingDays = book.return.returndate.startOf('day').diff(book.borrow.borrowdate.startOf('day'), 'days')
   out.fine = Math.max(0, book.return.returndate.startOf('day').diff(book.borrow.duedate.startOf('day'), 'days')) * db.parameters.overdueFinePerDay
-  if (book.isLost)
+  if (book.islost)
     out.fine += 3 * book.book.import.bp.price
   out.note = book.islost ? "Mất sách" : ""
   return out;

@@ -50,7 +50,6 @@ const filterData = selector => onItemClick => list => text => {
   }))
   t.sort((a, b) => b.distance - a.distance)
   let data = t.filter((v, i) => i <= 5 && v.distance > 0)
-  console.log(data)
   selector.selectAll('div')
     .data(data)
     .join('div')

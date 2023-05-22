@@ -35,6 +35,8 @@ function encodeToCode128(text, codeABC = "B") {
 }
 
 function makeCsv(data, options) {
+  if (data.length == 0)
+    return ""
   let opt = Object.assign({index: true, header: true}, options)
   let header = Object.keys(data[0])
   if (opt.index)
