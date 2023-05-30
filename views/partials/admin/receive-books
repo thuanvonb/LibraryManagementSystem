@@ -1,1 +1,84 @@
-<div id='return-books'> <div id='return-field' class='pop-up-field'> <div> <div> <form> <div class='infoRow readerInfo'> <label>Họ tên độc giả: </label> <input type="text" name="rName" readonly> <span></span> <label>Ngày trả:</label> <input type="date" name="returnDate" readonly> <span></span> <span></span> <span></span> <span>Tiền phạt kỳ này:</span> <span name='currentFine'>0</span> <span></span> <span></span> <span></span> <span>Tổng nợ:</span> <span name='totalDebt'>0</span> </div> <div> <h4>Danh sách các sách đang mượn</h4> <table id='return-section' class='display-table'> <thead> <tr style='--t-size: 24;'> <th style='--r-size: 1' name='index'>STT</th> <th style='--r-size: 3' name='bookId'>Mã quyển</th> <th style='--r-size: 6' name='bName'>Tên sách</th> <th style='--r-size: 4' name='borrowDate'>Ngày mượn</th> <th style='--r-size: 4' name='borrowingDays'>Số ngày mượn</th> <th style='--r-size: 3' name='fine'>Tiền phạt<br style='margin: 0;'>(tạm tính)</th> <th style='--r-size: 1.5' name='returnCkb'>Trả</th> <th style='--r-size: 1.5' name='lostCkb'>Mất</th> </tr> </thead> <tbody> </tbody> </table> </div> <div> <button class='stdBtn' disabled>Lập phiếu trả</button> <button class='stdBtn'>Hủy</button> </div> </form> </div> </div> </div> <div id='return-content-field' class='pop-up-field'> <div> <h4>Thông tin phiếu trả</h4> <div class='readerInfo'> <span>Họ tên độc giả: </span><span name='readerName'>Lorem Ipsum</span> <span></span> <span>Ngày trả: </span><span name='returnDate'>yyyy-mm-dd</span> <span></span> <span></span> <span></span> <span>Tiền phạt kỳ này:</span> <span name='currentFine'>0</span> <span></span> <span></span> <span></span> <span>Tổng nợ:</span> <span name='totalDebt'>0</span> </div> <div> <table class='display-table'> <thead> <tr style='--t-size: 25;'> <th style='--r-size: 1' name='index'>STT</th> <th style='--r-size: 3' name='bookId'>Mã quyển</th> <th style='--r-size: 7' name='bName'>Tên sách</th> <th style='--r-size: 4' name='borrowDate'>Ngày mượn</th> <th style='--r-size: 4' name='borrowingDays'>Số ngày mượn</th> <th style='--r-size: 3' name='fine'>Tiền phạt</th> <th style='--r-size: 3' name='note'>Ghi chú</th> </tr> </thead> <tbody> </tbody> </table> </div> <div> <button class='stdBtn'>Đóng</button> </div> </div> </div> <div class='dimmer'></div> <div id='inner-return-books'> <div> <form> <label>Nhập mã thẻ độc giả: </label> <input type="text" name="readerId" placeholder="Mã độc giả" pattern="\d{8}" required> <button class='stdBtn'>Lập phiếu trả</button> </form> </div> <div> <table id='rental-activity' class='display-table'> <thead> <tr style='--t-size: 20;'> <th style='--r-size: 2.5;' name='returnId'>Mã phiếu trả</th> <th style='--r-size: 2.5;' name='cardId'>Mã độc giả</th> <th style='--r-size: 7;' name='rName'>Tên độc giả</th> <th style='--r-size: 2.5;' name='returnDate'>Ngày trả</th> <th style='--r-size: 3;' name='amount'>Số lượng trả</th> <th style='--r-size: 2.5;' name='totalFine'>Tổng phạt</th> </tr> </thead> <tbody> </tbody> </table> </div> </div> </div>
+<div id='return-books'>
+    <div id='return-field' class='pop-up-field'>
+        <div>
+            <div>
+                <form>
+                    <div class='infoRow readerInfo'> <label>Họ tên độc giả: </label> <input type="text" name="rName"
+                            readonly> <span></span> <label>Ngày trả:</label> <input type="date" name="returnDate"
+                            readonly> <span></span> <span></span> <span></span> <span>Tiền phạt kỳ này:</span> <span
+                            name='currentFine'>0</span> <span></span> <span></span> <span></span> <span>Tổng nợ:</span>
+                        <span name='totalDebt'>0</span> </div>
+                    <div>
+                        <h4>Danh sách các sách đang mượn</h4>
+                        <table id='return-section' class='display-table'>
+                            <thead>
+                                <tr style='--t-size: 24;'>
+                                    <th style='--r-size: 1' name='index'>STT</th>
+                                    <th style='--r-size: 3' name='bookId'>Mã quyển</th>
+                                    <th style='--r-size: 6' name='bName'>Tên sách</th>
+                                    <th style='--r-size: 4' name='borrowDate'>Ngày mượn</th>
+                                    <th style='--r-size: 4' name='borrowingDays'>Số ngày mượn</th>
+                                    <th style='--r-size: 3' name='fine'>Tiền phạt<br style='margin: 0;'>(tạm tính)</th>
+                                    <th style='--r-size: 1.5' name='returnCkb'>Trả</th>
+                                    <th style='--r-size: 1.5' name='lostCkb'>Mất</th>
+                                </tr>
+                            </thead>
+                            <tbody> </tbody>
+                        </table>
+                    </div>
+                    <div> <button class='stdBtn' disabled>Lập phiếu trả</button> <button class='stdBtn'>Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id='return-content-field' class='pop-up-field'>
+        <div>
+            <h4>Thông tin phiếu trả</h4>
+            <div class='readerInfo'> <span>Họ tên độc giả: </span><span name='readerName'>Lorem Ipsum</span>
+                <span></span> <span>Ngày trả: </span><span name='returnDate'>yyyy-mm-dd</span> <span></span>
+                <span></span> <span></span> <span>Tiền phạt kỳ này:</span> <span name='currentFine'>0</span>
+                <span></span> <span></span> <span></span> <span>Tổng nợ:</span> <span name='totalDebt'>0</span> </div>
+            <div>
+                <table class='display-table'>
+                    <thead>
+                        <tr style='--t-size: 25;'>
+                            <th style='--r-size: 1' name='index'>STT</th>
+                            <th style='--r-size: 3' name='bookId'>Mã quyển</th>
+                            <th style='--r-size: 7' name='bName'>Tên sách</th>
+                            <th style='--r-size: 4' name='borrowDate'>Ngày mượn</th>
+                            <th style='--r-size: 4' name='borrowingDays'>Số ngày mượn</th>
+                            <th style='--r-size: 3' name='fine'>Tiền phạt</th>
+                            <th style='--r-size: 3' name='note'>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody> </tbody>
+                </table>
+            </div>
+            <div> <button class='stdBtn'>Đóng</button> </div>
+        </div>
+    </div>
+    <div class='dimmer'></div>
+    <div id='inner-return-books'>
+        <div>
+            <form> <label>Nhập mã thẻ độc giả: </label> <input type="text" name="readerId" placeholder="Mã độc giả"
+                    pattern="\d{8}" required> <button class='stdBtn'>Lập phiếu trả</button> </form>
+        </div>
+        <div>
+            <div class="table-title"><p>Danh sách phiếu trả</p></div>
+            <table id='rental-activity' class='display-table'>
+                <thead>
+                    <tr style='--t-size: 20;'>
+                        <th style='--r-size: 2.5;' name='returnId'>Mã phiếu trả</th>
+                        <th style='--r-size: 2.5;' name='cardId'>Mã độc giả</th>
+                        <th style='--r-size: 7;' name='rName'>Tên độc giả</th>
+                        <th style='--r-size: 2.5;' name='returnDate'>Ngày trả</th>
+                        <th style='--r-size: 3;' name='amount'>Số lượng trả</th>
+                        <th style='--r-size: 2.5;' name='totalFine'>Tổng phạt</th>
+                    </tr>
+                </thead>
+                <tbody> </tbody>
+            </table>
+        </div>
+    </div>
+</div>

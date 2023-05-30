@@ -270,9 +270,28 @@ br {
   padding: 0 2vw;
 }
 
+.table-title {
+  position : relative;
+  height : 2.5em;
+  text-align : center;
+  border: solid 1px;
+  border-color: black transparent transparent transparent;
+}
+
+.table-title p {
+  font-size: 1.5em;
+  margin : auto;
+  position : absolute;
+  color: var(--sec-dark);
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
 .display-table {
   width: 100%;
-  border: solid 1px black;
+  border: solid 1px var(--dom-dark);
 }
 
 .display-table thead {

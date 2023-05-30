@@ -1,1 +1,36 @@
-<div class="book-rental" style="position: relative; height: 100%"> <div class='title'> <b>BÁO CÁO THỐNG KÊ TÌNH HÌNH MƯỢN SÁCH THEO THỂ LOẠI</b> </div> <div class="panel"> <div> <label for="month">Tháng: </label> <select name="month"> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">7</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> <option value="11">11</option> <option value="12">12</option> </select> </div> <div> <label for="year">Năm: </label> <input type="number" name="year" min="2023"> </div> <div class="sum"> <span>Tổng số lượt mượn: <span name='totalRental'></span></span> </div> <div class="button"> <button name="report">Lập báo cáo</button> <button name="reportCsv">Xuất báo cáo</button> </div> </div> <div> <table id="rental-table" class='expand display-table'> <thead> <tr style='--t-size:10'> <th style="--r-size: 1;" name='index'>STT</th> <th style="--r-size: 5;" name='gname'>Tên thể loại</th> <th style="--r-size: 2;" name='rentalCount'>Số lượt mượn</th> <th style="--r-size: 2;" name='percentage'>Tỉ lệ</th> </tr> </thead> <tbody> </tbody> </table> </div> </div>
+<div class="book-rental" style="position: relative; height: 100%">
+    <div class='title'> <b>BÁO CÁO THỐNG KÊ TÌNH HÌNH MƯỢN SÁCH THEO THỂ LOẠI</b> </div>
+    <div class="panel">
+        <div> <label for="month">Tháng: </label> <select name="month">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select> </div>
+        <div> <label for="year">Năm: </label> <input type="number" name="year" min="2023"> </div>
+        <div class="sum"> <span>Tổng số lượt mượn: <span name='totalRental'></span></span> </div>
+        <div class="button"> <button name="report">Lập báo cáo</button> <button name="reportCsv">Xuất báo cáo</button>
+        </div>
+    </div>
+    <div>
+        <table id="rental-table" class='expand display-table'>
+            <thead>
+                <tr style='--t-size:10'>
+                    <th style="--r-size: 1;" name='index'>STT</th>
+                    <th style="--r-size: 5;" name='gname'>Tên thể loại</th>
+                    <th style="--r-size: 2;" name='rentalCount'>Số lượt mượn</th>
+                    <th style="--r-size: 2;" name='percentage'>Tỉ lệ</th>
+                </tr>
+            </thead>
+            <tbody> </tbody>
+        </table>
+    </div>
+</div>
