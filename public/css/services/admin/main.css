@@ -264,10 +264,14 @@ br {
 #mainContent {
   position: relative;
   overflow-x: auto;
+  background: url('../../../assets/library3.png');
+  background-size: contain;
 }
 
 #mainContent > div {
   padding: 0 2vw;
+  background: white;
+  height: 100%;
 }
 
 .display-table {
