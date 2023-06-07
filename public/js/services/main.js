@@ -185,6 +185,8 @@ function loadContent(name) {
     return;
   }
 
+  sessionStorage.setItem('active-screen', name)
+
   let d = renderData[name]
   container.innerHTML = d.data;
   d.scripts.forEach(loadScript(container))
@@ -228,7 +230,7 @@ $("#accountOption li:last-child").click(e => {
 })
 
 // --------------------- socket comm. ---------------------
-socket.on('renderData_rejected', d => firePopUp(d, 'error'))
+socket.on('renderData_rejected', d => rejectPopUp(d))
 socket.on("renderData_accepted", d => {
   renderData[d.name] = d
   loadContent(d.name)
@@ -237,3 +239,14 @@ socket.on("renderData_accepted", d => {
 socket.on('serverMsg', msg => {
   firePopUp(msg)
 })
+
+let screen = sessionStorage.getItem('active-screen')
+if (screen != null) {
+  let item = $(".item[name='" + screen + "']")
+  if (item.length != 0)
+    $(".item[name='" + screen + "']").click()
+  else {
+    rejectPopUp('Quyền truy cập của bạn đến trang này không còn nữa')
+    sessionStorage.removeItem('active-screen')
+  }
+}

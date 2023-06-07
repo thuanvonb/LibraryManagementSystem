@@ -116,6 +116,15 @@
   margin-top: 1em;
 }
 
+#book-title-table table {
+  table-layout: fixed;
+}
+
+#book-title-table table tbody tr td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 #book-title-table table tbody tr {
   cursor: pointer;
 }

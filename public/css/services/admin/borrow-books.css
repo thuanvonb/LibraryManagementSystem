@@ -141,8 +141,8 @@
 }
 
 #borrow-books .status-complete {
-  color: #00dd00;
-  background-color: white;
+  color: #00b900;
+  background-color: unset;
 }
 
 #borrow-books .status-overdue {
