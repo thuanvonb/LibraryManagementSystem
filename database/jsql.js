@@ -134,6 +134,8 @@ class Table {
   // immutable
   select(...columns_) {
     this.ungroupedEnsure()
+    if (this.isEmpty())
+      return this;
     let columns = columns_.map(c => c.toLowerCase())
     if (columns.some(c => !this.hasColumn(c)))
       throw "Unknown column name"

@@ -24,17 +24,18 @@ function verifyNumberOfBorrowing(cardId, bookIds) {
 }
 
 function verifyDuplicateBorrowing(cardId, bookIds) {
-  return db.BorrowingContents.where((bc, fn) => bc.borrow.cardid == cardId &&
-    bookIds.includes(bc.bookid) && fn.notexists(
+  let borrowed = db.BorrowingContents.where((bc, fn) => bc.borrow.cardid == cardId &&
+    fn.notexists(
       db.ReturningContents.where(rc => 
         rc.borrowid == bc.borrowid && rc.bookid == bc.bookid)
     )
-  ).isEmpty() && 
-    db.Book.where(d => bookIds.includes(d.bookid))
-      .project('import').project('bp').project('title')
-      .select('titleid')
-      .distinct()
-      .aggregation([Agg.count(), 0, 'distinctBooks']).data[0].distinctBooks == bookIds.length
+  ).project('book').project('import').project('bp').project('title').select('titleid')
+
+  let borrowing = db.Book.where(d => bookIds.includes(d.bookid)).project('import').project('bp').project('title').select('titleid')
+
+  let expected = borrowed.data.length + borrowing.data.length
+
+  return borrowed.union(borrowing).data.length == expected
 }
 
 function verifyOverdueBook(cardId) {

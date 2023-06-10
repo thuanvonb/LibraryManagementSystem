@@ -392,7 +392,7 @@ const sk_returnBooks = socket => data => {
     .then(totalFine => requestInput.newReturn(data.cardId, socketUser(socket).staffId, totalFine))
     .then(newReturn => db.insert('Returning', newReturn))
     .then(returnData => {
-      card.first.debt += returnData.overdueFine
+      card.first.debt += returnData.overduefine
       return EitherM.pure(returnData)
     })
     .then(returnData => requestInput.returnBooks(returnData.returnid, {losts, returns}, {
