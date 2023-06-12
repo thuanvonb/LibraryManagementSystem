@@ -164,7 +164,7 @@ function loadStylesheet(id, href) {
     return false;
   let head  = document.getElementsByTagName('head')[0];
   let link  = document.createElement('link');
-  link.id   = id;
+  link.id   = "css_" + id;
   link.rel  = 'stylesheet';
   link.type = 'text/css';
   link.href = href;

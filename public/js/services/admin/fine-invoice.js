@@ -10,6 +10,9 @@ $("#inner-invoice-books button").click(e => {
 
 $("#invoice-field button:first-child").click(e => {
   e.preventDefault();
+  if (!document.forms[0].reportValidity())
+    return;
+
   socket.emit('issueInvoice', {
     cardId: $("input[name='readerId']").val(),
     paid: $("input[name='amount']").val()

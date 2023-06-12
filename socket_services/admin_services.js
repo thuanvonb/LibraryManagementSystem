@@ -52,7 +52,8 @@ const sk_issueCard = socket => data => {
       rName: data.info.rname,
       cardType: data.readertype,
       issueDate: data.issuedate.format('YYYY-MM-DD'),
-      validUntil: data.validuntil.format('YYYY-MM-DD')
+      validUntil: data.validuntil.format('YYYY-MM-DD'),
+      debt: data.debt
     })
   }, err => {
     console.log(err)

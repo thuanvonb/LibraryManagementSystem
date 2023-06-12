@@ -113,6 +113,8 @@ $("button[name='cancel']").click(e => {
 
 $("input[name='addAuthor']").click(e => {
   let inp = $("div[name='author'] input")
+  if (inp.val() == "")
+    return;
   addAuthor(d3.select("#authors"), inp.val())
   inp.val("")
 })
