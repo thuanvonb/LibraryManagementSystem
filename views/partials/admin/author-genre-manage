@@ -1,0 +1,67 @@
+<div id="author-genre-manage">
+    <div class="grid-container author">
+        <div class="grid-item">
+            <form id='issueForm' accept-charset="utf-8" class='w-100'>
+                <label for="authorId">Mã tác giả</label> 
+                <input type="text" name="authorId" placeholder="Mã tác giả" readonly>
+                <br> 
+                <label for="aName">Tên tác giả</label> 
+                <input type="text" name="aName" placeholder="Tên tác giả" required>
+                <br> 
+                <label for="newAName">Tên mới tác giả</label> 
+                <input type="text" name="newAName" placeholder="Chỉ dùng khi đổi tên" required readonly>
+            </form>
+            <div class="action">
+                <button class="add">Thêm</button>
+                <button class="remove">Xoá</button>
+                <button class="update">Sửa</button>
+                <button class="save">Lưu</button>
+            </div>
+        </div>
+        <div class="grid-item author-table">
+            <div class="table-title"><p>Danh sách tác giả</p></div>
+            <table class='display-table'>
+                <thead>
+                    <tr style='--t-size:10'>
+                        <th style="--r-size: 4;" name='authorId'>Mã tác giả</th>
+                        <th style="--r-size: 6;" name='aName'>Tên tác giả</th>
+                    </tr>
+                </thead>
+                <tbody> </tbody>
+            </table>
+        </div>
+        <div class="grid-item genre">
+            <div class="grid-item">
+                <form id='issueForm' accept-charset="utf-8" class='w-100'>
+                    <label for="genreId">Mã thể loại</label> 
+                    <input type="text" name="genreId" placeholder="Mã thể loại" readonly>
+                    <br> 
+                    <label for="gName">Tên thể loại</label> 
+                    <input type="text" name="gName" placeholder="Tên thể loại" required>
+                    <br> 
+                    <label for="newGName">Tên mới tác giả </label> 
+                    <input type="text" name="newGName" placeholder="Chỉ dùng khi đổi tên" required readonly>
+                </form>
+
+                <div class="action">
+                    <button class="add">Thêm</button>
+                    <button class="remove">Xoá</button>
+                    <button class="update">Sửa</button>
+                    <button class="save">Lưu</button>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item genre-table">
+            <div class="table-title"><p>Danh sách thể loại</p></div>
+            <table class='display-table'>
+                <thead>
+                    <tr style='--t-size:10'>
+                        <th style="--r-size: 4;" name='genreId'>Mã thể loại</th>
+                        <th style="--r-size: 6;" name='gName'>Tên thể loại</th>
+                    </tr>
+                </thead>
+                <tbody> </tbody>
+            </table>
+        </div>
+    </div>
+</div>

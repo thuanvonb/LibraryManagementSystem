@@ -1,0 +1,12 @@
+#author-genre-manage .grid-container {
+    display: grid;
+}
+
+#author-genre-manage .grid-container {
+    display: inline-grid;
+}
+
+span{
+    color: red;
+    background-color: yellow;
+}
