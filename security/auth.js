@@ -56,7 +56,7 @@ function userAuthenticate(username, password, errCb) {
 
 function adminAuthenticate(username, password) {
   return new Promise((resolve, reject) => {
-    let q = db.database.Staff.where(d => d.username == username)
+    let q = db.database.Staff.where(d => d.username == username && d.deleted == 0)
     if (q.isEmpty())
       return reject("Incorrect username or password")
     db.query('select pwd from Staff where staffId = \'' + q.data[0].staffid + "'")

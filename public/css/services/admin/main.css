@@ -246,7 +246,7 @@ br {
 
 #popup.triggered div {
   width: 0%;
-  transition: 5s linear;
+  transition: 3s linear;
 }
 
 #td-content {
@@ -362,6 +362,17 @@ button.stdBtn:hover {
 button.stdBtn:disabled {
   background: lightgray;
   color: gray;
+}
+
+button.stdBtn.danger {
+  background: white;
+  color: red;
+  border: 1px red solid;
+}
+
+button.stdBtn.danger:hover {
+  background: red;
+  color: white;
 }
 
 .item {

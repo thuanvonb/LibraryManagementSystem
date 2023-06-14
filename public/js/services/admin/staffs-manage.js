@@ -89,6 +89,7 @@ function staffFormReset() {
 
   $("#forms button[name='addStaff']").removeClass('hide')
   $("#forms button[name='updateStaff']").addClass('hide')
+  $("#forms button[name='removeStaff']").addClass('hide')
 
   d3.select('#staff-table').select('tbody').selectAll('tr').classed('selected', false)
 
@@ -129,6 +130,8 @@ function updateClickEvent(trs) {
 
     $("#forms button[name='addStaff']").addClass('hide')
     $("#forms button[name='updateStaff']").removeClass('hide')
+    if (d.raw_data.permission % 2 == 0)
+      $("#forms button[name='removeStaff']").removeClass('hide')
   })
 }
 
@@ -227,7 +230,9 @@ socket.on('staffManageData_accepted', data => {
   let trs = insertIntoTable(d3.select('#staff-table'))(data.staffs)
   updateClickEvent(trs)
 
-  if (data.currStaffFullControl) {
+  if (!data.currStaffFullControl) 
+    d3.select("button[name='removeStaff']").remove()
+  else {
     d3.select('#forms')
       .select('.subitem:last-child')
       .select('input')
@@ -238,6 +243,7 @@ socket.on('staffManageData_accepted', data => {
 socket.on('addNewStaff_rejected', rejectPopUp)
 socket.on('addNewStaff_accepted', data => {
   let trs = insertIntoTable(d3.select('#staff-table'))(data)
+  staffFormReset()
   updateClickEvent(trs)
   firePopUp('Thêm nhân viên mới thành công', 'success')
 })
@@ -272,12 +278,33 @@ socket.on('updatePreset_accepted', data => {
   firePopUp('Cập nhật quyền thành công', 'success')
 })
 
+socket.on('removeStaff_rejected', rejectPopUp)
+socket.on('removeStaff_accepted', data => {
+  d3.select('#staff-table')
+    .select('tbody')
+    .selectAll('tr')
+    .filter(d => d.raw_data.staffId == data)
+    .remove()
+
+  firePopUp('Xóa nhân viên thành công', 'success')
+  staffFormReset()
+})
+
 ;['staffManageData_accepted',
   'addNewStaff_accepted',
   'addNewStaff_rejected',
   'updateStaff_accepted',
   'updateStaff_rejected',
-  'updateStaff_rejected',
-  'updateStaff_accepted'].forEach(socket => socketCleanUp.push(socket))
+  'updatePreset_rejected',
+  'updatePreset_accepted',
+  'removeStaff_rejected',
+  'removeStaff_accepted'].forEach(socket => socketCleanUp.push(socket))
 
 socket.emit('staffManageData')
+
+clickAndThink($("#forms button[name='removeStaff']").get()[0], 'Thôi việc', 'Xác nhận', 5, 
+  e => {
+    let staffId = d3.select('#staff-table').select('tbody').select('.selected').datum().raw_data.staffId
+    socket.emit('removeStaff', staffId)
+  }
+)

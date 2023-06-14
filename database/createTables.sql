@@ -25,7 +25,8 @@ create table Staff (
   pwd varchar(100),
   salt varchar(30),
   permissionPreset int references PresetPermission(presetId),
-  permission int
+  permission int,
+  deleted tinyint default 0
   -- mask: 1 - services; 2 - parameter update; 4 - report; 8 - staff control; 16 - full control
 );
 
