@@ -3,7 +3,7 @@ const db = require('./database_init.js')
 const moment = require('moment')
 const registration = require('../security/registration.js')
 
-const connection = { host: 'localhost', user: 'root', password: 'sangdoan', database: 'se104'}
+const connection = { host: 'localhost', user: 'username', password: 'password', database: 'se104'}
 
 // console.log('new connection')
 
@@ -126,6 +126,57 @@ function updatePreset(updateData) {
   return monad.then(u => updateData)
 }
 
+function updateAuthor(data) {
+  return new Promise((resolve, reject) => {
+    let query = `update Author set aName = "${data.newAName}" where authorId = ${data.authorId}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+
+      db.Author.where(d => d.authorid == data.authorId).first.aname = data.newAName
+      resolve(data)
+    })
+  })
+}
+
+function removeAuthor(data) {
+  return new Promise((resolve, reject) => {
+    let query = `delete from Author where authorId = ${data.authorId}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+      db.Author.data.splice(db.Author.data.findIndex(d => d.authorid == data.authorId), 1)
+      resolve(data)
+    })
+  })
+}
+
+function updateGenre(data) {
+  return new Promise((resolve, reject) => {
+    let query = `update Genre set gName = "${data.newGName}" where genreId = ${data.genreId}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+
+      db.Genre.where(d => d.genreid == data.genreId).first.gname = data.newGName
+      console.log(db.Genre)
+      resolve(data)
+    })
+  })
+}
+
+function removeGenre(data) {
+  return new Promise((resolve, reject) => {
+    let query = `delete from Genre where genreId = ${data.genreId}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+      db.Genre.data.splice(db.Genre.data.findIndex(d => d.genreid == data.genreId), 1)
+      resolve(data)
+    })
+  })
+}
+
 const query = q => cb => con.query(q, cb)
 
 exports.database = db;
@@ -133,7 +184,8 @@ exports.connect = connect;
 exports.insert = insert;
 exports.query = query;
 exports.utilities = {
-  updateParameters, prolongCard, addNewStaff, updateStaffPermission, updatePreset
+  updateParameters, prolongCard, addNewStaff, updateStaffPermission, updatePreset, 
+  updateAuthor, removeAuthor, updateGenre, removeGenre
 }
 // exports.adminAuthenticate = adminAuthenticate
 // exports.userAuthenticate = userAuthenticate

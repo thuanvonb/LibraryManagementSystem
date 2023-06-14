@@ -572,6 +572,89 @@ const sk_updatePreset = socket => data => {
     })
 }
 
+const sk_getAuthorGenreData = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('getAuthorGenreData_rejected', 'No permission')
+  requestOutput.getAuthorGenreData().then(data => socket.emit('getAuthorGenreData_accepted', data),
+    error => {
+      console.log(error)
+      socket.emit('getAuthorGenreData_rejected', error.toString())
+    })
+}
+
+const sk_updateAuthor = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('updateAuthor_rejected', 'No permission')
+
+  data.newAName = data.newAName.trim();
+  if (data.newAName == "")
+    return;
+
+  if (verifier.verifyDuplicateAuthor(data.newAName))
+    return socket.emit('updateAuthor_rejected', 'Tên tác giả đã tồn tại')
+
+  db.utilities.updateAuthor(data).then(
+    d => socket.emit('updateAuthor_accepted', data),
+    error => {
+      console.log(error)
+      socket.emit('updateAuthor_rejected', error.toString())
+    }
+  )
+}
+
+const sk_updateGenre = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('updateGenre_rejected', 'No permission')
+
+  data.newGName = data.newGName.trim();
+  
+  if (data.newGName == "")
+    return;
+
+  if (verifier.verifyDuplicateGenre(data.newGName))
+    return socket.emit('updateGenre_rejected', 'Tên thể loại đã tồn tại')
+
+  db.utilities.updateGenre(data).then(
+    d => socket.emit('updateGenre_accepted', data),
+    error => {
+      console.log(error)
+      socket.emit('updateGenre_rejected', error.toString())
+    }
+  )
+}
+
+const sk_removeAuthor = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('removeAuthor_rejected', 'No permission')
+
+  if (!verifier.verifyCanDelAuthor(data.authorId))
+    return socket.emit('removeAuthor_rejected', 'Không thể xoá tác giả này')
+
+  db.utilities.removeAuthor(data).then(
+    data => socket.emit('removeAuthor_accepted', data),
+    error => {
+      console.log(error)
+      socket.emit('removeAuthor_rejected', error.toString())
+    }
+  )
+}
+
+const sk_removeGenre = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('removeGenre_rejected', 'No permission')
+
+  if (!verifier.verifyCanDelGenre(data.genreId))
+    return socket.emit('removeGenre_rejected', 'Không thể xoá thể loại này')
+
+  db.utilities.removeGenre(data).then(
+    data => socket.emit('removeGenre_accepted', data),
+    error => {
+      console.log(error)
+      socket.emit('removeGenre_rejected', error.toString())
+    }
+  )
+}
+
 function adminServices(socket) {
   Users.addUserSocket(socket)
   socket.on('renderData', csr_support.sk_getAdminRenderData(socket))
@@ -613,6 +696,12 @@ function adminServices(socket) {
   socket.on('updateStaff', sk_updateStaff(socket))
   socket.on('updatePreset', sk_updatePreset(socket))
 
+  // Author Genre
+  socket.on('getAuthorGenreData', sk_getAuthorGenreData(socket))
+  socket.on('updateAuthor', sk_updateAuthor(socket))
+  socket.on('updateGenre', sk_updateGenre(socket))
+  socket.on('removeAuthor', sk_removeAuthor(socket))
+  socket.on('removeGenre', sk_removeGenre(socket))
 }
 
 module.exports = adminServices
