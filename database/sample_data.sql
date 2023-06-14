@@ -12,6 +12,17 @@ insert into ReaderCard (cardID, infoTd, readerType, issueDate, validUntil, debt,
 insert into ReaderCard (cardID, infoTd, readerType, issueDate, validUntil, debt, userUUID, staffID) values ("20815171", "20815171", "HSSV", "2023/06/10", "0", "2023/12/07", null, null);
 insert into ReaderCard (cardID, infoTd, readerType, issueDate, validUntil, debt, userUUID, staffID) values ("39313121", "39313121", "HSSV", "2023/06/10", "0", "2023/12/07", null, null);
 
+insert into Author (authorId, aName) values ("1", "Macmart");
+insert into Author (authorId, aName) values ("2", "Joseph Conlon");
+insert into Author (authorId, aName) values ("3", "Thạch Lam");
+insert into Author (authorId, aName) values ("4", "Paulo Coelho");
+insert into Author (authorId, aName) values ("5", "Simon Singh");
+insert into Author (authorId, aName) values ("6", "The Windy");
+insert into Author (authorId, aName) values ("7", "Nguyễn Nhật Ánh");
+insert into Author (authorId, aName) values ("8", "Robert Cecil Martin");
+insert into Author (authorId, aName) values ("9", "Nguyễn Văn Khánh");
+insert into Author (authorId, aName) values ("10", "IIG Viet Nam");
+
 insert into Genre (genreId, gName) values ("1", "Tản văn");
 insert into Genre (genreId, gName) values ("2", "Sách khoa học");
 insert into Genre (genreId, gName) values ("3", "Truyện ngắn");
@@ -34,16 +45,16 @@ insert into BookTitle (titleId, bName, genreId, isbn) values ("8", "Clean Code",
 insert into BookTitle (titleId, bName, genreId, isbn) values ("9", "Việt Nam 1919-1930 Thời Kỳ Tìm Tòi Và Định Hướng", "Sách lịch sử", "9786049850059");
 insert into BookTitle (titleId, bName, genreId, isbn) values ("10", "IC3 GS5 - Máy Tính Căn Bản", "Sách tin học", "9786043352313");
 
-insert into BookAuthor (titleId, authorId) values ("1", "Macmart");
-insert into BookAuthor (titleId, authorId) values ("2", "Joseph Conlon");
-insert into BookAuthor (titleId, authorId) values ("3", "Thạch Lam");
-insert into BookAuthor (titleId, authorId) values ("4", "Paulo Coelho");
-insert into BookAuthor (titleId, authorId) values ("5", "Simon Singh");
-insert into BookAuthor (titleId, authorId) values ("6", "The Windy");
-insert into BookAuthor (titleId, authorId) values ("7", "Nguyễn Nhật Ánh");
-insert into BookAuthor (titleId, authorId) values ("8", "Robert Cecil Martin");
-insert into BookAuthor (titleId, authorId) values ("9", "Nguyễn Văn Khánh");
-insert into BookAuthor (titleId, authorId) values ("10", "IIG Viet Nam");
+insert into BookAuthor (titleId, authorId) values ("1", "1");
+insert into BookAuthor (titleId, authorId) values ("2", "2");
+insert into BookAuthor (titleId, authorId) values ("3", "3");
+insert into BookAuthor (titleId, authorId) values ("4", "4");
+insert into BookAuthor (titleId, authorId) values ("5", "5");
+insert into BookAuthor (titleId, authorId) values ("6", "6");
+insert into BookAuthor (titleId, authorId) values ("7", "7");
+insert into BookAuthor (titleId, authorId) values ("8", "8");
+insert into BookAuthor (titleId, authorId) values ("9", "9");
+insert into BookAuthor (titleId, authorId) values ("10", "10");
 
 insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("1", "Một cuốn sách trầm cảm", "1", "2023", "11", "104000", "1");
 insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("2", "Tại sao lý thuyết dây?", "1", "2019", "10", "140000", "2");
