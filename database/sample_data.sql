@@ -12,6 +12,17 @@ insert into ReaderCard (cardID, infoTD, readerType, issueDate, validUntil, debt,
 insert into ReaderCard (cardID, infoTD, readerType, issueDate, validUntil, debt, userUUID, staffID) values ("20815171", "20815171", "HSSV", "2023/06/10", "0", "2023/12/07", null, null);
 insert into ReaderCard (cardID, infoTD, readerType, issueDate, validUntil, debt, userUUID, staffID) values ("39313121", "39313121", "HSSV", "2023/06/10", "0", "2023/12/07", null, null);
 
+insert into Genre (genreId, gName) values ("1", "Tản văn");
+insert into Genre (genreId, gName) values ("2", "Sách khoa học");
+insert into Genre (genreId, gName) values ("3", "Truyện ngắn");
+insert into Genre (genreId, gName) values ("4", "Tiểu thuyết");
+insert into Genre (genreId, gName) values ("5", "Sách tiếng anh");
+insert into Genre (genreId, gName) values ("6", "Sách tin học");
+insert into Genre (genreId, gName) values ("7", "Sách lịch sử");
+insert into Genre (genreId, gName) values ("8", "Sách tin học");
+insert into Genre (genreId, gName) values ("9", "Sách lịch sử");
+insert into Genre (genreId, gName) values ("10", "Sách tin học");
+
 insert into BookTitle (titleId, bName, genreId, isbn) values ("1", "Một cuốn sách trầm cảm", "Tản văn", "9786043976571");
 insert into BookTitle (titleId, bName, genreId, isbn) values ("2", "Tại sao lý thuyết dây?", "Sách khoa học", "9786041133082");
 insert into BookTitle (titleId, bName, genreId, isbn) values ("3", "Gió lạnh đầu mùa", "Truyện ngắn", "9786046976424");
@@ -34,11 +45,14 @@ insert into BookAuthor (titleId, authorId) values ("8", "Robert Cecil Martin");
 insert into BookAuthor (titleId, authorId) values ("9", "Nguyễn Văn Khánh");
 insert into BookAuthor (titleId, authorId) values ("10", "IIG Viet Nam");
 
-insert into Genre (genreID, gName) values ("1", "Tản văn");
-insert into Genre (genreID, gName) values ("2", "Sách khoa học");
-insert into Genre (genreID, gName) values ("3", "Truyện ngắn");
-insert into Genre (genreID, gName) values ("4", "Tiểu thuyết");
-insert into Genre (genreID, gName) values ("5", "Sách tiếng anh");
-insert into Genre (genreID, gName) values ("6", "Sách tin học");
-insert into Genre (genreID, gName) values ("7", "Sách lịch sử");
-
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Một cuốn sách trầm cảm", "Nhà xuất bản Thanh niên", "2023", "11", "104000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Tại sao lý thuyết dây?", "Nhà xuất bản Trẻ", "2019", "10", "140000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Gió lạnh đầu mùa", "Nhà xuất bản Văn học", "2021", "5", "42000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Nhà giả kim", "Nhà xuất bản Hội nhà văn", "2013", "5", "79000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Mật mã - Từ cổ điển đến lượng tử", "Nhà xuất bản Trẻ", "2018", "10", "240000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Tự Học 2000 Từ Vựng Tiếng Anh Theo Chủ Đề", "Nhà xuất bản ĐHQG Hà Nội", "2017", "3", "65000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("2", "Mắt biếc", "Nhà xuất bản Trẻ", "2019", "3", "110000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("3", "Mắt biếc", "Nhà xuất bản Trẻ", "2022", "5", "43000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Clean Code", "Nhà xuất bản Dân trí", "2023", "5", "258000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Việt Nam 1919-1930 Thời Kỳ Tìm Tòi Và Định Hướng", "Nhà xuất bản Tri thức", "2019", "5", "115000")
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "IC3 GS5 - Máy Tính Căn Bản", "Nhà xuất bản Tổng hợp Tp. HCM", "2020", "5", "65000");
