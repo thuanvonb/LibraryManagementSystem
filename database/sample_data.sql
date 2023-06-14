@@ -125,6 +125,19 @@ insert into Book (bookId, importId, available, stateDesc) values ("004010034","4
 insert into Book (bookId, importId, available, stateDesc) values ("004010035","4","0","0");
 insert into Book (bookId, importId, available, stateDesc) values ("004010036","4","1","0");
 insert into Book (bookId, importId, available, stateDesc) values ("004010037","4","0","0");
+insert into Book (bookId, importId, available, stateDesc) values ("005010038","5","1","0");
+insert into Book (bookId, importId, available, stateDesc) values ("005010039","5","1","0");
+insert into Book (bookId, importId, available, stateDesc) values ("005010040","5","0","0");
+insert into Book (bookId, importId, available, stateDesc) values ("006010041","6","0","0");
+insert into Book (bookId, importId, available, stateDesc) values ("006010042","6","0","0");
+insert into Book (bookId, importId, available, stateDesc) values ("006010043","6","0","0");
+insert into Book (bookId, importId, available, stateDesc) values ("006010044","6","0","0");
+insert into Book (bookId, importId, available, stateDesc) values ("007010045","7","1","0");
+insert into Book (bookId, importId, available, stateDesc) values ("007010046","7","0","0");
+insert into Book (bookId, importId, available, stateDesc) values ("008010047","8","0","0");
+insert into Book (bookId, importId, available, stateDesc) values ("009010048","9","1","0");
+insert into Book (bookId, importId, available, stateDesc) values ("009010049","9","0","0");
+insert into Book (bookId, importId, available, stateDesc) values ("010010050","10","1","1");
 
 insert into BorrowingContents (borrowId, bookId) values ("1", "001010001");
 insert into BorrowingContents (borrowId, bookId) values ("2", "001010010");
@@ -133,3 +146,8 @@ insert into BorrowingContents (borrowId, bookId) values ("4", "002010026");
 insert into BorrowingContents (borrowId, bookId) values ("5", "002010026");
 insert into BorrowingContents (borrowId, bookId) values ("6", "004010033");
 insert into BorrowingContents (borrowId, bookId) values ("7", "004010036");
+insert into BorrowingContents (borrowId, bookId) values ("8", "005010038");
+insert into BorrowingContents (borrowId, bookId) values ("9", "005010039");
+insert into BorrowingContents (borrowId, bookId) values ("10", "007010045");
+insert into BorrowingContents (borrowId, bookId) values ("11", "009010048");
+insert into BorrowingContents (borrowId, bookId) values ("12", "010010050");
