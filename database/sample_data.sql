@@ -45,17 +45,17 @@ insert into BookAuthor (titleId, authorId) values ("8", "Robert Cecil Martin");
 insert into BookAuthor (titleId, authorId) values ("9", "Nguyễn Văn Khánh");
 insert into BookAuthor (titleId, authorId) values ("10", "IIG Viet Nam");
 
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Một cuốn sách trầm cảm", "Nhà xuất bản Thanh niên", "2023", "11", "104000");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Tại sao lý thuyết dây?", "Nhà xuất bản Trẻ", "2019", "10", "140000");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Gió lạnh đầu mùa", "Nhà xuất bản Văn học", "2021", "5", "42000");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Nhà giả kim", "Nhà xuất bản Hội nhà văn", "2013", "5", "79000");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Mật mã - Từ cổ điển đến lượng tử", "Nhà xuất bản Trẻ", "2018", "10", "240000");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Tự Học 2000 Từ Vựng Tiếng Anh Theo Chủ Đề", "Nhà xuất bản ĐHQG Hà Nội", "2017", "3", "65000");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("2", "Mắt biếc", "Nhà xuất bản Trẻ", "2019", "3", "110000");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("3", "Mắt biếc", "Nhà xuất bản Trẻ", "2022", "5", "43000");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Clean Code", "Nhà xuất bản Dân trí", "2023", "5", "258000");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "Việt Nam 1919-1930 Thời Kỳ Tìm Tòi Và Định Hướng", "Nhà xuất bản Tri thức", "2019", "5", "115000")
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price) values ("1", "IC3 GS5 - Máy Tính Căn Bản", "Nhà xuất bản Tổng hợp Tp. HCM", "2020", "5", "65000");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("1", "Một cuốn sách trầm cảm", "Nhà xuất bản Thanh niên", "2023", "11", "104000", "1");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("2", "Tại sao lý thuyết dây?", "Nhà xuất bản Trẻ", "2019", "10", "140000", "2");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("3", "Gió lạnh đầu mùa", "Nhà xuất bản Văn học", "2021", "5", "42000", "3");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("4", "Nhà giả kim", "Nhà xuất bản Hội nhà văn", "2013", "5", "79000", "4");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("5", "Mật mã - Từ cổ điển đến lượng tử", "Nhà xuất bản Trẻ", "2018", "10", "240000", "2");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("6", "Tự Học 2000 Từ Vựng Tiếng Anh Theo Chủ Đề", "Nhà xuất bản ĐHQG Hà Nội", "2017", "3", "65000", "5");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("7", "Mắt biếc", "Nhà xuất bản Trẻ", "2019", "3", "110000", "2");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("8", "Mắt biếc", "Nhà xuất bản Trẻ", "2022", "5", "43000", "2");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("9", "Clean Code", "Nhà xuất bản Dân trí", "2023", "5", "258000", "6");
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("10", "Việt Nam 1919-1930 Thời Kỳ Tìm Tòi Và Định Hướng", "Nhà xuất bản Tri thức", "2019", "5", "115000", "7")
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("11", "IC3 GS5 - Máy Tính Căn Bản", "Nhà xuất bản Tổng hợp Tp. HCM", "2020", "5", "65000", "8');
 
 insert into Publisher (publisherId, pName) values ("1", "Nhà xuất bản Thanh niên");
 insert into Publisher (publisherId, pName) values ("2', 'Nhà xuất bản trẻ");
