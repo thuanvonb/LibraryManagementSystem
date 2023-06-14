@@ -124,11 +124,11 @@ insert into Book (bookId, importId, available, stateDesc) values ("004010049", "
 insert into Book (bookId, importId, available, stateDesc) values ("004010050", "4", 1, "");
 insert into Book (bookId, importId, available, stateDesc) values ("004010051"," 4", 0, "");
  
-insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("1", "02291484", "2023-05-16", "2023-05-19", null);
-insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("2", "02291484", "2023-03-15", "2023-03-18", null);
-insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("3", "23293327", "2023-05-20", "2023-05-22", null);
-insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("4", "23293327", "2023-05-20", "2023-05-24", null);
-insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("5", "26816151", "2023-06-14", "2023-06-18", null);
+insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("1", "02291484", "2023-05-16", "2023-05-19", "000000");
+insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("2", "02291484", "2023-03-15", "2023-03-18", "000000");
+insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("3", "23293327", "2023-05-20", "2023-05-22", "000000");
+insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("4", "23293327", "2023-05-20", "2023-05-24", "000000");
+insert into Borrowing (borrowId, cardId, borrowDate, dueDate, staffId) values ("5", "26816151", "2023-06-14", "2023-06-18", "000000");
 
 insert into BorrowingContents (borrowId, bookId) values ("1", "001010001");
 insert into BorrowingContents (borrowId, bookId) values ("2", "001010010");
@@ -143,11 +143,11 @@ insert into BorrowingContents (borrowId, bookId) values ("10", "007010045");
 insert into BorrowingContents (borrowId, bookId) values ("11", "009010048");
 insert into BorrowingContents (borrowId, bookId) values ("12", "010010050");
 
-insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("1", "02291484", "2023-05-18", "0", "0", null);
-insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("2", "02291484", "2023-05-17", "0", "0", null);
-insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("3", "23293327", "2023-05-23", "0", "0", null);
-insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("4", "23293327", "2023-05-22", "297000", "297000", null);
-insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("5", "26816151", "2023-06-14", "0", "0", null);
+insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("1", "02291484", "2023-05-18", "0", "0", "000000");
+insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("2", "02291484", "2023-05-17", "0", "0", "000000");
+insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("3", "23293327", "2023-05-23", "0", "0", "000000");
+insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("4", "23293327", "2023-05-22", "297000", "297000", "000000");
+insert into Returning (returnId, cardId, returnDate, overdueFine, debtAtTime, staffId) values ("5", "26816151", "2023-06-14", "0", "0", "000000");
 
 insert into ReturningContents (returnId, borrowId, bookId, isLost) values ("1", "1", "001010001", 0);
 insert into ReturningContents (returnId, borrowId, bookId, isLost) values ("2", "2", "001010010", 0);
@@ -155,5 +155,5 @@ insert into ReturningContents (returnId, borrowId, bookId, isLost) values ("3", 
 insert into ReturningContents (returnId, borrowId, bookId, isLost) values ("4", "4", "003010024", 1);
 insert into ReturningContents (returnId, borrowId, bookId, isLost) values ("5", "5", "002010004", 0);
 
-insert into FineInvoice (invoiceId, cardId, paid, remaining, staffId, invoiceDate) values ("1", "23293327", "280000", "17000", null, "2023-06-23");
-insert into FineInvoice (invoiceId, cardId, paid, remaining, staffId, invoiceDate) values ("2", "23293327", "17000", "0", null, "2023-06-23");
+insert into FineInvoice (invoiceId, cardId, paid, remaining, staffId, invoiceDate) values ("1", "23293327", "280000", "17000", "000000", "2023-06-23");
+insert into FineInvoice (invoiceId, cardId, paid, remaining, staffId, invoiceDate) values ("2", "23293327", "17000", "0", "000000", "2023-06-23");
