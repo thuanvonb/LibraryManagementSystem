@@ -126,15 +126,53 @@ function updatePreset(updateData) {
   return monad.then(u => updateData)
 }
 
-function removeStaff(staff) {
+function updateAuthor(data) {
   return new Promise((resolve, reject) => {
-    let query = `update Staff set deleted = 1 where staffId = ${staff.staffid}`
+    let query = `update Author set aName = "${data.newAName}" where authorId = ${data.authorId}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+      
+      db.Author.where(d => d.authorid == data.authorId).first.aname = data.newAName
+      resolve(data)
+    })
+  })
+}
+
+function removeAuthor(data) {
+  return new Promise((resolve, reject) => {
+    let query = `delete from Author where authorId = ${data.authorId}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+      db.Author.data.splice(db.Author.data.findIndex(d => d.authorid == data.authorId), 1)
+      resolve(data)
+    })
+  })
+}
+
+function updateGenre(data) {
+  return new Promise((resolve, reject) => {
+    let query = `update Genre set gName = "${data.newGName}" where genreId = ${data.genreId}`
     con.query(query, (err, res) => {
       if (err)
         return reject(err)
 
-      staff.deleted = 1;
-      resolve(staff)
+      db.Genre.where(d => d.genreid == data.genreId).first.gname = data.newGName
+      console.log(db.Genre)
+      resolve(data)
+    })
+  })
+}
+
+function removeGenre(data) {
+  return new Promise((resolve, reject) => {
+    let query = `delete from Genre where genreId = ${data.genreId}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+      db.Genre.data.splice(db.Genre.data.findIndex(d => d.genreid == data.genreId), 1)
+      resolve(data)
     })
   })
 }
@@ -161,6 +199,19 @@ function removeBook(title) {
   }))
 }
 
+function removeStaff(staff) {
+  return new Promise((resolve, reject) => {
+    let query = `update Staff set deleted = 1 where staffId = ${staff.staffid}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+
+      staff.deleted = 1;
+      resolve(staff)
+    })
+  })
+}
+
 exports.database = db;
 exports.connect = connect;
 exports.insert = insert;
@@ -172,7 +223,8 @@ exports.utilities = {
   updateStaffPermission,
   updatePreset,
   removeStaff,
-  removeBook
+  removeBook,
+  updateAuthor, removeAuthor, updateGenre, removeGenre
 }
 // exports.adminAuthenticate = adminAuthenticate
 // exports.userAuthenticate = userAuthenticate

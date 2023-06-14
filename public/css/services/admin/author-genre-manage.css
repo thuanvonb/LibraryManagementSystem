@@ -1,0 +1,92 @@
+#mainContent #author-genre-manage {
+    background:white linear-gradient(gray, gray) center/2px 100% no-repeat;
+}
+
+#author-genre-manage .table-title {
+    border-color: transparent;
+}
+
+#author-genre-manage .grid-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+    column-gap: 2rem;
+    padding-top: 0.5rem;
+}
+
+#author-genre-manage .grid-item table {
+    width: 95%;
+}
+
+#author-genre-manage .display-table {
+    border: solid 1px black;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+#author-genre-manage button {
+    height: 2em;
+    border: none;
+    outline: none;
+    background: var(--sec);
+    color: var(--fc-sec);
+    border-radius: 1vh;
+    margin-left: 1em;
+    width: 8em;
+}
+
+#author-genre-manage button:hover {
+    background: var(--acc);
+    color: var(--fc-acc);
+}
+
+#author-genre-manage input,
+#author-genre-manage label{
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 2em;
+}
+
+#author-genre-manage dialog{
+    border-radius: 20px;
+    border-width: 0;
+}
+  
+#author-genre-manage .display-table tbody tr td:nth-of-type(2) {
+    text-align: left;
+    padding: 0 1%;
+}
+
+#author-genre-manage tbody tr:hover {
+    background: unset;
+}
+
+#author-genre-manage tbody tr:nth-of-type(2n):hover {
+    background: lightgray;
+}
+
+#author-genre-manage tbody tr :nth-child(1) {
+    cursor: not-allowed;
+}
+
+#author-genre-manage tbody tr :nth-child(1) {
+    cursor: text;
+}
+
+#author-genre-manage tbody tr :nth-child(3).clickable,
+#author-genre-manage tbody tr :nth-child(4).clickable {
+    cursor: pointer;
+    font-weight: bold;
+    background: var(--sec);
+    color: var(--fc-sec);
+}
+
+#author-genre-manage tbody tr :nth-child(3).clickable:hover,
+#author-genre-manage tbody tr :nth-child(4).clickable:hover {
+    background: var(--acc);
+    color: var(--fc-acc);
+}
+

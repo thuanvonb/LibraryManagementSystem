@@ -330,6 +330,24 @@ function staffData(staff) {
   return EitherM.pure(fromStaff(staff))
 }
 
+function getAuthorGenreData() {
+  let authorData = db.Author.data.map(d => ({
+    authorId: d.authorid,
+    aName: d.aname
+  }))
+
+  let genreData = db.Genre.data.map(d => ({
+    genreId: d.genreid,
+    gName: d.gname
+  }))
+
+  let data = {
+    'author': authorData,
+    'genre': genreData
+  }
+  return EitherM.pure(data)
+}
+
 module.exports = {
   getReaderData,
   getBookData,
@@ -348,5 +366,6 @@ module.exports = {
   reportOverdue,
   getStaffData,
   staffData,
-  getPermissionPreset
+  getPermissionPreset,
+  getAuthorGenreData
 }

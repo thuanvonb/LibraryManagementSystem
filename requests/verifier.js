@@ -88,11 +88,31 @@ const verifyBorrowingBook = cardId => bookId => {
   return MaybeM.pure(t.first.borrowid)
 }
 
+const verifyDuplicateAuthor = aName => {
+  return !db.Author.where(d => d.aname == aName).isEmpty()
+}
+
+const verifyDuplicateGenre = gName => {
+  return !db.Genre.where(d => d.gname == gName).isEmpty()
+}
+
+const verifyCanDelAuthor = authorId => {
+  return db.BookAuthor.where(d => d.authorid == authorId).isEmpty()
+}
+
+const verifyCanDelGenre = genreId => {
+  return db.BookTitle.where(d => d.genreid == genreId).isEmpty()
+}
+
 module.exports = {
   verifyISBN,
   verifyNumberOfBorrowing,
   verifyDuplicateBorrowing,
   verifyOverdueBook,
   verifyAvailability,
-  verifyBorrowingBook
+  verifyBorrowingBook,
+  verifyDuplicateAuthor,
+  verifyDuplicateGenre,
+  verifyCanDelAuthor,
+  verifyCanDelGenre
 }

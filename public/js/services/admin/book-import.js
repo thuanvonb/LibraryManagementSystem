@@ -188,6 +188,7 @@ socket.on('addTitle_accepted', data => {
   let authors = data.authorNames
   data.authorNames = data.authorNames.join(', ')
   firePopUp("Sách đã được nhập thành công", 'success')
+  console.log(data)
   insertIntoTable(d3.select("#book-title-table").select('table'))(data)
     .on('click', trEvent)
   resetForms()

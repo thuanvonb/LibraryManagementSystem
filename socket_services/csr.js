@@ -63,6 +63,12 @@ const validRenderValue = {
       scripts: ['js/services/admin/staffs-manage.js'],
       stylesheet: 'css/services/admin/staffs-manage.css'
     },
+    'author-genre-manage': {
+      permission: p => p.libControl,
+      path: 'admin/author-genre-manage',
+      scripts: ['js/services/admin/author-genre-manage.js'],
+      stylesheet: 'css/services/admin/author-genre-manage.css'
+    }
   }
 }
 
