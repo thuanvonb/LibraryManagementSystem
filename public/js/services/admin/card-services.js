@@ -200,7 +200,7 @@ socket.on('issueCard_accepted', userInfo => {
   issueFormRestoreDefault()
   insertIntoTable(d3.select('#reader-table').select('table'))(userInfo)
   // $("#issueCardBtn").html("Issued!")
-  firePopUp("Card issued successfully", 'success')
+  firePopUp("Tạo thẻ mới thành công", 'success')
 })
 
 socket.on('getReaderData_accepted', readerInfo => {

@@ -252,3 +252,11 @@
   color: var(--fc-acc);
 }
 
+#import-container .hide {
+  display: none;
+}
+
+#import-container button[name='removeBook'] {
+  width: 8em;
+  margin-right: 2vh;
+}

@@ -195,6 +195,42 @@ function loadContent(name) {
     loadStylesheet(name, d.stylesheet)
 }
 
+function clickAndThink(elem, idle, clicked, wait, cb) {
+  $(elem).click(e => {
+    let elem = $(e.target)
+    let invalidity =  elem.get()[0].className.split(/\s+/).filter(v => v.startsWith('invalid'))[0] ?? 'invalid_' + Math.floor(Math.random()*100000)
+    if (elem.hasClass(invalidity)){
+      elem.html(idle)
+      elem.removeClass(invalidity)
+      return;
+    }
+
+    if (elem.hasClass('valid')) {
+      elem.removeClass('valid')
+      return cb(e);
+    }
+
+    elem.html(clicked + ` (${wait})`)
+    elem.addClass(invalidity)
+    frameDelay.addMulti(t => {
+      if (!elem.hasClass(invalidity))
+        return;
+      if (t < wait-1)
+        elem.html(`${clicked} (${wait-1-t})`)
+      else {
+        elem.html(clicked)
+        elem.removeClass(invalidity)
+        elem.addClass('valid')
+      }
+    }, wait, 1000)
+  })
+
+  $(elem).on('mouseout', e => {
+    $(e.target).html(idle)
+    $(e.target).removeClass((i, cls) => cls.split(" ").filter(v => v.startsWith('invalid')).join(' '))
+  })
+}
+
 // ------------------- dom actions ----------------
 $(".item").click(function(e) {
   let target = $(this)
@@ -240,6 +276,8 @@ socket.on('serverMsg', msg => {
   firePopUp(msg)
 })
 
+socket.on('redirect', dest => window.location.href = dest)
+
 let screen = sessionStorage.getItem('active-screen')
 if (screen != null) {
   let item = $(".item[name='" + screen + "']")
@@ -250,3 +288,4 @@ if (screen != null) {
     sessionStorage.removeItem('active-screen')
   }
 }
+

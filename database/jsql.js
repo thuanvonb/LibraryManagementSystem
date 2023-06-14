@@ -45,6 +45,7 @@ class Table {
     this.groups = {};
     this.primaryAuto = false;
     this.pending = [];
+    this.auto_increment = null;
   }
 
   isEmpty() {
@@ -84,6 +85,7 @@ class Table {
 
   autoPrimary() {
     this.primaryAuto = true;
+    this.auto_increment = 1;
   }
 
   fromSQL(data) {
@@ -447,6 +449,7 @@ class Table {
       else
         output = this.pending
     }
+    this.auto_increment += this.pending.length;
 
     this.pending = []
     return output;
@@ -497,8 +500,7 @@ class Table {
 
     if (this.primaryAuto) {
       let pk = this.primary[0]
-      data2[pk] = Math.max(this.aggregation([Agg.max(pk), 0, 'maxC']).data[0].maxC,
-        this.pending.reduce((acc, t) => Math.max(t[pk], acc), Math.max())) + 1
+      data2[pk] = this.auto_increment
     }
     for (let fk in this.foreigns) {
       let f = this.foreigns[fk]
@@ -517,8 +519,8 @@ class Table {
     return query
   }
 
-  delete() {
-    // not intend to implement
+  delete(obj) {
+    this.data = this.data.filter(v => this.primary.some(pk => v[pk] ? v[pk] != obj[pk] : false))
   }
 
   refactor() {

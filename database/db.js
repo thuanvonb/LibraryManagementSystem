@@ -3,7 +3,7 @@ const db = require('./database_init.js')
 const moment = require('moment')
 const registration = require('../security/registration.js')
 
-const connection = { host: 'localhost', user: 'username', password: 'password', database: 'se104'}
+const connection = { host: 'localhost', user: 'se104', password: 'admin104', database: 'se104'}
 
 // console.log('new connection')
 
@@ -126,14 +126,53 @@ function updatePreset(updateData) {
   return monad.then(u => updateData)
 }
 
-const query = q => cb => con.query(q, cb)
+function removeStaff(staff) {
+  return new Promise((resolve, reject) => {
+    let query = `update Staff set deleted = 1 where staffId = ${staff.staffid}`
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err)
+
+      staff.deleted = 1;
+      resolve(staff)
+    })
+  })
+}
+
+function removeBook(title) {
+  return new Promise((resolve, reject) => {
+    let query = `delete from BookAuthor where titleId = ` + title.titleid
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err);
+
+      db.BookAuthor.delete(title)
+      resolve(title)
+    })
+  }).then(title => new Promise((resolve, reject) => {
+    let query = `delete from BookTitle where titleId = ` + title.titleid
+    con.query(query, (err, res) => {
+      if (err)
+        return reject(err);
+
+      db.BookTitle.delete(title)
+      resolve(title)
+    })
+  }))
+}
 
 exports.database = db;
 exports.connect = connect;
 exports.insert = insert;
-exports.query = query;
+exports.query = q => cb => con.query(q, cb);
 exports.utilities = {
-  updateParameters, prolongCard, addNewStaff, updateStaffPermission, updatePreset
+  updateParameters,
+  prolongCard,
+  addNewStaff,
+  updateStaffPermission,
+  updatePreset,
+  removeStaff,
+  removeBook
 }
 // exports.adminAuthenticate = adminAuthenticate
 // exports.userAuthenticate = userAuthenticate

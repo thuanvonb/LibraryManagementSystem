@@ -3,7 +3,7 @@ const Table = require('./jsql.js').Table
 
 let WebUser = new Table("WebUser", ['userUUID', 'username', 'deleted', 'createDate', 'webName', 'gender', 'email', 'phone', 'dob'])
 
-let Staff = new Table("Staff", ['staffId', 'sName', 'phone', 'employmentDate', 'username', 'permission', 'permissionPreset'])
+let Staff = new Table("Staff", ['staffId', 'sName', 'phone', 'employmentDate', 'username', 'permission', 'permissionPreset', 'deleted'])
 
 let CardInfo = new Table("CardInfo", ['infoId', 'rName', 'addr', 'birthday', 'email', 'identityNum'])
 

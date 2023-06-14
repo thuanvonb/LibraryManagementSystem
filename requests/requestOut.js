@@ -284,7 +284,7 @@ function reportRental(month, year) {
 
 function reportOverdue(date) {
   let overdueBooks = db.ReturningContents.where(d => 
-    d.return.returndate.diff(date.add(1, 'days')) < 0 && 
+    d.return.returndate.startOf('day').diff(date) == 0 && 
     d.return.returndate.startOf('day').diff(d.borrow.duedate.startOf('day')) > 0
   ).fmap(
     [d => bookIdFromBook(d.book), 'bookId'],
@@ -321,7 +321,7 @@ function fromStaff(staff) {
 function getStaffData(isFullControl) {
   return EitherM.pure({
     preset: getPermissionPreset(),
-    staffs: db.Staff.map(fromStaff),
+    staffs: db.Staff.where(d => d.deleted == 0).map(fromStaff),
     currStaffFullControl: isFullControl
   })
 }

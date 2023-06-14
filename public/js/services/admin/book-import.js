@@ -38,6 +38,8 @@ function trEvent(e, d){
 
   insertIntoTable(table)(currBook.publishments)
   makePublishEditable()
+
+  d3.select("button[name='removeBook']").classed('hide', currBook.publishments.length > 0)
 }
 
 function makePublishEditable() {
@@ -235,13 +237,27 @@ socket.on('importBook_accepted', data => {
 })
 socket.on('importBook_rejected', error => firePopUp(error, 'failure'))
 
+socket.on('removeBook_rejected', rejectPopUp)
+socket.on('removeBook_accepted', data => {
+  d3.select("#book-title-table")
+    .select('tbody')
+    .selectAll('tr')
+    .filter(d => d.raw_data.titleId == data)
+    .remove()
+    
+  $("#backBtn").click()
+  firePopUp('Đã xóa sách thành công', 'success')
+})
+
 ;['addTitle_rejected',
   'addTitle_accepted',
   'getBookData_accepted',
   'addPublish_rejected',
   'addPublish_accepted',
   'importBook_accepted',
-  'importBook_rejected'].forEach(socket => socketCleanUp.push(socket))
+  'importBook_rejected',
+  'removeBook_rejected',
+  'removeBook_accepted'].forEach(socket => socketCleanUp.push(socket))
 
 orderingColumns(d3.select("#book-title-table"))
 
@@ -250,3 +266,9 @@ var genreList = initAutoComplete($(".autocomplete[name='genres']").get()[0])([])
 var publisherList = initAutoComplete($(".autocomplete[name='publisher']").get()[0])([])
 
 socket.emit('getBookData')
+
+clickAndThink(d3.select("button[name='removeBook']").node(), 'Xóa sách này', 'Xác nhận', 5, 
+  e => {
+    socket.emit('removeBook', currBook.titleId)
+  }
+)

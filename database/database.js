@@ -18,33 +18,45 @@ class Database {
     if (this.database == null)
       return errHdl("Database was not linked");
 
-    let t = this.tables.length + 1;
-    this.tables.forEach(table => {
-      let query = 'select ' + table.columns.join(',') + ' from ' + table.name
-      this.database.query(query, (err, res) => {
-        if (err)
-          return errHdl(err);
-        table.fromSQL(res)
-        t -= 1;
-        if (t == 0) {
-          this.refactor()
-          if (completion)
-            completion(this)
-        }
+    let promise = Promise.resolve();
+    this.tables.reduce((accP, table) => accP.then(e => {
+      return new Promise((resolve, reject) => {
+        let query = 'select ' + table.columns.join(',') + ' from ' + table.name
+        this.database.query(query, (err, res) => {
+          if (err)
+            return reject(err);
+          resolve(table.fromSQL(res))
+        })
+      }).then(e => {
+        if (!table.primaryAuto)
+          return Promise.resolve()
+        return new Promise((resolve, reject) => {
+          let query = "select `auto_increment` from information_schema.tables where table_schema = 'se104' and table_name = '" + table.name + "'"
+          this.database.query(query, (err, res) => {
+            if (err)
+              return reject(err);
+            table.auto_increment = res[0].AUTO_INCREMENT;
+            // console.log(table.name, table.auto_increment)
+            resolve()
+          })
+        })
       })
+    }), promise).then(e => new Promise((resolve, reject) => {
+      this.database.query('select * from Parameters', (err, res) => {
+        if (err)
+          return reject(err)
+        this.parameters = res[0]
+        resolve()
+      })
+    })).then(done => {
+      this.refactor()
+      if (completion)
+        completion(this);
+    }, error => {
+      console.log(error)
+      errHdl(error)
     })
-
-    this.database.query('select * from Parameters', (err, res) => {
-      if (err)
-        return errHdl(err)
-      this.parameters = res[0]
-      t -= 1;
-      if (t == 0) {
-        this.refactor()
-        if (completion)
-          completion(this)
-      }
-    })
+    
   }
 
   insert(table, data) {

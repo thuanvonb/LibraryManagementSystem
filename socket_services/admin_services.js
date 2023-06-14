@@ -572,6 +572,53 @@ const sk_updatePreset = socket => data => {
     })
 }
 
+const sk_removeStaff = socket => data => {
+  if (!socketUser(socket).permission.fullControl)
+    return socket.emit('removeStaff_rejected', 'No permission')
+
+  let staffTable = db.database.Staff.where(d => d.staffid == data)
+
+  if (staffTable.isEmpty())
+    return socket.emit('removeStaff_rejected', 'Không tìm thấy nhân viên')
+
+  let staff = staffTable.first;
+
+  if (staff.permission != null && staff.permission % 2 == 1)
+    return socket.emit('removeStaff_rejected', 'Không có quyền thực hiện thao tác này')
+
+  db.utilities.removeStaff(staff)
+    .then(done => {
+      socket.emit('removeStaff_accepted', data)
+      let otherSocket = Users.findSocketById(data)
+      if (otherSocket != undefined)
+        otherSocket.emit('redirect', '/logout')
+    }, err => {
+      console.log(err)
+      socket.emit('removeStaff_rejected', err.toString())
+    })
+}
+
+const sk_removeBook = socket => data => {
+  if (!socketUser(socket).permission.libControl)
+    return socket.emit('removeBook_rejected', 'No permission')
+
+  let title = db.database.BookTitle.where(d => d.titleid == data)
+  if (title.isEmpty())
+    return socket.emit('removeBook_rejected', 'Không tìm thấy đầu sách')
+  let btitle = title.first;
+
+  if (db.database.BooksPublish.where(d => d.titleid == data).isNotEmpty())
+    return socket.emit('removeBook_rejected', 'Không thể xóa sách này')
+
+  db.utilities.removeBook(btitle)
+  // Promise.resolve()
+    .then(done => socket.emit('removeBook_accepted', data),
+      err => {
+        console.log(err)
+        socket.emit('removeBook_rejected', err.toString())
+      })
+}
+
 function adminServices(socket) {
   Users.addUserSocket(socket)
   socket.on('renderData', csr_support.sk_getAdminRenderData(socket))
@@ -613,6 +660,8 @@ function adminServices(socket) {
   socket.on('updateStaff', sk_updateStaff(socket))
   socket.on('updatePreset', sk_updatePreset(socket))
 
+  socket.on('removeStaff', sk_removeStaff(socket))
+  socket.on('removeBook', sk_removeBook(socket))
 }
 
 module.exports = adminServices

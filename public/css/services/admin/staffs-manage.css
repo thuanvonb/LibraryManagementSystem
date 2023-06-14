@@ -113,9 +113,10 @@
 
 #staff-manager #actions {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   margin-bottom: 1em;
+  padding: 0 2vh;
 }
 
 #staff-manager #actions button {
@@ -142,4 +143,8 @@
 
 #staff-manager h4 {
   color: var(--sec-dark);
+}
+
+#staff-manager #actions button {
+  width: 7.5em;
 }

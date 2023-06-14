@@ -23,7 +23,7 @@ function userRegistration(userForm) {
 }
 
 function staffRegistration(staffData) {
-  let name = normalize(staffData.sName).split(' ')
+  let name = normalize(staffData.sName).replace(/đ/g, 'd').split(' ')
   let username = name.slice(-1)[0].toLowerCase()
   username += name.slice(0, -1).map(v => v.charAt(0).toLowerCase()).join('')
   username += staffData.phone.slice(-3)
