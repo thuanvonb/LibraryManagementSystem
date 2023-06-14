@@ -55,7 +55,7 @@ insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, 
 insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("8", "Mắt biếc", "3", "2022", "5", "43000", "2");
 insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("9", "Clean Code", "1", "2023", "5", "258000", "6");
 insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("10", "Việt Nam 1919-1930 Thời Kỳ Tìm Tòi Và Định Hướng", "1", "2019", "5", "115000", "7");
-insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("11", "IC3 GS5 - Máy Tính Căn Bản", "1", "2020", "5", "65000", "8');
+insert into BooksPublish (bpId, titleId, publishment, publishYear, totalAmount, price, publisherId) values ("11", "IC3 GS5 - Máy Tính Căn Bản", "1", "2020", "5", "65000", "8");
 
 insert into Publisher (publisherId, pName) values ("1", "Nhà xuất bản Thanh niên");
 insert into Publisher (publisherId, pName) values ("2', 'Nhà xuất bản trẻ");
@@ -65,3 +65,4 @@ insert into Publisher (publisherId, pName) values ("5", "Nhà xuất bản ĐHQG
 insert into Publisher (publisherId, pName) values ("6", "Nhà xuất bản Dân trí");
 insert into Publisher (publisherId, pName) values ("7", "Nhà xuất bản Tri thức");
 insert into Publisher (publisherId, pName) values ("8", "Nhà xuất bản Tổng hợp Tp. HCM");
+
