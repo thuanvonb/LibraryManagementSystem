@@ -34,5 +34,11 @@ insert into BookAuthor (titleId, authorId) values ("8", "Robert Cecil Martin");
 insert into BookAuthor (titleId, authorId) values ("9", "Nguyễn Văn Khánh");
 insert into BookAuthor (titleId, authorId) values ("10", "IIG Viet Nam");
 
-
+insert into Genre (genreID, gName) values ("1", "Tản văn");
+insert into Genre (genreID, gName) values ("2", "Sách khoa học");
+insert into Genre (genreID, gName) values ("3", "Truyện ngắn");
+insert into Genre (genreID, gName) values ("4", "Tiểu thuyết");
+insert into Genre (genreID, gName) values ("5", "Sách tiếng anh");
+insert into Genre (genreID, gName) values ("6", "Sách tin học");
+insert into Genre (genreID, gName) values ("7", "Sách lịch sử");
 
