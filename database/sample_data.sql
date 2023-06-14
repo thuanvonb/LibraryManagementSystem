@@ -77,3 +77,14 @@ insert into Publisher (publisherId, pName) values ("6", "Nhà xuất bản Dân 
 insert into Publisher (publisherId, pName) values ("7", "Nhà xuất bản Tri thức");
 insert into Publisher (publisherId, pName) values ("8", "Nhà xuất bản Tổng hợp Tp. HCM");
 
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("1", "1", "11", "000000", "2022/06/11");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("2", "2", "10", "000000", "2022/06/11");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("3", "3", "5", "000000", "2022/06/11");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("4", "4", "5", "000000", "2022/07/1");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("5", "5", "1", "000000", "2022/07/11");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("6", "6", "1", "000000", "2022/07/11");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("7", "7", "3", "000000", "2021/06/11");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("8", "8", "5", "000000", "2023/06/11");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("9", "9", "5", "000000", "2023/06/11");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("10", "10", "1", "000000", "2023/07/11");
+insert into BookImport (importId, bpId, amount, staffID, importDate) values ("11", "11", "5", "000000", "2023/07/11");
