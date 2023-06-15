@@ -85,10 +85,10 @@ insert into BookImport (importId, bpId, amount, staffId, importDate) values ("4"
 insert into BookImport (importId, bpId, amount, staffId, importDate) values ("5", "5", "1", "000000", "2022-07-11");
 insert into BookImport (importId, bpId, amount, staffId, importDate) values ("6", "6", "1", "000000", "2022-07-11");
 insert into BookImport (importId, bpId, amount, staffId, importDate) values ("7", "7", "3", "000000", "2021-06-11");
-insert into BookImport (importId, bpId, amount, staffId, importDate) values ("8", "8", "5", "000000", "2023-06-11");
-insert into BookImport (importId, bpId, amount, staffId, importDate) values ("9", "9", "5", "000000", "2023-06-11");
-insert into BookImport (importId, bpId, amount, staffId, importDate) values ("10", "10", "1", "000000", "2023-07-11");
-insert into BookImport (importId, bpId, amount, staffId, importDate) values ("11", "11", "5", "000000", "2023-07-11");
+insert into BookImport (importId, bpId, amount, staffId, importDate) values ("8", "7", "5", "000000", "2023-06-11");
+insert into BookImport (importId, bpId, amount, staffId, importDate) values ("9", "8", "5", "000000", "2023-06-11");
+insert into BookImport (importId, bpId, amount, staffId, importDate) values ("10", "9", "1", "000000", "2023-07-11");
+insert into BookImport (importId, bpId, amount, staffId, importDate) values ("11", "10", "5", "000000", "2023-07-11");
 
 
 insert into Book (bookId, importId, available, stateDesc) values ("001010001", "1", 1, "");
