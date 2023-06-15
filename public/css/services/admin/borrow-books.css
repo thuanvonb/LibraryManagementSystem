@@ -1,34 +1,12 @@
-#borrow-books {
+.borrow-books {
   position: relative;
   height: 100%;
   overflow: auto;
 }
 
-#borrow-books h4 {
+.borrow-books h4 {
   color: var(--sec-dark);
 }
-
-#borrow-books .pop-up-field {
-  display: none;
-  z-index: 5;
-}
-
-#borrow-books .pop-up-field.show {
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-#borrow-books .pop-up-field.show ~ .dimmer {
-  display: block;
-}
-
-#book-browsing
 
 .infoRow input:disabled {
   background: initial;
@@ -67,7 +45,7 @@
   padding-left: 1%;
 }
 
-#borrow-books div.readerInfo {
+.borrow-books div.readerInfo {
   display: grid;
   grid-template-columns: auto 2fr 1fr auto auto;
   align-items: center;
@@ -136,16 +114,16 @@
   margin-bottom: 1vh;
 }
 
-#borrow-books .status-partial {
+.borrow-books .status-partial {
   background-color: #ffad7b;
 }
 
-#borrow-books .status-complete {
+.borrow-books .status-complete {
   color: #00b900;
   background-color: unset;
 }
 
-#borrow-books .status-overdue {
+.borrow-books .status-overdue {
   background-color: #ff0000;
   color: white;
   font-weight: bold;

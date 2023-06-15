@@ -76,6 +76,7 @@ function insertNewBorRow() {
 }
 
 function processBorrowData(borrow) {
+  console.log(borrow)
   let notReturned = borrow.contents.filter(v => v.returnId == null).length
   let statusClass = ""
   if (notReturned == 0) {

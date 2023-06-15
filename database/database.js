@@ -31,12 +31,12 @@ class Database {
         if (!table.primaryAuto)
           return Promise.resolve()
         return new Promise((resolve, reject) => {
-          let query = "select `auto_increment` from information_schema.tables where table_schema = 'se104' and table_name = '" + table.name + "'"
+          let query = "SHOW CREATE TABLE " + table.name + ""
           this.database.query(query, (err, res) => {
             if (err)
               return reject(err);
-            table.auto_increment = res[0].AUTO_INCREMENT;
-            // console.log(table.name, table.auto_increment)
+            table.auto_increment = +res[0]['Create Table'].match(/AUTO_INCREMENT=(\d+)/)[1]
+            console.log(table.name, +res[0]['Create Table'].match(/AUTO_INCREMENT=(\d+)/)[1])
             resolve()
           })
         })

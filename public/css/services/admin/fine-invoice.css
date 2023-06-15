@@ -1,31 +1,11 @@
-#invoice-overdue {
+.invoice-overdue {
   position: relative;
   height: 100%;
   overflow: auto;
 }
 
-#invoice-overdue h4 {
+.invoice-overdue h4 {
   color: var(--sec-dark);
-}
-
-#invoice-overdue .pop-up-field {
-  display: none;
-  z-index: 5;
-}
-
-#invoice-overdue .pop-up-field.show {
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-#invoice-overdue .pop-up-field.show ~ .dimmer {
-  display: block;
 }
 
 .infoRow input:disabled {
@@ -89,14 +69,14 @@
   height: 100%;
 }
 
-#invoice-overdue div.readerInfo {
+.invoice-overdue div.readerInfo {
   display: grid;
   grid-template-columns: auto 2fr 1fr 1.5fr auto;
   align-items: center;
   margin-bottom: 2vh;
 }
 
-#invoice-overdue div.readerInfo span {
+.invoice-overdue div.readerInfo span {
   margin-top: 1vh;
 }
 

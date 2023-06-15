@@ -500,7 +500,7 @@ class Table {
 
     if (this.primaryAuto) {
       let pk = this.primary[0]
-      data2[pk] = this.auto_increment
+      data2[pk] = this.auto_increment + this.pending.length
     }
     for (let fk in this.foreigns) {
       let f = this.foreigns[fk]
