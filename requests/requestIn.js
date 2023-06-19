@@ -52,6 +52,9 @@ function createNewBook(bookInfo) {
 }
 
 function createNewPublishment(publishmentInfo) {
+  if (db.BooksPublish.where(d => d.publishment == publishmentInfo.publishment).isNotEmpty())
+    return EitherM.error("Đợt xuất bản đã tồn tại")
+  
   let out = Object.assign({}, publishmentInfo)
   out['totalAmount'] = 0
   return EitherM.pure(out)

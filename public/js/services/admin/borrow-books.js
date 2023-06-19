@@ -76,7 +76,7 @@ function insertNewBorRow() {
 }
 
 function processBorrowData(borrow) {
-  console.log(borrow)
+  // console.log(borrow)
   let notReturned = borrow.contents.filter(v => v.returnId == null).length
   let statusClass = ""
   if (notReturned == 0) {
@@ -100,6 +100,10 @@ function processBorrowData(borrow) {
 }
 
 function showBorrowDetails(e, d) {
+  let selection = getSelection();
+  if (selection.type == 'Range' && e.target == selection.anchorNode.parentNode)
+    return;
+
   $("#borrow-content-field span[name='readerName']").html(d.raw_data.rName)
   $("#borrow-content-field span[name='borrowDate']").html(d.raw_data.borrowDate)
   $("#borrow-content-field").addClass('show')

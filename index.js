@@ -49,6 +49,7 @@ adminNamespace.use((socket, next) => sessionMdw(socket.request, socket.request.r
 
 adminNamespace.on('connection', socket => {
   if (!socket.request.session.passport) {
+    socket.emit('redirect', '/admin_Iogin_4365')
     socket.disconnect();
     return;
   }

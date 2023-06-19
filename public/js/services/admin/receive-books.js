@@ -1,4 +1,8 @@
 function showReturnDetails(e, d) {
+  let selection = getSelection();
+  if (selection.type == 'Range' && e.target == selection.anchorNode.parentNode)
+    return;
+  
   $("#return-content-field").addClass('show')
   let table = d3.select("#return-content-field").select('table')
   table.select('tbody').selectAll('tr').remove()

@@ -35,8 +35,13 @@ class Database {
           this.database.query(query, (err, res) => {
             if (err)
               return reject(err);
-            table.auto_increment = +res[0]['Create Table'].match(/AUTO_INCREMENT=(\d+)/)[1]
-            console.log(table.name, +res[0]['Create Table'].match(/AUTO_INCREMENT=(\d+)/)[1])
+            let mtch = res[0]['Create Table'].match(/AUTO_INCREMENT=(\d+)/)
+            if (mtch == null)
+              table.auto_increment = 1;
+            else {
+              table.auto_increment = +mtch[1]
+              console.log(table.name, +mtch[1])
+            }
             resolve()
           })
         })

@@ -165,8 +165,13 @@ $("input[name='publishment']").on('input', e => {
 })
 
 $("button[name='addPublish_req']").click(e => {
+  e.preventDefault()
   if (!document.forms[1].reportValidity())
     return;
+  if (!d3.select('div.item.error').empty()) {
+    firePopUp('Đợt xuất bản đã tồn tại.', 'failure')
+    return;
+  }
   let data = $("#new-books-publish form").serializeArray()
   let out = {}
   data.map((v, i) => i == 3 ? v : ({
@@ -177,8 +182,6 @@ $("button[name='addPublish_req']").click(e => {
   out.titleId = currBook.titleId
 
   socket.emit('addPublish', out)
-
-  e.preventDefault()
 })
 
 // ------------------- socket comm. ------------------
