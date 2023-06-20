@@ -10,15 +10,18 @@ function verifyInstance(e) {
   $("#borrow-field button:first-child").attr('disabled', true)
 
   tr.selectAll('td').filter((d, i) => i > 1).html("")
+  let match = text.match(/\d{3}\-?\d{2}\-?\d{4}/g)
 
-  if (!text.match(/^\d{3}\-?\d{2}\-?\d{4}$/g)) {
+  if (!match) {
     tdErr.html("Mã quyển sách không hợp lệ")
     tr.classed('error', true)
     return;
   }
 
+  console.log(text, match)
+  e.target.innerHTML = match[0]
   socket.emit('searchBookById', {
-    id: text,
+    id: match[0],
     row: +tr.select('td').html()
   })
 }
@@ -120,6 +123,8 @@ $("input[name='readerId']").on('input', e => {
     .remove()
 
   insertNewBorRow()
+
+  tableFilter(d3.select("#rental-activity"))(r => r.cardId.startsWith(e.target.value))
 })
 
 $("#inner-borrow-books button").click(e => {
@@ -207,6 +212,7 @@ socket.on('borrowBooks_accepted', data => {
   document.forms[0].reset();
   document.forms[1].reset();
   $("#borrow-field").removeClass('show')
+  tableFilter(d3.select('#rental-activity'))(d => 1)
 })
 
 socket.on('borrowBooks_rejected', rejectPopUp)

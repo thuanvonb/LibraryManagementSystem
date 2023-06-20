@@ -42,6 +42,9 @@ socket.on('getFineDetails_accepted', data => {
   $("input[name='invoiceDate']").val(moment().format('YYYY-MM-DD'))
   $("input[name='remaining']").val(data.totalDebt)
   $("input[name='amount']").attr('max', data.totalDebt)
+  $("input[name='amount']").attr('min', Math.min(data.totalDebt, 1000))
+  if (data.totalDebt <= 1000)
+    $("input[name='amount']").val(data.totalDebt)
 })
 
 socket.on('issueInvoice_rejected', rejectPopUp)

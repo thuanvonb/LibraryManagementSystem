@@ -272,6 +272,10 @@ const sk_getReaderRentalInfo = socket => data => {
     return socket.emit('getReaderRentalInfo_rejected', "Không tìm thấy thẻ độc giả")
   if (card.where(d => d.validuntil.diff(moment()) < 0).isNotEmpty())
     return socket.emit('getReaderRentalInfo_rejected', "Thẻ đã hết hạn")
+  if (!verifier.verifyOverdueBook(data))
+    return socket.emit('getReaderRentalInfo_rejected', "Độc giả có sách đang mượn quá hạn")
+  if (verifier.verifyNumberOfBorrowing(data, []) == 0)
+    return socket.emit('getReaderRentalInfo_rejected', "Độc giả đã mượn đủ số lượng sách được mượn")
 
   let cardData = card.data[0]
 
@@ -360,7 +364,12 @@ const sk_getReaderBorrowedBooks = socket => data => {
     return socket.emit('getReaderBorrowedBooks_rejected', "Không tìm thấy thẻ độc giả")
   
   requestOutput.getReaderBorrowedBooks(data)
-    .then(data => socket.emit('getReaderBorrowedBooks_accepted', data))
+    .then(data => {
+      if (data.borrowContents.length == 0)
+        socket.emit('getReaderBorrowedBooks_rejected', "Độc giả đang không mượn sách nào")
+      else
+        socket.emit('getReaderBorrowedBooks_accepted', data)
+    })
 }
 
 const sk_returnBooks = socket => data => {
@@ -428,6 +437,8 @@ const sk_getFineDetails = socket => data => {
   let card = db.database.ReaderCard.where(d => d.cardid == data)
   if (card.isEmpty())
     return socket.emit('getFineDetails_rejected', "Không tìm thấy độc giả")
+  if (card.first.debt == 0)
+    return socket.emit('getFineDetails_rejected', "Độc giả đang không có nợ")
 
   socket.emit('getFineDetails_accepted', {
     rName: card.first.info.rname,

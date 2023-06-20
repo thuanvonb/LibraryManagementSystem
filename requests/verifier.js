@@ -16,11 +16,8 @@ function verifyNumberOfBorrowing(cardId, bookIds) {
     )
   ).aggregation([Agg.count(), 0, 'borrowingBooks']).data[0].borrowingBooks
 
-  if (bookIds.length + borrowingBooks > db.parameters.maxBorrow) {
-    let exceeded = bookIds.length + borrowingBooks - db.parameters.maxBorrow
-    return exceeded
-  }
-  return 0
+  let exceeded = bookIds.length + borrowingBooks - db.parameters.maxBorrow
+  return exceeded
 }
 
 function verifyDuplicateBorrowing(cardId, bookIds) {

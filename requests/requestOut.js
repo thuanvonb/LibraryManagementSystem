@@ -283,15 +283,28 @@ function reportRental(month, year) {
 }
 
 function reportOverdue(date) {
-  let overdueBooks = db.ReturningContents.where(d => 
-    d.return.returndate.startOf('day').diff(date) == 0 && 
-    d.return.returndate.startOf('day').diff(d.borrow.duedate.startOf('day')) > 0
+  // let overdueBooks = db.ReturningContents.where(d => 
+  //   d.return.returndate.startOf('day').diff(date) == 0 && 
+  //   d.return.returndate.startOf('day').diff(d.borrow.duedate.startOf('day')) > 0
+  // ).fmap(
+  //   [d => bookIdFromBook(d.book), 'bookId'],
+  //   [d => d.book.import.bp.title.bname, 'bName'],
+  //   [d => d.borrow.borrowdate.format('YYYY-MM-DD'), 'borrowDate'],
+  //   [d => d.return.returndate.startOf('day').diff(d.borrow.duedate.startOf('day'), 'days'), 'overdueDays']
+  // ).data;
+
+  let overdueBooks = db.BorrowingContents.where((d, fn) => d.borrow.duedate.startOf('day').diff(date) < 0 && 
+    fn.notexists(db.ReturningContents.where(d2 => d2.borrowid == d.borrowid && d2.bookid == d.bookid && d2.return.returndate.startOf('day').diff(date) <= 0))
   ).fmap(
     [d => bookIdFromBook(d.book), 'bookId'],
     [d => d.book.import.bp.title.bname, 'bName'],
     [d => d.borrow.borrowdate.format('YYYY-MM-DD'), 'borrowDate'],
-    [d => d.return.returndate.startOf('day').diff(d.borrow.duedate.startOf('day'), 'days'), 'overdueDays']
-  ).data;
+    [d => date.startOf('day').diff(d.borrow.duedate.startOf('day'), 'days'), 'overdueDays'] 
+  ).data
+
+  // console.log(db.BorrowingContents.where((d, fn) => d.borrow.duedate.startOf('day').diff(date) < 0 && 
+  //   fn.notexists(db.ReturningContents.where(d2 => d2.borrowid == d.borrowid && d2.bookid == d.bookid && d2.return.returndate.diff(date) < 0))
+  // ))
 
   return EitherM.pure({
     report: overdueBooks,

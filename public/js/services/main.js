@@ -86,12 +86,17 @@ const tableFilter = table => condition => {
     return orderF(attr(d1), attr(d2))
   })
 
+  table.data([condition])
+
   table.select('tbody')
     .selectAll('tr')
     .data(data)
     .join('tr')
     .html(d => d.map(v => "<td>" + v + "</td>").join(''))
-    .classed('filtered', d => !condition(attr(d)))
+    .classed('filtered', d => {
+      d.filtered = !condition(attr(d))
+      return d.filtered
+    })
 }
 
 const ordering = table => {
@@ -108,6 +113,10 @@ const ordering = table => {
 }
 
 const tableOrdering = table => {
+  let cond = table.data()
+  if (cond != undefined)
+    cond = cond[0]
+  tableFilter(table)(d => 1)
   let fields = tableHeader(table)
   let attr = attributeMap(fields)
   
@@ -119,6 +128,7 @@ const tableOrdering = table => {
     .data(serialize(fields)(data))
     .join('tr')
     .html(d => d.map(v => "<td>" + v + "</td>").join(''))
+  tableFilter(table)(cond)
 }
 
 function orderingColumns(table) {
