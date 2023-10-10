@@ -7,7 +7,6 @@ const UserManager = require('./users.js')
 
 function adminPermissionExtract(staffData) {
   let getPData = n => {
-    // console.log(staffData, n)
     if (staffData.permission != null)
       return staffData.permission
     return staffData.preset.permission

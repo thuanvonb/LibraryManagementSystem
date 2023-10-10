@@ -3,7 +3,7 @@ const db = require('./database_init.js')
 const moment = require('moment')
 const registration = require('../security/registration.js')
 
-const connection = { host: 'localhost', user: 'se104', password: 'admin104', database: 'se104'}
+const connection = { host: 'localhost', user: 'username', password: 'password', database: 'se104'}
 
 // console.log('new connection')
 
